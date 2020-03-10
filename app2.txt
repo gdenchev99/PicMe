@@ -1,0 +1,21 @@
+Traveling/Partying with random people.
+
+
+People can create travel "parties" and decide how many members can join.
+
+They can choose what destinations they are going to visit.
+
+They can pick which hotels they are going to stay at during their travels.
+
+Random people can request to join said group. They can reserve one or a few spots(if they are family).
+
+The needed budget is set by the owner on the "party". Budget is per member.
+It includes hotel, sites(for example museum). 
+
+Money for tickets(plane) and food(outside of the hotel) are not included. Each person should bring as much as they think they need. The party owner can set a recomended budget for souvenirs, food, etc.
+
+Once a member requests to join a group, and they are accepted, they have a limited time(set by the party owner) in which they should deposit the needed budget. Their places in the party will then be considered "reserved".
+
+Once the day for the trip arrives, each member/family will have an option to share their location over the app, thus the other members know where each one of them is.
+
+Private/Public parties.
