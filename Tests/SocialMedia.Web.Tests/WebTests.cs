@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc.Testing;
-    using SocialMedia.Web;
+    using SocialMedia.App;
     using Xunit;
 
     public class WebTests : IClassFixture<WebApplicationFactory<Startup>>

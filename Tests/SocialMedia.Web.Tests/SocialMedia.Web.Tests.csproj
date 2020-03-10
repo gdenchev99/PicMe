@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Web\SocialMedia.Web\SocialMedia.Web.csproj" />
+    <ProjectReference Include="..\..\Web\SocialMedia.App\SocialMedia.App.csproj" />
   </ItemGroup>
 
 </Project>
