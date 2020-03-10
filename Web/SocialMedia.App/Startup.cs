@@ -29,9 +29,11 @@ namespace SocialMedia.App
 {
     public class Startup
     {
+        private readonly IConfiguration configuration;
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -39,12 +41,18 @@ namespace SocialMedia.App
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(
+                options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.Configure<CookiePolicyOptions>(
+                options =>
+                {
+                    options.CheckConsentNeeded = context => true;
+                    options.MinimumSameSitePolicy = SameSiteMode.None;
+                });
 
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
@@ -52,8 +60,20 @@ namespace SocialMedia.App
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
-            services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddControllers()
+                 .AddNewtonsoftJson();
+
+            services.AddSingleton(this.configuration);
+
+            // Data repositories
+            services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+            services.AddScoped<IDbQueryRunner, DbQueryRunner>();
+
+            // Application services
+            services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<ISettingsService, SettingsService>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -80,6 +100,8 @@ namespace SocialMedia.App
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseCookiePolicy();
 
             app.UseRouting();
 

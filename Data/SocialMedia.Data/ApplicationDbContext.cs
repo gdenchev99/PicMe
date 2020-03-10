@@ -32,6 +32,8 @@
 
         public DbSet<Setting> Settings { get; set; }
 
+        public DbSet<Media> Media { get; set; }
+
         public DbSet<UserFollower> UserFollowers { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
@@ -104,6 +106,11 @@
                 .HasForeignKey(e => e.UserId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Media>()
+                .HasOne(m => m.Creator)
+                .WithMany(c => c.Media)
+                .HasForeignKey(m => m.CreatorId);
 
             builder.Entity<UserFollower>(entity =>
             {

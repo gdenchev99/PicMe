@@ -3,7 +3,7 @@
     using OpenQA.Selenium;
     using OpenQA.Selenium.Chrome;
     using OpenQA.Selenium.Remote;
-    using SocialMedia.Web;
+    using SocialMedia.App;
     using Xunit;
 
     public class SeleniumTests : IClassFixture<SeleniumServerFactory<Startup>>
