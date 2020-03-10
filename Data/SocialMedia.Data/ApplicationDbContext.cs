@@ -32,7 +32,7 @@
 
         public DbSet<Setting> Settings { get; set; }
 
-        public DbSet<Media> Media { get; set; }
+        public DbSet<Post> Posts { get; set; }
 
         public DbSet<UserFollower> UserFollowers { get; set; }
 
@@ -107,9 +107,9 @@
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<Media>()
+            builder.Entity<Post>()
                 .HasOne(m => m.Creator)
-                .WithMany(c => c.Media)
+                .WithMany(c => c.Posts)
                 .HasForeignKey(m => m.CreatorId);
 
             builder.Entity<UserFollower>(entity =>
