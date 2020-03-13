@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.1.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.113" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -21,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\SocialMedia.Data.Common\SocialMedia.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\SocialMedia.Data.Models\SocialMedia.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Web\SocialMedia.Web.ViewModels\SocialMedia.Web.ViewModels.csproj" />
     <ProjectReference Include="..\SocialMedia.Services.Mapping\SocialMedia.Services.Mapping.csproj" />
   </ItemGroup>
 

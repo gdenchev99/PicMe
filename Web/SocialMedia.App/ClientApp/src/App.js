@@ -5,7 +5,9 @@ import { Home } from './components/Home';
 import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
 import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 import { ApplicationPaths } from './components/api-authorization/ApiAuthorizationConstants';
+import { CreatePost } from './components/api-posts/CreatePost';
 
+import 'bootstrap';
 import './custom.css'
 
 export default class App extends Component {
@@ -15,6 +17,7 @@ export default class App extends Component {
     return (
       <Layout>
         <Route exact path='/' component={Home} />
+        <AuthorizeRoute exact path='/createpost' component={ CreatePost } />
         <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
       </Layout>
     );
