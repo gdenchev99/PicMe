@@ -1,50 +1,74 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 function FeedComponent(params) {
     return (
-        params.data.map(post => <div key={post.id} className="card gedf-card col-12">
-            <div className="card-header">
-                <div className="d-flex justify-content-between align-items-center">
-                    <div className="d-flex justify-content-between align-items-center">
-                        <div className="mr-2">
-                            <img className="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="" />
-                        </div>
-                        <div className="ml-2">
-                            <div className="h5 m-0">{post.creatorUserName}</div>
-                            <div className="h7 text-muted">{post.creatorFirstName} {post.creatorLastName}</div>
-                        </div>
-                    </div>
-                    <div>
-                        <div className="dropdown">
-                            <button className="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i className="fa fa-ellipsis-h"></i>
-                            </button>
-                            <div className="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
-                                <div className="h6 dropdown-header">Configuration</div>
-                                <a className="dropdown-item">Save</a>
-                                <a className="dropdown-item">Hide</a>
-                                <a className="dropdown-item">Report</a>
+        <React.Fragment>
+            {params.data.map(post => <div key={post.id} className="container">
+                <div className="row">
+
+                    <div className="col-lg-6 offset-lg-3">
+
+                        <div className="cardbox shadow-lg bg-white">
+
+                            <div className="cardbox-heading">
+
+                                <div className="dropdown float-right">
+                                    <button className="btn btn-flat btn-flat-icon" type="button" data-toggle="dropdown" aria-expanded="false">
+                                        <em className="fa fa-ellipsis-h"></em>
+                                    </button>
+                                    <div className="dropdown-menu dropdown-scale dropdown-menu-right" role="menu">
+                                        <a className="dropdown-item" href="#">Hide post</a>
+                                        <a className="dropdown-item" href="#">Stop following</a>
+                                        <a className="dropdown-item" href="#">Report</a>
+                                    </div>
+                                </div>
+                                <div className="media m-0">
+                                    <div className="d-flex mr-3">
+                                        <a href=""><img className="img-fluid rounded-circle" 
+                                        src={post.creatorProfilePictureUrl} alt="User" /></a>
+                                    </div>
+                                    <div className="media-body">
+                                        <Link to={"/user/" + post.creatorUserName}><p className="m-0">{post.creatorFirstName} {post.creatorLastName}</p></Link>
+                                        <small><span><i className="icon ion-md-pin"></i>{post.creatorUserName}</span></small>
+                                        <small><span><i className="icon ion-md-time"></i>{post.createdOnFormat}</span></small>
+                                    </div>
+                                </div>
                             </div>
+
+                            <div className="cardbox-item">
+                                <img className="img-fluid" src={post.mediaSource} alt="Image" />
+                            </div>
+                            <div className="cardbox-base">
+                                <ul className="float-right">
+                                    <li><a><i className="fa fa-comments"></i></a></li>
+                                    <li><a><em className="mr-5">12</em></a></li>
+                                    <li><a><i className="fa fa-share-alt"></i></a></li>
+                                    <li><a><em className="mr-3">03</em></a></li>
+                                </ul>
+                                <ul>
+                                    <li><a><i className="fas fa-heart"></i></a></li>
+                                    <li><a href="#"><img src="http://www.themashabrand.com/templates/bootsnipp/post/assets/img/users/3.jpeg" className="img-fluid rounded-circle" alt="User" /></a></li>
+                                    <li><a><span>242 Likes</span></a></li>
+                                </ul>
+                            </div>
+                            <div className="cardbox-comments">
+                                <span className="comment-avatar float-left">
+                                    <a href=""><img className="rounded-circle" src="http://www.themashabrand.com/templates/bootsnipp/post/assets/img/users/6.jpg" alt="..." /></a>
+                                </span>
+                                <div className="search">
+                                    <input placeholder="Write a comment" type="text" />
+                                    <button><i className="fa fa-camera"></i></button>
+                                </div>
+                            </div>
+
                         </div>
+
                     </div>
                 </div>
-
-            </div>
-            <div className="card-body">
-                <div className="text-muted h7 mb-2"> <i className="fa fa-clock-o"></i>{post.createdOnFormat}</div>
-
-                <img id="target" src={post.mediaSource} height="100%" width="100%" alt="media" />
-
-                <p className="card-text">
-                    {post.description}
-                </p>
-            </div>
-            <div className="card-footer">
-                <a href="" className="card-link"><i className="fa fa-gittip"></i> Like</a>
-                <a href="" className="card-link"><i className="fa fa-comment"></i> Comment</a>
-                <a href="" className="card-link"><i className="fa fa-mail-forward"></i> Share</a>
-            </div>
-        </div>)
+            </div>)
+            }
+        </React.Fragment>
     );
 }
 

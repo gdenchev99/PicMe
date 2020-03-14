@@ -16,3 +16,11 @@ html {
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
+
+.feedCustom {
+  position: absolute; 
+  transform: translate3d(-136px, 28px, 0px); 
+  top: 0px; 
+  left: 0px; 
+  will-change: auto;
+}

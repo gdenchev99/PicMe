@@ -50,6 +50,11 @@ function CreatePostComponent(params) {
                             <button id="btnGroupDrop1" type="button" className="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
                                 <i className="fa fa-globe"></i>
+                                <div className="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
+                                    <a className="dropdown-item" href="#"><i className="fa fa-globe"></i> Public</a>
+                                    <a className="dropdown-item" href="#"><i className="fa fa-users"></i> Friends</a>
+                                    <a className="dropdown-item" href="#"><i className="fa fa-user"></i> Just me</a>
+                                </div>
                             </button>
                         </div>
                     </div>

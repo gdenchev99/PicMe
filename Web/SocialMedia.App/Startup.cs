@@ -74,6 +74,7 @@ namespace SocialMedia.App
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<IPostsService, PostsService>();
+            services.AddTransient<IProfilesService, ProfilesService>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

@@ -12,21 +12,22 @@ export class Feed extends Component {
         }
     }
     
-    componentDidMount() {
-        this.handleData();
+    async componentDidMount() {
+        await this.handleData();
     }
 
     handleData = async() => {
 
         let user = await authService.getUser();
 
+        console.log(user);
+        
+
         let userId = user.sub;
 
         let response = await axios.get(`/api/Posts/All?id=${userId}`)
 
         this.setState({data: response.data});
-
-        console.log(this.state.data);
         
     }
 
