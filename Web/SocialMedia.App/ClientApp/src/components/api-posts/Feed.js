@@ -20,9 +20,6 @@ export class Feed extends Component {
 
         let user = await authService.getUser();
 
-        console.log(user);
-        
-
         let userId = user.sub;
 
         let response = await axios.get(`/api/Posts/All?id=${userId}`)

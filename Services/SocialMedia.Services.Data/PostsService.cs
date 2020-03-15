@@ -13,12 +13,10 @@
     public class PostsService : IPostsService
     {
         private readonly IDeletableEntityRepository<Post> postRepository;
-        private readonly IRepository<ApplicationUser> userRepository;
 
-        public PostsService(IDeletableEntityRepository<Post> postRepository, IRepository<ApplicationUser> userRepository)
+        public PostsService(IDeletableEntityRepository<Post> postRepository)
         {
             this.postRepository = postRepository;
-            this.userRepository = userRepository;
         }
 
         public async Task<bool> CreateAsync(PostCreateModel postCreateModel)

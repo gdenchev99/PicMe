@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import { CreateComment } from "../api-comments/CreateComment";
 
 function FeedComponent(params) {
     return (
@@ -52,16 +53,7 @@ function FeedComponent(params) {
                                     <li><a><span>242 Likes</span></a></li>
                                 </ul>
                             </div>
-                            <div className="cardbox-comments">
-                                <span className="comment-avatar float-left">
-                                    <a href=""><img className="rounded-circle" src="http://www.themashabrand.com/templates/bootsnipp/post/assets/img/users/6.jpg" alt="..." /></a>
-                                </span>
-                                <div className="search">
-                                    <input placeholder="Write a comment" type="text" />
-                                    <button><i className="fa fa-camera"></i></button>
-                                </div>
-                            </div>
-
+                            <CreateComment postId={post.id}/>
                         </div>
 
                     </div>

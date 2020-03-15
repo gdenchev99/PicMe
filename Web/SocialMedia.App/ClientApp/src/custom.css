@@ -196,65 +196,28 @@ text-align: center;
 /* Cardbox Comments
 ---------------------------------- */
 .cardbox-comments{
-  padding: 10px 40px 20px 40px !important;
-  font-size: 0px;	
-  text-align: center;
-  display: inline-block;
+  position:relative;
+    width: 100%;
+    border: 1px solid #ddd;
 }
-.cardbox-comments .comment-avatar img{
-  margin-top: 1px;
-  margin-right: 10px;
+
+.comment-btn{
+  position:absolute;
+    top: 3px;
+    right:3px;
+    width: 60px;
+    color: #3897f0;
+}
+
+
+.comment-area{
+  width: 80%;
+  margin-bottom: -4.5px;
   position: relative;
-  display: inline-block;
-  text-align: center;
-  width: 40px;
-  height: 40px;
-}
-.cardbox-comments .comment-body {
+  resize: none;
+  border: none;
   overflow: auto;
-}
-.search {
- position: relative;
- right: -60px;
- top: -40px;
- margin-bottom: -40px;
- border: 2px solid #f4f4f4;	
- width: 100%;
- overflow: hidden;
-}
-.search input[type="text"] {
- background-color: #fff;
- line-height: 10px;
- padding: 15px 60px 20px 10px;
- border: none;
- border-radius: 4px;
- width: 100%;
- font-family: 'Rokkitt', serif;
- font-size: 14px;
- color: #8d8d8d;
- height: inherit;
- font-weight: 700;
-}
-.search button {
- position: absolute;
- right: 0;
- top: 0px;
- border: none;
- background-color: transparent;
- color: #bbbbbb;
- padding: 15px 25px;
- cursor: pointer;
- 
- display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-text-align: center;
-}
-.search button i {
- font-size: 20px;
- line-height: 30px;
- display: block;
+  outline-width: 0;
 }
 
 
