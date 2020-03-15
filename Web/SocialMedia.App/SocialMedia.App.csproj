@@ -33,26 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\css\strip-skins\strip\close.svg" />
-    <None Include="wwwroot\css\strip-skins\strip\error.svg" />
-    <None Include="wwwroot\css\strip-skins\strip\next-small.svg" />
-    <None Include="wwwroot\css\strip-skins\strip\next.svg" />
-    <None Include="wwwroot\css\strip-skins\strip\previous-small.svg" />
-    <None Include="wwwroot\css\strip-skins\strip\previous.svg" />
-    <None Include="wwwroot\fonts\fontawesome-webfont3e6e.svg" />
-    <None Include="wwwroot\fonts\fontawesome-webfont3e6e.woff2" />
-    <None Include="wwwroot\fonts\themify9f24.svg" />
-    <None Include="wwwroot\images\resources\404.svg" />
-    <None Include="wwwroot\js\backgroundVideo.js" />
-    <None Include="wwwroot\js\custom.js" />
-    <None Include="wwwroot\js\echarts.min.js" />
-    <None Include="wwwroot\js\main.min.js" />
-    <None Include="wwwroot\js\map-init.js" />
-    <None Include="wwwroot\js\script.js" />
     <None Include="wwwroot\js\site.js" />
-    <None Include="wwwroot\js\strip.pkgd.min.js" />
-    <None Include="wwwroot\js\userincr.js" />
-    <None Include="wwwroot\js\world.js" />
   </ItemGroup>
 
   <ItemGroup>

@@ -17,11 +17,7 @@ function ProfileComponent(params) {
 										<p className="lead">{params.data.firstName + " " + params.data.lastName}</p>
 										<p>
 											I love to read, hang out with friends, watch football, listen to music, and learn new things.
-                            </p>
-										<p> <span className="badge badge-info tags">html5</span>
-											<span className="badge badge-info tags">css3</span>
-											<span className="badge badge-info tags">nodejs</span>
-										</p>
+                           			    </p>
 									</div>
 									<div className="col-12 col-lg-2 col-md-6 text-center">
 										<img src={params.data.profilePictureUrl} alt="" className="mx-auto rounded-circle img-fluid" />

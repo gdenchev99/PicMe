@@ -25,8 +25,8 @@ function FeedComponent(params) {
                                 </div>
                                 <div className="media m-0">
                                     <div className="d-flex mr-3">
-                                        <a href=""><img className="img-fluid rounded-circle" 
-                                        src={post.creatorProfilePictureUrl} alt="User" /></a>
+                                    <Link to={"/user/" + post.creatorUserName}><img className="img-fluid rounded-circle" 
+                                        src={post.creatorProfilePictureUrl} alt="User" /></Link>
                                     </div>
                                     <div className="media-body">
                                         <Link to={"/user/" + post.creatorUserName}><p className="m-0">{post.creatorFirstName} {post.creatorLastName}</p></Link>

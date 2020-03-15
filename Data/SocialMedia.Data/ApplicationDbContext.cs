@@ -32,6 +32,8 @@
 
         public DbSet<Post> Posts { get; set; }
 
+        public DbSet<Comment> Comments { get; set; }
+
         public DbSet<UserFollower> UserFollowers { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
@@ -122,6 +124,19 @@
                 entity.HasOne(uf => uf.Follower)
                     .WithMany(u => u.Followings)
                     .HasForeignKey(uf => uf.FollowerId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<Comment>(entity =>
+            {
+                entity.HasOne(e => e.Creator)
+                    .WithMany(c => c.Comments)
+                    .HasForeignKey(e => e.CreatorId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(e => e.Post)
+                    .WithMany(p => p.Comments)
+                    .HasForeignKey(e => e.PostId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
         }
