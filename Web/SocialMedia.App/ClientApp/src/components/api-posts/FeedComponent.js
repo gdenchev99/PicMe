@@ -41,17 +41,16 @@ function FeedComponent(params) {
                                 <img className="img-fluid" src={post.mediaSource} alt="Image" />
                             </div>
                             <div className="cardbox-base">
-                                <ul className="float-right">
-                                    <li><a><i className="fa fa-comments"></i></a></li>
-                                    <li><a><em className="mr-5">12</em></a></li>
-                                    <li><a><i className="fa fa-share-alt"></i></a></li>
-                                    <li><a><em className="mr-3">03</em></a></li>
-                                </ul>
                                 <ul>
                                     <li><a><i className="fas fa-heart"></i></a></li>
                                     <li><a href="#"><img src="http://www.themashabrand.com/templates/bootsnipp/post/assets/img/users/3.jpeg" className="img-fluid rounded-circle" alt="User" /></a></li>
                                     <li><a><span>242 Likes</span></a></li>
                                 </ul>
+                            </div>
+                            <div className="view-comments">
+                                <label>View all 12 comments</label>
+                                <p><strong>Username</strong> comment</p>
+                                <p><strong>Username</strong> comment</p>
                             </div>
                             <CreateComment postId={post.id}/>
                         </div>
