@@ -205,7 +205,6 @@ text-align: center;
   position:absolute;
     top: 3px;
     right:3px;
-    width: 60px;
     color: #3897f0;
 }
 
@@ -223,6 +222,8 @@ text-align: center;
 .view-comments{
   width: 100%;
   height: 100px;
+  margin-left: 17px;
+
 }
 
 /* ------------------------------- */
@@ -256,4 +257,255 @@ text-align: center;
 .gallery-images {
   width: 100%;
   height: 100%;
+}
+
+.comments-username {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.view-comments p{
+  font-size: 14px;
+  margin-bottom: 7px;
+}
+
+.view-comments label{
+  cursor: pointer;
+}
+
+.post-image{
+  width: 100%;
+  height: 100%;
+}
+
+.post-comment {
+  font-size: 14px;
+  height: 600px;
+  background-color: #ffffff;
+}
+
+.post-comment .username{
+ font-weight: 600; 
+}
+
+.post-comment img{
+  width: 48px !important;
+  height: 48px !important;
+  padding: 2px;
+  border: 2px solid #f4f4f4;
+  border-radius: 50%;
+}
+
+.post-comment-area {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.post-comment .creator-username {
+  position: absolute;
+  top: 35px;
+  left: 75px;
+}
+
+.comments{
+  overflow: hidden;
+  overflow-y: auto;
+  height: 100%;
+  margin-bottom: -35px;
+}
+
+.comments img{
+  width: 32px !important;
+  height: 32px !important;
+  padding: 2px;
+  border: 2px solid #f4f4f4;
+  border-radius: 50%;
+  display: inline-block !important;
+}
+
+.comment-body{
+  margin-left: 8px;
+}
+
+.comments ul{
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+ul small{
+  display: block;
+  position: relative;
+  left: 42px;
+}
+
+/* Modal for post */
+
+.modal-dialog {
+    /* An arbitrary minimum height. Feel free to modify this one as well */
+    min-height: 350px;
+    height: 80%;
+}
+
+.img-modal .modal-content, .img-modal .modal-body, .img-modal .row, .img-modal .modal-image {
+    height: 100%;
+}
+
+.modal-content {
+    border-radius: 0;
+}
+
+.modal-body {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.modal-image {
+    background: #000;
+    padding :0;
+    width: 1080px;
+    height: 620px;
+}
+
+.modal-image img {
+    margin: 0 auto;
+    max-height: 100%;
+    max-width: 100%;
+    
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.img-modal .img-modal-btn {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: black;
+    opacity: 0;
+    font-size: 1.5em;
+    width: 45px;
+    color: #fff;
+    transition: opacity .2s ease-in;
+}
+
+.img-modal .modal-image:hover .img-modal-btn {
+    opacity: 0.4;  
+}
+
+.img-modal .modal-image:hover .img-modal-btn:hover {
+   opacity: 0.75;   
+}
+
+.img-modal .img-modal-btn.right {
+    right: 0;
+}
+
+.img-modal .img-modal-btn i {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    margin-top: -.75em;
+}
+
+.img-modal .modal-meta {
+    position: relative;   
+    height: 100%;
+}
+
+.modal-meta-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 45px;
+    padding: 5px 10px;
+    overflow-y: auto;
+}
+
+.img-poster img {
+    height: 48px;
+    width: 48px;
+    float: left;
+    margin-right: 15px;
+    margin-top: 15px;
+}
+
+.img-poster strong {
+    display: block; 
+    padding-top: 15px;
+}
+
+.img-poster span {
+    display: block;   
+    color: #aaa;
+    font-size:.9em;
+}
+
+.modal-meta-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.img-comment-list {
+    list-style: none;  
+    padding: 0;
+}
+.img-comment-list li {
+    margin:0;
+    margin-top:10px;
+}
+
+.img-comment-list li > div {
+    display:table-cell;
+}
+
+.img-comment-list img {
+    border-radius:50%;
+    width: 42px;
+    height: 42px;
+    margin-right: 10px;
+    margin-top: 20px;
+}
+
+.img-comment-list p {
+    margin: 0;
+}
+
+.img-comment-list span {
+    font-size: .8em; 
+    color: #aaa;
+}
+
+@media only screen and (max-width : 992px) {
+    .modal-content {
+        border-radius: 0;
+        max-height: 100%;
+        overflow-y: auto;
+    }
+    
+    .modal-image {
+        height: calc(100% - 100px);
+    }
+    
+    .modal-meta {
+        height: auto;
+    }
+    
+    .modal-meta-top {
+        position: static;
+        padding-top: 15px;
+    }
+    
+    .modal-meta-bottom {
+        position: static;
+        margin: 0 -15px;
+    }
 }

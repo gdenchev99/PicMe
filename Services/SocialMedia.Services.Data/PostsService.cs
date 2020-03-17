@@ -35,6 +35,7 @@
             return result;
         }
 
+        // id = id of currently logged in user.
         public async Task<IEnumerable<AllPostsViewModel>> GetAllAsync(string id)
         {
             if (id == null)
@@ -53,6 +54,27 @@
             }
 
             return posts;
+        }
+
+        // id = id of post
+        public async Task<PostViewModel> GetAsync(int id)
+        {
+            if (id < 0)
+            {
+                return null;
+            }
+
+            var post = await this.postRepository.All()
+                .Where(p => p.Id == id)
+                .To<PostViewModel>()
+                .FirstOrDefaultAsync();
+
+            if (post == null)
+            {
+                return null;
+            }
+
+            return post;
         }
     }
 }

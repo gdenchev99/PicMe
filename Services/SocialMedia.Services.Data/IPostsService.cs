@@ -10,5 +10,7 @@
         Task<bool> CreateAsync(PostCreateModel postCreateModel);
 
         Task<IEnumerable<AllPostsViewModel>> GetAllAsync(string id);
+
+        Task<PostViewModel> GetAsync(int id);
     }
 }

@@ -22,6 +22,14 @@ namespace SocialMedia.App.Controllers
             this.service = service;
         }
 
+        [HttpGet("Get")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var result = await this.service.GetAsync(id);
+
+            return Ok(result);
+        }
+
         [HttpGet("All")]
         public async Task<IActionResult> GetAll(string id)
         {
