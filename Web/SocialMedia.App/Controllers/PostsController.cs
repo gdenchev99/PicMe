@@ -25,6 +25,11 @@ namespace SocialMedia.App.Controllers
         [HttpGet("Get")]
         public async Task<IActionResult> Get(int id)
         {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
             var result = await this.service.GetAsync(id);
 
             return Ok(result);

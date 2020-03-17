@@ -10,6 +10,9 @@ export class Post extends Component {
             data: {},
             isLoading: true
         }
+
+        var path = this.props.location.pathname;
+        this.postId = path.substr(path.lastIndexOf('/') + 1);
     }
 
     async componentDidMount() {
@@ -17,12 +20,8 @@ export class Post extends Component {
     }
 
     handleData = async() => {
-        let path = this.props.location.pathname;
-        let postId = path.substr(path.lastIndexOf('/') + 1);
-
-        let response = await axios.get(`/api/Posts/Get?id=${postId}`)
-
-        console.log(response.data);
+        
+        let response = await axios.get(`/api/Posts/Get?id=${this.postId}`)
         
         this.setState({data: response.data});
 
@@ -36,7 +35,7 @@ export class Post extends Component {
             {this.state.isLoading && 
                 <div>Loading... </div>}
             {!this.state.isLoading &&
-                <PostComponent data={this.state.data}/> }
+                <PostComponent data={this.state.data} postId={this.postId}/> }
             </React.Fragment>
         );
     }

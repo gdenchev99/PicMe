@@ -1,7 +1,7 @@
 import React from 'react';
 import { CreateComment } from '../api-comments/CreateComment';
 import LikeComponent from '../api-likes/LikeComponent';
-import PostCommentsComponent from '../api-comments/PostCommentsComponent';
+import { PostComments } from '../api-comments/PostComments';
 
 function PostComponent(params) {
 
@@ -35,12 +35,14 @@ function PostComponent(params) {
                                     </li>
                                 </ul>}
                             {/* Begin mapping comments here. */}
-                            <PostCommentsComponent />
+                            <ul className="img-comment-list">
+                            <PostComments postId={params.postId}/>
+                            </ul>
                         </div>
                     </div>
                             {/* Import the create comment textarea */}
                     <div className="modal-meta-bottom">
-                        <CreateComment />
+                        <CreateComment postId={params.postId}/>
                     </div>
                 </div>
             </div>

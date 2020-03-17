@@ -6,7 +6,7 @@ import LikeComponent from '../api-likes/LikeComponent';
 function FeedComponent(params) {
     return (
         <React.Fragment>
-            {params.data.map(post => <div key={post.id} className="container">
+            {params.data.length <= 0 ? null : params.data.map(post => <div key={post.id} className="container">
                 <div className="row">
 
                     <div className="col-lg-6 offset-lg-3">
@@ -43,7 +43,7 @@ function FeedComponent(params) {
                             </div>
                             <LikeComponent />
                             <div className="view-comments">
-                                <Link to="/post/2"><label>View all 12 comments</label></Link>
+                                <Link to={`/post/${post.id}`}><label>View all 12 comments</label></Link>
                                 <p><span className="comments-username">Username</span> text</p>
                                 <p><span className="comments-username">Username</span> text</p>
                             </div>

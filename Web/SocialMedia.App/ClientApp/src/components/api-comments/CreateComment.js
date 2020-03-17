@@ -40,7 +40,10 @@ export class CreateComment extends Component {
                 'Content-Type': 'application/json'
             }
         })
-        .then(result => console.log(result))
+        .then(result => {
+            console.log(result);
+            this.setState({text: ""})
+        })
         .catch(errors => console.log(errors));
 
     }

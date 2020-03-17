@@ -4,17 +4,15 @@ function PostCommentsComponent(params) {
 
     return (
         <React.Fragment>
-            <ul className="img-comment-list">
-                <li>
+            {params.data.length <= 0 ? null : params.data.map(c => <li key={c.customId}>
                     <div className="comment-img">
-                        <img src="http://lorempixel.com/50/50/people/6" />
+                        <img src={c.creatorProfilePictureUrl} />
                     </div>
                     <div className="comment-text">
-                        <strong><a href="">Jane Doe</a></strong>
-                        <p>Hello this is a test comment. Some extra text added.</p> <span className="date sub-text">on December 5th, 2016</span>
+                        <strong><a href="">{c.creatorUserName}</a></strong>
+                        <p>{c.text}</p> <span className="date sub-text">{c.createdOnFormat}</span>
                     </div>
-                </li>
-            </ul>
+                </li> )}
         </React.Fragment>
     );
 }
