@@ -35,7 +35,7 @@
             return result;
         }
 
-        public async Task<IEnumerable<CommentViewModel>> GetPostCommentsAsync(int postId)
+        public async Task<IEnumerable<FeedCommentViewModel>> GetLastTwoAsync(int postId)
         {
             if (postId <= 0)
             {
@@ -45,7 +45,30 @@
             var comments = await this.commentRepository
                 .All()
                 .Where(c => c.PostId == postId)
-                .To<CommentViewModel>()
+                .OrderByDescending(c => c.CreatedOn)
+                .Take(2)
+                .To<FeedCommentViewModel>()
+                .ToListAsync();
+
+            if (comments.Count <= 0)
+            {
+                return null;
+            }
+
+            return comments;
+        }
+
+        public async Task<IEnumerable<PostCommentViewModel>> GetPostCommentsAsync(int postId)
+        {
+            if (postId <= 0)
+            {
+                return null;
+            }
+
+            var comments = await this.commentRepository
+                .All()
+                .Where(c => c.PostId == postId)
+                .To<PostCommentViewModel>()
                 .ToListAsync();
 
             if (comments.Count <= 0)

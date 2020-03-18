@@ -53,5 +53,18 @@ namespace SocialMedia.App.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("Feed")]
+        public async Task<IActionResult> GetFeedComments(int postId)
+        {
+            if (postId <= 0)
+            {
+                return BadRequest();
+            }
+
+            var result = await this.service.GetLastTwoAsync(postId);
+
+            return Ok(result);
+        }
     }
 }

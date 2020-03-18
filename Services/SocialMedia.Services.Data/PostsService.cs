@@ -36,7 +36,7 @@
         }
 
         // id = id of currently logged in user.
-        public async Task<IEnumerable<AllPostsViewModel>> GetAllAsync(string id)
+        public async Task<IEnumerable<FeedViewModel>> GetAllAsync(string id)
         {
             if (id == null)
             {
@@ -45,7 +45,7 @@
 
             var posts = await this.postRepository.All()
                 .Where(p => p.Creator.Followers.Any(x => x.FollowerId == id))
-                .To<AllPostsViewModel>()
+                .To<FeedViewModel>()
                 .ToListAsync();
 
             if (posts == null)

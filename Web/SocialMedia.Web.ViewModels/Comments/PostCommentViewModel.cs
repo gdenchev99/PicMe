@@ -5,7 +5,7 @@
     using SocialMedia.Data.Models;
     using SocialMedia.Services.Mapping;
 
-    public class CommentViewModel : IMapFrom<Comment>
+    public class PostCommentViewModel : IMapFrom<Comment>
     {
         // Random key for mapping(foreach in react) - to be fixed.
         public int CustomId => new Random().Next() + new Random().Next();

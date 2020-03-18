@@ -509,3 +509,8 @@ ul small{
         margin: 0 -15px;
     }
 }
+
+.feed-comments{
+  list-style-type: none;
+  margin-left: -25px;
+}

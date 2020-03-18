@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { CreateComment } from "../api-comments/CreateComment";
 import LikeComponent from '../api-likes/LikeComponent';
+import { FeedComments } from '../api-comments/FeedComments';
 
 function FeedComponent(params) {
     return (
@@ -27,8 +28,8 @@ function FeedComponent(params) {
                                 </div>
                                 <div className="media m-0">
                                     <div className="d-flex mr-3">
-                                    <Link to={"/user/" + post.creatorUserName}><img className="img-fluid rounded-circle" 
-                                        src={post.creatorProfilePictureUrl} alt="User" /></Link>
+                                        <Link to={"/user/" + post.creatorUserName}><img className="img-fluid rounded-circle"
+                                            src={post.creatorProfilePictureUrl} alt="User" /></Link>
                                     </div>
                                     <div className="media-body">
                                         <Link to={"/user/" + post.creatorUserName}><p className="m-0">{post.creatorFirstName} {post.creatorLastName}</p></Link>
@@ -39,15 +40,13 @@ function FeedComponent(params) {
                             </div>
 
                             <div className="cardbox-item">
-                                <img className="img-fluid" src={post.mediaSource} alt="Image" />
+                                <Link to={`/post/${post.id}`}>
+                                    <img className="img-fluid" src={post.mediaSource} alt="Image" />
+                                </Link>
                             </div>
                             <LikeComponent />
-                            <div className="view-comments">
-                                <Link to={`/post/${post.id}`}><label>View all 12 comments</label></Link>
-                                <p><span className="comments-username">Username</span> text</p>
-                                <p><span className="comments-username">Username</span> text</p>
-                            </div>
-                            <CreateComment postId={post.id}/>
+                            <FeedComments postId={post.id} commentsCount={post.commentsCount}/>
+                            <CreateComment postId={post.id} />
                         </div>
 
                     </div>

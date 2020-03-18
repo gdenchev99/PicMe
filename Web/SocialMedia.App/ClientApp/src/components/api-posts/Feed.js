@@ -23,7 +23,7 @@ export class Feed extends Component {
         let userId = user.sub;
 
         let response = await axios.get(`/api/Posts/All?id=${userId}`)
-
+        
         this.setState({data: response.data});
         
     }

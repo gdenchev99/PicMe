@@ -22,8 +22,8 @@ export class PostComments extends Component {
 
         let response = await axios.get(`/api/Comments/All?postId=${postId}`)
 
-        this.setState({data: response.data});
-
+        this.setState({data: response.data, totalComments: response.data.length});
+        
         this.setState({isLoading: false})
     }
 
