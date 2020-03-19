@@ -21,6 +21,7 @@ namespace SocialMedia.Data.Models
             this.Followings = new HashSet<UserFollower>();
             this.Posts = new HashSet<Post>();
             this.Comments = new HashSet<Comment>();
+            this.Likes = new HashSet<Like>();
         }
 
         // Personal Data
@@ -43,6 +44,8 @@ namespace SocialMedia.Data.Models
         public ICollection<Post> Posts { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
+
+        public ICollection<Like> Likes { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }

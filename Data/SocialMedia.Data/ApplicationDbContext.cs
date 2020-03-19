@@ -139,6 +139,17 @@
                     .HasForeignKey(e => e.PostId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
+
+            builder.Entity<Like>(entity =>
+            {
+                entity.HasOne(l => l.User)
+                    .WithMany(u => u.Likes)
+                    .HasForeignKey(l => l.UserId);
+
+                entity.HasOne(l => l.Post)
+                    .WithMany(p => p.Likes)
+                    .HasForeignKey(l => l.PostId);
+            });
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)

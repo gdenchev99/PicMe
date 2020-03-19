@@ -11,6 +11,7 @@
         public Post()
         {
             this.Comments = new HashSet<Comment>();
+            this.Likes = new HashSet<Like>();
         }
 
         public string Description { get; set; }
@@ -23,5 +24,7 @@
         public ApplicationUser Creator { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
+
+        public ICollection<Like> Likes { get; set; }
     }
 }
