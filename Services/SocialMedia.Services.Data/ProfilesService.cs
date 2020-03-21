@@ -51,5 +51,22 @@
 
             return user;
         }
+
+        public async Task<string> RemoveFollowerAsync(AddFollowerModel model)
+        {
+            var follower = this.userFollowerRepository.All()
+                .FirstOrDefault(uf => uf.UserId == model.UserId && uf.FollowerId == model.FollowerId);
+
+            if (follower == null)
+            {
+                return "You are not following this user";
+            }
+
+            this.userFollowerRepository.Delete(follower);
+
+            await this.userFollowerRepository.SaveChangesAsync();
+
+            return "Unfollowed user successfully";
+        }
     }
 }

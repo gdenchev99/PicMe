@@ -35,5 +35,13 @@ namespace SocialMedia.App.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("Unfollow")]
+        public async Task<IActionResult> Unfollow([FromBody]AddFollowerModel model)
+        {
+            var result = await this.service.RemoveFollowerAsync(model);
+
+            return Ok(result);
+        }
     }
 }
