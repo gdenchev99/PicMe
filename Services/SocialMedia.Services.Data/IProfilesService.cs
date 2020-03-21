@@ -7,5 +7,7 @@
     public interface IProfilesService
     {
         Task<UserProfileViewModel> GetUserProfileAsync(string username);
+
+        Task<string> AddFollowerAsync(AddFollowerModel model);
     }
 }

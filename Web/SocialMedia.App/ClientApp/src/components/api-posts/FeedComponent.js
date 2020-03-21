@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { CreateComment } from "../api-comments/CreateComment";
-import LikeComponent from '../api-likes/LikeComponent';
+import { Like } from '../api-likes/Like';
 import { FeedComments } from '../api-comments/FeedComments';
 
 function FeedComponent(params) {
@@ -44,7 +44,7 @@ function FeedComponent(params) {
                                     <img className="img-fluid" src={post.mediaSource} alt="Image" />
                                 </Link>
                             </div>
-                            <LikeComponent />
+                            <Like postId ={post.id}/>
                             <FeedComments postId={post.id} commentsCount={post.commentsCount}/>
                             <CreateComment postId={post.id} />
                         </div>

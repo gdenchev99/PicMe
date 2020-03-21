@@ -28,11 +28,17 @@
 
         public int CommentsCount { get; set; }
 
+        public int LikesCount { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Post, FeedViewModel>().ForMember(
                 m => m.CommentsCount,
                 opt => opt.MapFrom(x => x.Comments.Count));
+
+            configuration.CreateMap<Post, FeedViewModel>().ForMember(
+                m => m.LikesCount,
+                opt => opt.MapFrom(x => x.Likes.Count));
 
             configuration.CreateMap<Post, FeedViewModel>().ForMember(
                 m => m.CreatedOnFormat,

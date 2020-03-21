@@ -53,7 +53,9 @@ export class CreatePost extends Component {
                 'Content-Type': 'application/json',
             }
         })
-        .then(result => console.log(result))
+        .then(result => {
+                this.setState({description: "", media: null})
+            })
         .catch(errors => console.log(errors.response.data.errors));
     }
     

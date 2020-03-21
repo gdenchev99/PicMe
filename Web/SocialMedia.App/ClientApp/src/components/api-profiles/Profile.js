@@ -10,7 +10,8 @@ export class Profile extends Component {
         this.state = {
             data: {},
             posts: [],
-            isFollowing: false
+            isFollowing: false,
+            currentUserName: ""
         }
     }
 
@@ -31,7 +32,7 @@ export class Profile extends Component {
 
         let currentUser = await authService.getUser();
         let currentUserName = currentUser.name;
-        
+        this.setState({currentUserName: currentUserName});
 
          if (this.state.data.followers.some(f => f.followerUserName == currentUserName)) {
              this.setState({isFollowing: true});
@@ -43,7 +44,7 @@ export class Profile extends Component {
         return(
             <div>
             {this.state && this.state.data &&
-            <ProfileComponent data={this.state.data} posts={this.state.posts} isFollowing={this.state.isFollowing}/>
+            <ProfileComponent data={this.state.data} posts={this.state.posts} isFollowing={this.state.isFollowing} currentUserName={this.state.currentUserName}/>
             }
             </div>
         );

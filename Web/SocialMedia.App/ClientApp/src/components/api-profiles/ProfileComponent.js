@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 function ProfileComponent(params) {
 
@@ -22,8 +23,11 @@ function ProfileComponent(params) {
 									<div className="col-12 col-lg-2 col-md-6 text-center">
 										<img src={params.data.profilePictureUrl} alt="" className="mx-auto rounded-circle img-fluid" />
 
+										{params.data.userName == params.currentUserName ? 
+										<Link to={`/authentication/profile`}>
+										<button className="btn btn-primary fbtwn-margin">Settings</button></Link> : 
 										<button className="btn btn-block btn-outline-success fwbtn-margin"><span className="fa fa-plus-circle"></span>
-										{params.isFollowing == true ? "Following" : "Follow"}</button>
+										{params.isFollowing == true ? "Following" : "Follow"}</button>}
 									</div>
 									<div className="col-12 col-lg-4">
 										<h3 className="mb-0">Followers</h3>

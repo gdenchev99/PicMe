@@ -34,6 +34,8 @@
 
         public DbSet<Comment> Comments { get; set; }
 
+        public DbSet<Like> Likes { get; set; }
+
         public DbSet<UserFollower> UserFollowers { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
