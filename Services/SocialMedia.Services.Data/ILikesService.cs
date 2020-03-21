@@ -6,9 +6,9 @@
 
     public interface ILikesService
     {
-        Task<string> AddAsync(LikeInputModel model);
+        Task<string> AddAsync(AddLikeModel model);
 
-        Task<string> RemoveAsync(LikeInputModel model);
+        Task<string> RemoveAsync(AddLikeModel model);
 
         bool IsPostLikedByUser(string userId, int postId);
 

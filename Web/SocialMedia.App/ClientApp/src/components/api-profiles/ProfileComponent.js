@@ -26,7 +26,7 @@ function ProfileComponent(params) {
 										{params.data.userName == params.currentUserName ? 
 										<Link to={`/authentication/profile`}>
 										<button className="btn btn-primary fbtwn-margin">Settings</button></Link> : 
-										<button className="btn btn-block btn-outline-success fwbtn-margin"><span className="fa fa-plus-circle"></span>
+										<button onClick={params.handleAddFollower} className="btn btn-block btn-outline-success fwbtn-margin"><span className="fa fa-plus-circle"></span>
 										{params.isFollowing == true ? "Following" : "Follow"}</button>}
 									</div>
 									<div className="col-12 col-lg-4">

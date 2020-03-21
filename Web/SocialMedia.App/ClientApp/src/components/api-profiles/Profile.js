@@ -13,6 +13,8 @@ export class Profile extends Component {
             isFollowing: false,
             currentUserName: ""
         }
+
+        this.handleAddFollower = this.handleAddFollower.bind(this);
     }
 
     async componentDidMount() {
@@ -39,12 +41,30 @@ export class Profile extends Component {
          }
     }
 
+    handleAddFollower = async() => {
+        let currentUser = await authService.getUser();
+        let followerId = currentUser.sub;
+
+        let data = {
+            userId: this.state.data.id,
+            followerId: followerId
+        };
+        
+        axios.post("/api/Profiles/Follow", data, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(result => console.log(result))
+        .catch(error => console.log(error));
+    }
 
     render() {
         return(
             <div>
             {this.state && this.state.data &&
-            <ProfileComponent data={this.state.data} posts={this.state.posts} isFollowing={this.state.isFollowing} currentUserName={this.state.currentUserName}/>
+            <ProfileComponent data={this.state.data} posts={this.state.posts} isFollowing={this.state.isFollowing} currentUserName={this.state.currentUserName} handleAddFollower={this.handleAddFollower}/>
             }
             </div>
         );

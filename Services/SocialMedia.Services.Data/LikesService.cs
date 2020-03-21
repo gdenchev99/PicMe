@@ -18,7 +18,7 @@
             this.repository = repository;
         }
 
-        public async Task<string> AddAsync(LikeInputModel model)
+        public async Task<string> AddAsync(AddLikeModel model)
         {
             var like = new Like
             {
@@ -77,7 +77,7 @@
             return true;
         }
 
-        public async Task<string> RemoveAsync(LikeInputModel model)
+        public async Task<string> RemoveAsync(AddLikeModel model)
         {
             var like = this.repository.All()
                 .FirstOrDefault(l => l.PostId == model.PostId && l.UserId == model.UserId);

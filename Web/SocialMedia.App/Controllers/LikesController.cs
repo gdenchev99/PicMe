@@ -18,7 +18,7 @@ namespace SocialMedia.App.Controllers
         }
 
         [HttpPost("Add")]
-        public async Task<IActionResult> Add([FromBody] LikeInputModel model)
+        public async Task<IActionResult> Add([FromBody] AddLikeModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -31,7 +31,7 @@ namespace SocialMedia.App.Controllers
         }
 
         [HttpPost("Remove")]
-        public async Task<IActionResult> Remove([FromBody] LikeInputModel model)
+        public async Task<IActionResult> Remove([FromBody] AddLikeModel model)
         {
             if (!ModelState.IsValid)
             {
