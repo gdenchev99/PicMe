@@ -23,16 +23,14 @@ function ProfileComponent(params) {
 									<div className="col-12 col-lg-2 col-md-6 text-center">
 										<img src={params.data.profilePictureUrl} alt="" className="mx-auto rounded-circle img-fluid" />
 
-										{params.data.userName == params.currentUserName ? 
+										{params.data.userName == params.state.currentUserName ? 
 										<Link to={`/authentication/profile`}>
 										<button className="btn btn-primary fbtwn-margin">Settings</button></Link> : 
-										params.isFollowing ? 
-										<button onClick={params.handleRemoveFollower} className="btn btn-block btn-outline-success fwbtn-margin"><span className="fa fa-plus-circle"></span>Unfollow</button> : 
-										<button onClick={params.handleAddFollower} className="btn btn-block btn-outline-success fwbtn-margin"><span className="fa fa-plus-circle"></span>Follow</button>}
+										<button onClick={params.handleAction} className="btn btn-block btn-outline-success fwbtn-margin"><span className="fa fa-plus-circle"></span>{params.state.btnText}</button>}
 									</div>
 									<div className="col-12 col-lg-4">
 										<h3 className="mb-0">Followers</h3>
-										<h5>{params.data.followersCount}</h5>
+										<h5>{params.state.followersCount}</h5>
 									</div>
 									<div className="col-12 col-lg-4">
 										<h3 className="mb-0">Following</h3>
@@ -48,7 +46,7 @@ function ProfileComponent(params) {
 						</div>
 					</div>
 
-					{params.posts.map(post =>
+					{params.state.posts.map(post =>
 						<div className="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
 							<img src={post.mediaSource} className="img-responsive gallery-images" />
 						</div>)}

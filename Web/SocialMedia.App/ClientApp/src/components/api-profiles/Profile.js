@@ -11,11 +11,12 @@ export class Profile extends Component {
             data: {},
             posts: [],
             isFollowing: false,
-            currentUserName: ""
+            currentUserName: "",
+            btnText: "Follow",
+            followersCount: 0
         }
 
-        this.handleAddFollower = this.handleAddFollower.bind(this);
-        this.handleRemoveFollower = this.handleRemoveFollower.bind(this);
+        this.handleAction = this.handleAction.bind(this);
     }
 
     async componentDidMount() {
@@ -28,7 +29,7 @@ export class Profile extends Component {
 
         let response = await axios.get(`/api/Profiles/Get?username=${username}`)
 
-        this.setState({data: response.data, posts: response.data.posts});
+        this.setState({data: response.data, posts: response.data.posts, followersCount: response.data.followersCount});
     }
 
     handleFollowing = async() => {
@@ -38,7 +39,7 @@ export class Profile extends Component {
         this.setState({currentUserName: currentUserName});
 
          if (this.state.data.followers.some(f => f.followerUserName == currentUserName)) {
-             this.setState({isFollowing: true});
+             this.setState({isFollowing: true, btnText:"Unfollow"});
          }
     }
 
@@ -59,7 +60,7 @@ export class Profile extends Component {
         })
         .then(result => {
             console.log(result);
-            this.setState(this.state)
+            this.setState({btnText: "Unfollow", isFollowing: true, followersCount: this.state.followersCount + 1})
         })
         .catch(error => console.log(error));
     }
@@ -81,17 +82,24 @@ export class Profile extends Component {
         })
         .then(result => {
             console.log(result);
-            this.setState(this.state)
+            this.setState({btnText: "Follow", isFollowing: false, followersCount: this.state.followersCount - 1})
         })
         .catch(error => console.log(error));
+    }
+
+    handleAction = () => {
+        if (this.state.isFollowing) {
+            this.handleRemoveFollower();
+        } else {
+            this.handleAddFollower();
+        }
     }
 
     render() {
         return(
             <div>
             {this.state && this.state.data &&
-            <ProfileComponent data={this.state.data} posts={this.state.posts} isFollowing={this.state.isFollowing} currentUserName={this.state.currentUserName} handleAddFollower={this.handleAddFollower} 
-            handleRemoveFollower={this.handleRemoveFollower}/>
+            <ProfileComponent data={this.state.data} state={this.state}  handleAction={this.handleAction} />
             }
             </div>
         );
