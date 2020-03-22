@@ -4,6 +4,7 @@
     using Microsoft.EntityFrameworkCore;
     using SocialMedia.Data.Common.Repositories;
     using SocialMedia.Data.Models;
+    using SocialMedia.Services;
     using SocialMedia.Services.Mapping;
     using SocialMedia.Web.ViewModels.Posts;
     using System.Collections.Generic;
@@ -13,18 +14,22 @@
     public class PostsService : IPostsService
     {
         private readonly IDeletableEntityRepository<Post> postRepository;
+        private readonly IBlobService blobService;
 
-        public PostsService(IDeletableEntityRepository<Post> postRepository)
+        public PostsService(IDeletableEntityRepository<Post> postRepository, IBlobService blobService)
         {
             this.postRepository = postRepository;
+            this.blobService = blobService;
         }
 
         public async Task<bool> CreateAsync(PostCreateModel postCreateModel)
         {
+            var mediaUrl = await this.blobService.UploadImageAsync(postCreateModel.MediaSource);
+
             var post = new Post
             {
                 Description = postCreateModel.Description,
-                MediaSource = postCreateModel.MediaSource,
+                MediaSource = mediaUrl,
                 CreatorId = postCreateModel.CreatorId,
             };
 

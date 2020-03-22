@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\Data\SocialMedia.Data.Models\SocialMedia.Data.Models.csproj" />
     <ProjectReference Include="..\..\Web\SocialMedia.Web.ViewModels\SocialMedia.Web.ViewModels.csproj" />
     <ProjectReference Include="..\SocialMedia.Services.Mapping\SocialMedia.Services.Mapping.csproj" />
+    <ProjectReference Include="..\SocialMedia.Services\SocialMedia.Services.csproj" />
   </ItemGroup>
 
 </Project>

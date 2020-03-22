@@ -44,7 +44,7 @@ namespace SocialMedia.App.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromBody] PostCreateModel model)
+        public async Task<IActionResult> Create([FromForm] PostCreateModel model)
         {
             if (!ModelState.IsValid)
             {

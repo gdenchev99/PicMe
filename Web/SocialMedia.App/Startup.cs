@@ -24,6 +24,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
 using SocialMedia.Web.ViewModels.Posts;
+using SocialMedia.Helpers;
+using SocialMedia.Services;
 
 namespace SocialMedia.App
 {
@@ -54,6 +56,8 @@ namespace SocialMedia.App
                     options.MinimumSameSitePolicy = SameSiteMode.None;
                 });
 
+            services.Configure<BlobConfiguration>(this.configuration.GetSection("AzureBlob"));
+
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
@@ -70,6 +74,9 @@ namespace SocialMedia.App
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
+
+            //Helper services
+            services.AddTransient<IBlobService, BlobService>();
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();

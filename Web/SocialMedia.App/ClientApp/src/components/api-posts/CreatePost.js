@@ -11,6 +11,7 @@ export class CreatePost extends Component {
             creatorId: "",
             description: "",
             media: null,
+            mediaSource: null,
             fileName: "Choose Image",
             errors: []
         };
@@ -27,8 +28,10 @@ export class CreatePost extends Component {
     handleMedia = (event) => {
 
         if (event.target.files && event.target.files[0]) {
+            let file = event.target.files[0];
             this.setState({
-              media: URL.createObjectURL(event.target.files[0]),
+              media: URL.createObjectURL(file),
+              mediaSource: file,
               fileName: event.target.files[0].name
             });
         }
@@ -41,16 +44,22 @@ export class CreatePost extends Component {
 
         this.setState({ creatorId: user.sub })
 
-        let data = JSON.stringify({
-            creatorId: this.state.creatorId,
-            description: this.state.description,
-            mediaSource: this.state.media
-        });
+        // let data = {
+        //     creatorId: this.state.creatorId,
+        //     description: this.state.description,
+        //     mediaSource: this.state.mediaSource
+        // };
+
+        let data = new FormData();
+        data.set("creatorId", this.state.creatorId);
+        data.set("description", this.state.description);
+        data.append("mediaSource", this.state.mediaSource);
+
+        console.log(this.state.mediaSource);
 
         axios.post("/api/Posts/Create", data, {
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
+                'Content-Type': 'multipart/form-data',
             }
         })
         .then(result => {
