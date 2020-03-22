@@ -8,6 +8,7 @@ export class Post extends Component {
         super(props);
         this.state = {
             data: {},
+            description: "",
             isLoading: true
         }
 
@@ -23,7 +24,12 @@ export class Post extends Component {
         
         let response = await axios.get(`/api/Posts/Get?id=${this.postId}`)
         
-        this.setState({data: response.data});
+        this.setState({ data: response.data, description: response.data.description });
+        
+        if (this.state.description == null) {
+            this.setState({ description: "" })
+
+        }
 
         this.setState({isLoading: false})
     }
@@ -35,7 +41,7 @@ export class Post extends Component {
             {this.state.isLoading && 
                 <div>Loading... </div>}
             {!this.state.isLoading &&
-                <PostComponent data={this.state.data} postId={this.postId}/> }
+                <PostComponent state={this.state} data={this.state.data} postId={this.postId}/> }
             </React.Fragment>
         );
     }

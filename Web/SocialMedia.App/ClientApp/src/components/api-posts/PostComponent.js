@@ -21,7 +21,7 @@ function PostComponent(params) {
                         <hr />
                         <div>
                             {/* First ul element is the description if it exists. */}
-                            {params.data.description.length <= 0 ? null :
+                            {params.state.description.length <= 0 ? null :
                                 <ul className="img-comment-list">
                                     <li>
                                         <div className="comment-img">
@@ -29,7 +29,7 @@ function PostComponent(params) {
                                         </div>
                                         <div className="comment-text">
                                             <strong><a href="">{params.data.creatorUserName}</a></strong>
-                                            <p>{params.data.description}</p> <span className="date sub-text">
+                                            <p>{params.state.description}</p> <span className="date sub-text">
                                                 on {params.data.createdOnFormat}</span>
                                         </div>
                                     </li>

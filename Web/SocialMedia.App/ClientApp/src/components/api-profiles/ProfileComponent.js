@@ -48,7 +48,7 @@ function ProfileComponent(params) {
 
 					{params.state.posts.map(post =>
 						<div className="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
-							<img src={post.mediaSource} className="img-responsive gallery-images" />
+							<Link to={`/post/${post.id}`}><img src={post.mediaSource} className="img-responsive gallery-images" /></Link>
 						</div>)}
 				</div>
 			</div>
