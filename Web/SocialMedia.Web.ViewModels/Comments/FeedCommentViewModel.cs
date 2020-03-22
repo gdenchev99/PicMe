@@ -6,6 +6,8 @@
 
     public class FeedCommentViewModel : IMapFrom<Comment>
     {
+        public int Id { get; set; }
+
         public string CreatorUserName { get; set; }
 
         public string Text { get; set; }
