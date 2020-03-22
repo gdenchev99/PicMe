@@ -13,25 +13,17 @@ export class NavMenu extends Component {
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.state = {
-      collapsed: true,
-      username: ""
+      collapsed: true
     };
   }
 
   componentDidMount() {
-    this.getUser();
   }
 
   toggleNavbar () {
     this.setState({
       collapsed: !this.state.collapsed
     });
-  }
-
-  async getUser() {
-    let currentUser = await authService.getUser();
-    let currentUserName = currentUser.name;
-    this.setState({username: currentUserName})
   }
 
   render () {
@@ -45,12 +37,6 @@ export class NavMenu extends Component {
               <ul className="navbar-nav flex-grow">
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/createpost">New Post</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to={`/user/${this.state.username}`}>My Profile</NavLink>
                 </NavItem>
                 <LoginMenu>
                 </LoginMenu>

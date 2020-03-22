@@ -2,6 +2,8 @@ import React from 'react';
 import { CreateComment } from '../api-comments/CreateComment';
 import LikeComponent from '../api-likes/LikeComponent';
 import { PostComments } from '../api-comments/PostComments';
+import { Link } from "react-router-dom";
+import { Like } from '../api-likes/Like';
 
 function PostComponent(params) {
 
@@ -14,8 +16,9 @@ function PostComponent(params) {
                 <div className="col-md-4 modal-meta">
                     <div className="modal-body modal-meta-top">
                         <div className="img-poster clearfix">
-                            <a href=""><img className="img-circle" src={params.data.creatorProfilePictureUrl} /></a>
-                            <strong><a href="">{params.data.creatorUserName}</a></strong>
+                            <img className="img-circle" src={params.data.creatorProfilePictureUrl} />
+                            <strong><Link to={"/user/" + params.data.creatorUserName}>
+                                {params.data.creatorUserName}</Link></strong>
                             <span>{params.data.createdOnFormat}</span>
                         </div>
                         <hr />
@@ -28,7 +31,8 @@ function PostComponent(params) {
                                             <img src={params.data.creatorProfilePictureUrl} />
                                         </div>
                                         <div className="comment-text">
-                                            <strong><a href="">{params.data.creatorUserName}</a></strong>
+                                            <strong><Link to={"/user/" + params.data.creatorUserName}>
+                                                {params.data.creatorUserName}</Link></strong>
                                             <p>{params.state.description}</p> <span className="date sub-text">
                                                 on {params.data.createdOnFormat}</span>
                                         </div>
@@ -42,6 +46,7 @@ function PostComponent(params) {
                     </div>
                             {/* Import the create comment textarea */}
                     <div className="modal-meta-bottom">
+                        <Like postId={params.postId} />
                         <CreateComment postId={params.postId}/>
                     </div>
                 </div>

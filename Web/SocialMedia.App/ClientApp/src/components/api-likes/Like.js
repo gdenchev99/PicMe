@@ -61,7 +61,10 @@ export class Like extends Component {
                 'Content-Type': 'application/json'
             }
         })
-        .then(result => console.log(result))
+            .then(result => 
+            {
+                this.setState({likesCount: this.state.likesCount + 1})
+            })
         .catch(error => console.log(error));
     }
 
@@ -78,7 +81,9 @@ export class Like extends Component {
                 'Content-Type': 'application/json'
             }
         })
-        .then(result => console.log(result))
+            .then(result => {
+                this.setState({ likesCount: this.state.likesCount - 1 })
+        })
         .catch(error => console.log(error));
     }
 

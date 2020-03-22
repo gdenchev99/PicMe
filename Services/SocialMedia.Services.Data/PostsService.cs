@@ -40,6 +40,29 @@
             return result;
         }
 
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var post = this.postRepository.All()
+                .FirstOrDefault(p => p.Id == id);
+
+            if (post == null)
+            {
+                return false;
+            }
+
+            var mediaUrl = post.MediaSource;
+
+            // Delete the media from Azure blob
+            await this.blobService.DeleteImageAsync(mediaUrl);
+
+            // Delete the entire post
+            this.postRepository.Delete(post);
+
+            var result = await this.postRepository.SaveChangesAsync() > 0;
+
+            return result;
+        }
+
         // id = id of currently logged in user.
         public async Task<IEnumerable<FeedViewModel>> GetAllAsync(string id)
         {

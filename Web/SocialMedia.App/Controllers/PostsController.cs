@@ -27,7 +27,7 @@ namespace SocialMedia.App.Controllers
         {
             if (id <= 0)
             {
-                return BadRequest();
+                return BadRequest("Invalid id");
             }
 
             var result = await this.service.GetAsync(id);
@@ -59,6 +59,24 @@ namespace SocialMedia.App.Controllers
             if (result == false)
             {
                 return BadRequest();
+            }
+
+            return Ok();
+        }
+
+        [HttpPost("Delete")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest("Invalid id");
+            }
+
+            var result = await this.service.DeleteAsync(id);
+
+            if (result == false)
+            {
+                return BadRequest("Could not delete post, please try again later or send message to support.");
             }
 
             return Ok();

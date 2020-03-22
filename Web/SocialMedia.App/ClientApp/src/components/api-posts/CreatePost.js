@@ -13,7 +13,8 @@ export class CreatePost extends Component {
             media: null,
             mediaSource: null,
             fileName: "Choose Image",
-            errors: []
+            errors: [],
+            loading: false
         };
 
         this.handleChange = this.handleChange.bind(this)
@@ -40,15 +41,11 @@ export class CreatePost extends Component {
     handleData = async(event) => {
         event.preventDefault();
 
+        this.setState({loading: true})
+
         let user = await authService.getUser();
 
         this.setState({ creatorId: user.sub })
-
-        // let data = {
-        //     creatorId: this.state.creatorId,
-        //     description: this.state.description,
-        //     mediaSource: this.state.mediaSource
-        // };
 
         let data = new FormData();
         data.set("creatorId", this.state.creatorId);
@@ -61,7 +58,7 @@ export class CreatePost extends Component {
             }
         })
         .then(result => {
-                this.setState({description: "", media: null})
+                this.setState({description: "", media: null, loading: false, fileName: "Choose Image"})
             })
         .catch(errors => console.log(errors.response.data.errors));
     }

@@ -7,10 +7,12 @@ import { FeedComments } from '../api-comments/FeedComments';
 function FeedComponent(params) {
     return (
         <React.Fragment>
-            {params.data.length <= 0 ? null : params.data.map(post => <div key={post.id} className="container">
+            {params.data.length <= 0 ?
+                <h2>No posts here, please follow people in order to see what they post!</h2> :
+                params.data.map(post => <div key={post.id} className="container">
                 <div className="row">
 
-                    <div className="col-lg-6 offset-lg-3">
+                    <div className="col-lg-7 offset-lg-2">
 
                         <div className="cardbox shadow-lg bg-white">
 
@@ -41,7 +43,7 @@ function FeedComponent(params) {
 
                             <div className="cardbox-item">
                                 <Link to={`/post/${post.id}`}>
-                                    <img className="img-fluid" src={post.mediaSource} alt="Image" />
+                                    <img className="img-fluid img-feed" src={post.mediaSource} alt="Image" />
                                 </Link>
                             </div>
                             <Like postId ={post.id}/>

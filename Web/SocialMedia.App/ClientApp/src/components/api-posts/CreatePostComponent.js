@@ -44,7 +44,9 @@ function CreatePostComponent(params) {
                     </div>
                     <div className="btn-toolbar justify-content-between">
                         <div className="btn-group">
-                            <button type="submit" className="btn btn-primary">Share</button>
+                            {params.state.loading ?
+                                <button type="submit" className="btn btn-primary" disabled>Posting...</button> :
+                                <button type="submit" className="btn btn-primary">Post</button>}
                         </div>
                         <div className="btn-group">
                             <button id="btnGroupDrop1" type="button" className="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"

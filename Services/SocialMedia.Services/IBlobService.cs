@@ -7,5 +7,7 @@
     public interface IBlobService
     {
         Task<string> UploadImageAsync(IFormFile image);
+
+        Task DeleteImageAsync(string fileUrl);
     }
 }
