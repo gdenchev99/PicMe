@@ -54,9 +54,7 @@ export class CreatePost extends Component {
         data.set("creatorId", this.state.creatorId);
         data.set("description", this.state.description);
         data.append("mediaSource", this.state.mediaSource);
-
-        console.log(this.state.mediaSource);
-
+        
         axios.post("/api/Posts/Create", data, {
             headers: {
                 'Content-Type': 'multipart/form-data',

@@ -25,15 +25,25 @@
             {
                 var streamReader = new StreamReader(image.OpenReadStream());
                 var container = this.GetCloudBlobContainer("images");
-                var blob = container.GetBlockBlobReference(image.FileName + ".jpg");
+                var fileName = this.GenerateFileName(Path.GetFileNameWithoutExtension(image.FileName));
+                var blob = container.GetBlockBlobReference(fileName + ".jpg");
                 await blob.UploadFromStreamAsync(streamReader.BaseStream);
 
-                return new Uri(this.baseUri, $"/images/{image.FileName}.jpg").ToString();
+                return new Uri(this.baseUri, $"/images/{fileName}.jpg").ToString();
             }
             catch (Exception exception)
             {
                 throw;
             }
+        }
+
+        private string GenerateFileName(string fileName)
+        {
+            string strFileName = string.Empty;
+            string[] strName = fileName.Split('.');
+            strFileName = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd") + "/" +
+                DateTime.Now.ToUniversalTime().ToString("yyyyMMdd\\THHmmssfff");
+            return strFileName;
         }
 
         private CloudBlobContainer GetCloudBlobContainer(string containerName)
