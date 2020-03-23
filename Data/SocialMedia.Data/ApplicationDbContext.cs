@@ -112,7 +112,8 @@
             builder.Entity<Post>()
                 .HasOne(m => m.Creator)
                 .WithMany(c => c.Posts)
-                .HasForeignKey(m => m.CreatorId);
+                .HasForeignKey(m => m.CreatorId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<UserFollower>(entity =>
             {
@@ -134,23 +135,25 @@
                 entity.HasOne(e => e.Creator)
                     .WithMany(c => c.Comments)
                     .HasForeignKey(e => e.CreatorId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(e => e.Post)
                     .WithMany(p => p.Comments)
                     .HasForeignKey(e => e.PostId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<Like>(entity =>
             {
                 entity.HasOne(l => l.User)
                     .WithMany(u => u.Likes)
-                    .HasForeignKey(l => l.UserId);
+                    .HasForeignKey(l => l.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(l => l.Post)
                     .WithMany(p => p.Likes)
-                    .HasForeignKey(l => l.PostId);
+                    .HasForeignKey(l => l.PostId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
         }
 

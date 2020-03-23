@@ -235,7 +235,7 @@ text-align: center;
 .view-comments{
   width: 100%;
   height: 100px;
-  margin-left: 17px;
+  padding-left: 17px;
 
 }
 
@@ -366,6 +366,12 @@ ul small{
     height: 100%;
 }
 
+/* Hide scrollbar */
+.modal-body::-webkit-scrollbar { /* Chrome */
+    width: 0;
+    height: 0;
+}
+
 .modal-content {
     border-radius: 0;
 }
@@ -373,6 +379,8 @@ ul small{
 .modal-body {
     padding-top: 0;
     padding-bottom: 0;
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+    -ms-overflow-style: none;  /* Hide scrollbar Internet Explorer 10+ */
 }
 
 .modal-image {
@@ -507,10 +515,6 @@ ul small{
         overflow-y: auto;
     }
     
-    .modal-image {
-        height: calc(100% - 100px);
-    }
-    
     .modal-meta {
         height: auto;
     }
@@ -538,4 +542,32 @@ ul small{
 /* Follow and edit user button */
 .fbtwn-margin {
   margin-top: 10px;
+}
+
+.settings-icon{
+  position: relative;
+  top: -28px;
+  left: 11rem;
+}
+
+.comment-emoji{
+  font-size: 20px;
+  position: relative;
+  bottom: 15px;
+}
+
+.btn-emoji{
+  position: relative;
+  right: 22px;
+}
+
+.btn-emoji button:focus{
+  outline-color: #fff;
+}
+
+.emoji-picker {
+  display: none;
+  position: absolute;
+  top: 16.2rem;
+  left: 4rem;
 }

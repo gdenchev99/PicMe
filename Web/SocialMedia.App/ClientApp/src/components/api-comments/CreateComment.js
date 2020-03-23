@@ -15,7 +15,16 @@ export class CreateComment extends Component {
 
         this.handleData = this.handleData.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleAddEmoji = this.handleAddEmoji.bind(this);
+        this.handleEmojiPicker = this.handleEmojiPicker.bind(this);
     }
+
+    handleAddEmoji = e => {
+        let emoji = e.native;
+        this.setState({
+            text: this.state.text + emoji
+        });
+    };
 
     handleChange = ({ target }) => {
         this.setState({ [target.name]: target.value });
@@ -40,17 +49,27 @@ export class CreateComment extends Component {
                 'Content-Type': 'application/json'
             }
         })
-        .then(result => {
-            console.log(result);
-            this.setState({text: ""})
-        })
-        .catch(errors => console.log(errors));
+            .then(result => {
+                console.log(result);
+                this.setState({ text: "" })
+            })
+            .catch(errors => console.log(errors));
+    }
+
+    handleEmojiPicker = (event) => {
+        let emojiPicker = document.getElementById("emoji-picker")
+        
+        if (emojiPicker.style.display == "block") {
+            emojiPicker.style.display = "none";
+        } else {
+            emojiPicker.style.display = "block";
+        }
     }
 
     render() {
         return (
             <CreateCommentComponent handleData={this.handleData} state={this.state}
-                handleChange={this.handleChange} />
+                handleChange={this.handleChange} addEmoji={this.handleAddEmoji} showPicker={this.handleEmojiPicker} />
         );
     }
 }

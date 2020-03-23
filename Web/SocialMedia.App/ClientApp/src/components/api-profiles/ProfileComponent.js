@@ -23,7 +23,7 @@ function ProfileComponent(params) {
 									<div className="col-12 col-lg-2 col-md-6 text-center">
 										<img src={params.data.profilePictureUrl} alt="" className="mx-auto rounded-circle img-fluid" />
 
-										{params.data.userName == params.state.currentUserName ? 
+										{params.data.userName === params.state.currentUserName ? 
 										<Link to={`/authentication/profile`}>
 										<button className="btn btn-primary fbtwn-margin">Settings</button></Link> : 
 										<button onClick={params.handleAction} className="btn btn-block btn-outline-success fwbtn-margin"><span className="fa fa-plus-circle"></span>{params.state.btnText}</button>}

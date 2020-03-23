@@ -63,7 +63,8 @@ export class Like extends Component {
         })
             .then(result => 
             {
-                this.setState({likesCount: this.state.likesCount + 1})
+                this.setState({ likesCount: this.state.likesCount + 1 })
+                console.log(this.state.pictures)
             })
         .catch(error => console.log(error));
     }
@@ -83,6 +84,7 @@ export class Like extends Component {
         })
             .then(result => {
                 this.setState({ likesCount: this.state.likesCount - 1 })
+                console.log(this.state.pictures)
         })
         .catch(error => console.log(error));
     }

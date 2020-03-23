@@ -34,8 +34,6 @@ export class Feed extends Component {
         let response = await axios.get(`/api/Posts/All?id=${this.state.userId}`)
 
         this.setState({ data: response.data });
-
-        console.log(response.data);
     }
 
     render() {

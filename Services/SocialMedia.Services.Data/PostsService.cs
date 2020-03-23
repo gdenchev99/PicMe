@@ -56,7 +56,7 @@
             await this.blobService.DeleteImageAsync(mediaUrl);
 
             // Delete the entire post
-            this.postRepository.Delete(post);
+            this.postRepository.HardDelete(post);
 
             var result = await this.postRepository.SaveChangesAsync() > 0;
 
