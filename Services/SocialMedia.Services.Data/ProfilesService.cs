@@ -1,5 +1,6 @@
 ﻿namespace SocialMedia.Services.Data
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
@@ -67,6 +68,24 @@
             await this.userFollowerRepository.SaveChangesAsync();
 
             return "Unfollowed user successfully";
+        }
+
+        public async Task<IEnumerable<FollowerViewModel>> GetUserFollowersAsync(string username)
+        {
+            var user = await this.userRepository.All()
+                .FirstOrDefaultAsync(u => u.UserName == username);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var followers = await this.userFollowerRepository.All()
+                .Where(f => f.User.UserName == username)
+                .To<FollowerViewModel>()
+                .ToListAsync();
+
+            return followers;
         }
     }
 }

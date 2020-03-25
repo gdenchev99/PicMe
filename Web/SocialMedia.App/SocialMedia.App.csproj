@@ -44,6 +44,7 @@
     <ProjectReference Include="..\..\Services\SocialMedia.Services.Mapping\SocialMedia.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\SocialMedia.Services.Messaging\SocialMedia.Services.Messaging.csproj" />
     <ProjectReference Include="..\..\Services\SocialMedia.Services\SocialMedia.Services.csproj" />
+    <ProjectReference Include="..\SocialMedia.Features\SocialMedia.Features.csproj" />
     <ProjectReference Include="..\SocialMedia.Helpers\SocialMedia.Helpers.csproj" />
     <ProjectReference Include="..\SocialMedia.Web.Infrastructure\SocialMedia.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\SocialMedia.Web.ViewModels\SocialMedia.Web.ViewModels.csproj" />

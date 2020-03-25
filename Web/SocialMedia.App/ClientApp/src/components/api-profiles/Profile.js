@@ -5,8 +5,8 @@ import authService from '../api-authorization/AuthorizeService';
 
 export class Profile extends Component {
 
-    constructor(params) {
-        super(params);
+    constructor(props) {
+        super(props);
         this.state = {
             data: {},
             posts: [],
@@ -17,6 +17,12 @@ export class Profile extends Component {
         }
 
         this.handleAction = this.handleAction.bind(this);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.match.params.username !== this.props.match.params.username) {
+            this.handleData();
+        }
     }
 
     async componentDidMount() {

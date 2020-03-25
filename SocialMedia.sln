@@ -49,7 +49,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialMedia.App", "Web\Soci
 		{415FD7FA-0453-4FE1-9A29-C6E1D8B45C3D} = {415FD7FA-0453-4FE1-9A29-C6E1D8B45C3D}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialMedia.Helpers", "Web\SocialMedia.Helpers\SocialMedia.Helpers.csproj", "{C5C7CD86-0441-4B53-AA14-76895BC7A97F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialMedia.Helpers", "Web\SocialMedia.Helpers\SocialMedia.Helpers.csproj", "{C5C7CD86-0441-4B53-AA14-76895BC7A97F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialMedia.Features", "Web\SocialMedia.Features\SocialMedia.Features.csproj", "{FB676EC6-3D62-4FA6-B798-D04259B65401}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,6 +119,10 @@ Global
 		{C5C7CD86-0441-4B53-AA14-76895BC7A97F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5C7CD86-0441-4B53-AA14-76895BC7A97F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5C7CD86-0441-4B53-AA14-76895BC7A97F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB676EC6-3D62-4FA6-B798-D04259B65401}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB676EC6-3D62-4FA6-B798-D04259B65401}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB676EC6-3D62-4FA6-B798-D04259B65401}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB676EC6-3D62-4FA6-B798-D04259B65401}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -136,6 +142,7 @@ Global
 		{13B7AACB-9C85-4409-8D4B-95A67D0DFFF7} = {E389DEB6-5F90-444B-A054-12A10D39C76F}
 		{4ABA7BC6-4CA6-49F6-A3BA-893CEFB50CC6} = {E389DEB6-5F90-444B-A054-12A10D39C76F}
 		{C5C7CD86-0441-4B53-AA14-76895BC7A97F} = {E389DEB6-5F90-444B-A054-12A10D39C76F}
+		{FB676EC6-3D62-4FA6-B798-D04259B65401} = {E389DEB6-5F90-444B-A054-12A10D39C76F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {384484BE-4680-4529-9CC2-AD37BA4D12D1}

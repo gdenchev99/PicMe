@@ -36,6 +36,8 @@
 
         public DbSet<Like> Likes { get; set; }
 
+        public DbSet<Message> Messages { get; set; }
+
         public DbSet<UserFollower> UserFollowers { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
@@ -154,6 +156,17 @@
                     .WithMany(p => p.Likes)
                     .HasForeignKey(l => l.PostId)
                     .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<Message>(entity =>
+            {
+                entity.HasOne(m => m.FromUser)
+                    .WithMany(u => u.SentMessages)
+                    .HasForeignKey(m => m.FromUserId);
+
+                entity.HasOne(m => m.ToUser)
+                    .WithMany(u => u.ReceivedMessages)
+                    .HasForeignKey(m => m.ToUserId);
             });
         }
 

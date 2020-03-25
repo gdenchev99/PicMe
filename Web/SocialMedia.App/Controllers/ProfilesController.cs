@@ -43,5 +43,13 @@ namespace SocialMedia.App.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("Followers")]
+        public async Task<IActionResult> Followers(string username)
+        {
+            var result = await this.service.GetUserFollowersAsync(username);
+
+            return Ok(result);
+        }
     }
 }

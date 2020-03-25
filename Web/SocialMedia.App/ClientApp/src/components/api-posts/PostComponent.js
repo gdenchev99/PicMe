@@ -62,7 +62,7 @@ function PostComponent(params) {
                     {/* Import the create comment textarea and likes area*/}
                     <div className="modal-meta-bottom">
                         <Like postId={params.postId} />
-                        <CreateComment postId={params.postId} />
+                        <div className="post-comments-component"><CreateComment postId={params.postId} /></div>
                     </div>
                 </div>
             </div>

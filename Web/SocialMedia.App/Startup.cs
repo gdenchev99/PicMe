@@ -26,6 +26,7 @@ using Microsoft.AspNetCore.Http;
 using SocialMedia.Web.ViewModels.Posts;
 using SocialMedia.Helpers;
 using SocialMedia.Services;
+using SocialMedia.Features.Chat;
 
 namespace SocialMedia.App
 {
@@ -56,6 +57,8 @@ namespace SocialMedia.App
                     options.MinimumSameSitePolicy = SameSiteMode.None;
                 });
 
+            services.AddSignalR();
+
             services.Configure<BlobConfiguration>(this.configuration.GetSection("AzureBlob"));
 
             services.AddIdentityServer()
@@ -84,6 +87,7 @@ namespace SocialMedia.App
             services.AddTransient<IProfilesService, ProfilesService>();
             services.AddTransient<ICommentsService, CommentsService>();
             services.AddTransient<ILikesService, LikesService>();
+            services.AddTransient<IMessagesService, MessagesService>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -128,6 +132,7 @@ namespace SocialMedia.App
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapHub<ChatHub>("/chatHub");
             });
 
             app.UseSpa(spa =>

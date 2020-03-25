@@ -48,7 +48,7 @@ function FeedComponent(params) {
                             </div>
                             <Like postId ={post.id}/>
                             <FeedComments postId={post.id} commentsCount={post.commentsCount}/>
-                            <CreateComment postId={post.id} />
+                                <div className="feed-comments-component"><CreateComment postId={post.id} /></div>
                         </div>
 
                     </div>
