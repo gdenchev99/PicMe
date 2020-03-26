@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ProfileComponent from './ProfileComponent';
 import axios from 'axios';
 import authService from '../api-authorization/AuthorizeService';
+import profileService from './ProfileService';
 
 export class Profile extends Component {
 
@@ -42,52 +43,32 @@ export class Profile extends Component {
 
         let currentUser = await authService.getUser();
         let currentUserName = currentUser.name;
-        this.setState({currentUserName: currentUserName});
+        this.setState({ currentUserName: currentUserName });
+        
+        let isFollowing = await profileService.isFollowing(currentUserName, this.state.data.followers);
 
-         if (this.state.data.followers.some(f => f.followerUserName == currentUserName)) {
-             this.setState({isFollowing: true, btnText:"Unfollow"});
+         if (isFollowing) {
+             this.setState({isFollowing: isFollowing, btnText:"Unfollow"});
          }
     }
 
     handleAddFollower = async() => {
         let currentUser = await authService.getUser();
         let followerId = currentUser.sub;
-
-        let data = {
-            userId: this.state.data.id,
-            followerId: followerId
-        };
         
-        axios.post("/api/Profiles/Follow", data, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(result => {
-            console.log(result);
-            this.setState({btnText: "Unfollow", isFollowing: true, followersCount: this.state.followersCount + 1})
-        })
-        .catch(error => console.log(error));
+        profileService.addFollower(this.state.data.id, followerId)
+            .then(() => {
+                this.setState({ btnText: "Unfollow", isFollowing: true, followersCount: this.state.followersCount + 1 })
+            })
+            .catch(error => console.log(error));
     }
 
     handleRemoveFollower = async() => {
         let currentUser = await authService.getUser();
         let followerId = currentUser.sub;
 
-        let data = {
-            userId: this.state.data.id,
-            followerId: followerId
-        };
-        
-        axios.post("/api/Profiles/Unfollow", data, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(result => {
-            console.log(result);
+        profileService.removeFollower(this.state.data.id, followerId)
+        .then(() => {
             this.setState({btnText: "Follow", isFollowing: false, followersCount: this.state.followersCount - 1})
         })
         .catch(error => console.log(error));

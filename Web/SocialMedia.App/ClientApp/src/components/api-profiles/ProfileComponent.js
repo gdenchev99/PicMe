@@ -29,7 +29,7 @@ function ProfileComponent(params) {
 										<button onClick={params.handleAction} className="btn btn-block btn-outline-success fwbtn-margin"><span className="fa fa-plus-circle"></span>{params.state.btnText}</button>}
 									</div>
 									<div className="col-12 col-lg-4">
-										<h3 className="mb-0">Followers</h3>
+										<Link to={`${params.data.userName}/followers`}><h3 className="mb-0">Followers</h3></Link>
 										<h5>{params.state.followersCount}</h5>
 									</div>
 									<div className="col-12 col-lg-4">

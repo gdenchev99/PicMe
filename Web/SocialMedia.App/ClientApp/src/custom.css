@@ -657,6 +657,9 @@ textarea::placeholder {
   color: #333;
   background-color: #fff;
   border-color: #ccc;
+  position: absolute;
+  right: 1rem;
+  top: 1px;
 }
 
 .btn-default:hover {

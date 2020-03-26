@@ -30,7 +30,7 @@ function CreatePostComponent(params) {
                         <div className="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
                             <div className="form-group">
                                 <div className="custom-file">
-                                    <input type="file" className="custom-file-input" id="customFile"
+                                    <input type="file" accept="video/*, image/*" className="custom-file-input" id="customFile"
                                         onChange={params.handleMedia} />
                                     <label className="custom-file-label" htmlFor="customFile">{params.state.fileName}</label>
                                 </div>
