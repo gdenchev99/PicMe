@@ -23,10 +23,10 @@ function ProfileComponent(params) {
 									<div className="col-12 col-lg-2 col-md-6 text-center">
 										<img src={params.data.profilePictureUrl} alt="" className="mx-auto rounded-circle img-fluid" />
 
-										{params.data.userName === params.state.currentUserName ? 
-										<Link to={`/authentication/profile`}>
-										<button className="btn btn-primary fbtwn-margin">Settings</button></Link> : 
-										<button onClick={params.handleAction} className="btn btn-block btn-outline-success fwbtn-margin"><span className="fa fa-plus-circle"></span>{params.state.btnText}</button>}
+										{params.data.userName === params.state.currentUserName ?
+											<Link to={`/authentication/profile`}>
+												<button className="btn btn-primary fbtwn-margin">Settings</button></Link> :
+											<button onClick={params.handleAction} className="btn btn-block btn-outline-success fwbtn-margin"><span className="fa fa-plus-circle"></span>{params.state.btnText}</button>}
 									</div>
 									<div className="col-12 col-lg-4">
 										<Link to={`${params.data.userName}/followers`}><h3 className="mb-0">Followers</h3></Link>
@@ -48,7 +48,11 @@ function ProfileComponent(params) {
 
 					{params.state.posts.map(post =>
 						<div key={post.id} className="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
-							<Link to={`/post/${post.id}`}><img src={post.mediaSource} className="img-responsive gallery-images" /></Link>
+							<Link to={`/post/${post.id}`}>
+								{post.mediaSource.substr(post.mediaSource.lastIndexOf('.')) === ".mp4" ?
+									<video src={post.mediaSource} className="img-responsive gallery-images" /> :
+									<img src={post.mediaSource} className="img-responsive gallery-images" />}
+							</Link>
 						</div>)}
 				</div>
 			</div>

@@ -14,17 +14,17 @@
     public class PostsService : IPostsService
     {
         private readonly IDeletableEntityRepository<Post> postRepository;
-        private readonly IBlobService blobService;
+        private readonly ICloudinaryService cloudinaryService;
 
-        public PostsService(IDeletableEntityRepository<Post> postRepository, IBlobService blobService)
+        public PostsService(IDeletableEntityRepository<Post> postRepository, ICloudinaryService cloudinaryService)
         {
             this.postRepository = postRepository;
-            this.blobService = blobService;
+            this.cloudinaryService = cloudinaryService;
         }
 
         public async Task<bool> CreateAsync(PostCreateModel postCreateModel)
         {
-            var mediaUrl = await this.blobService.UploadImageAsync(postCreateModel.MediaSource);
+            var mediaUrl = await this.cloudinaryService.UploadFileAsync(postCreateModel.MediaSource);
 
             var post = new Post
             {
@@ -52,8 +52,7 @@
 
             var mediaUrl = post.MediaSource;
 
-            // Delete the media from Azure blob
-            await this.blobService.DeleteImageAsync(mediaUrl);
+            // Delete the media from Cloud
 
             // Delete the entire post
             this.postRepository.HardDelete(post);

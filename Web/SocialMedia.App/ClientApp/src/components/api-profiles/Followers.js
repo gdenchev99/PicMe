@@ -3,7 +3,6 @@ import FollowersComponent from './FollowersComponent';
 import axios from 'axios';
 import authService from '../api-authorization/AuthorizeService';
 import profileService from './ProfileService';
-import { ButtonType } from './ProfileConstants';
 
 export class Followers extends Component {
 

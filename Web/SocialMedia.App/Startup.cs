@@ -59,7 +59,7 @@ namespace SocialMedia.App
 
             services.AddSignalR();
 
-            services.Configure<BlobConfiguration>(this.configuration.GetSection("AzureBlob"));
+            services.Configure<CloudinaryConfig>(this.configuration.GetSection("Cloudinary"));
 
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
@@ -79,7 +79,7 @@ namespace SocialMedia.App
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             //Helper services
-            services.AddTransient<IBlobService, BlobService>();
+            services.AddTransient<ICloudinaryService, CloudinaryService>();
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
