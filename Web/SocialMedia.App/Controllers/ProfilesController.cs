@@ -51,5 +51,13 @@ namespace SocialMedia.App.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("Followings")]
+        public async Task<IActionResult> Followings(string username)
+        {
+            var result = await this.service.GetUserFollowingsAsync(username);
+
+            return Ok(result);
+        }
     }
 }

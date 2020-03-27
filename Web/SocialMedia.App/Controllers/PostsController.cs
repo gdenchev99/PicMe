@@ -81,5 +81,13 @@ namespace SocialMedia.App.Controllers
 
             return Ok();
         }
+
+        [HttpGet("Profile")]
+        public async Task<IActionResult> Profile(string username)
+        {
+            var result = await this.service.GetProfilePostsAsync(username);
+
+            return Ok(result);
+        }
     }
 }

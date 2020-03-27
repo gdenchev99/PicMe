@@ -11,6 +11,7 @@ export class Profile extends Component {
         this.state = {
             data: {},
             posts: [],
+            postsCount: 0,
             isFollowing: false,
             currentUserName: "",
             btnText: "Follow",
@@ -34,9 +35,15 @@ export class Profile extends Component {
     handleData = async() => {
         let username = this.props.match.params.username;
 
-        let response = await axios.get(`/api/Profiles/Get?username=${username}`)
+        let profileResponse = await axios.get(`/api/Profiles/Get?username=${username}`);
+        let postsResponse = await axios.get(`/api/Posts/Profile?username=${username}`);
 
-        this.setState({data: response.data, posts: response.data.posts, followersCount: response.data.followersCount});
+        this.setState({
+            data: profileResponse.data,
+            posts: postsResponse.data,
+            postsCount: postsResponse.data.length,
+            followersCount: profileResponse.data.followersCount
+        });
     }
 
     handleFollowing = async() => {

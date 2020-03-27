@@ -12,20 +12,31 @@
     public class CloudinaryService : ICloudinaryService
     {
         private readonly IOptions<CloudinaryConfig> config;
+        private readonly IEncodeService encodeService;
 
-        public CloudinaryService(IOptions<CloudinaryConfig> config)
+        public CloudinaryService(IOptions<CloudinaryConfig> config, IEncodeService encodeService)
         {
             this.config = config;
+            this.encodeService = encodeService;
         }
 
-        public async Task<string> UploadFileAsync(IFormFile image)
+        /*
+         The method uploads files to Cloudinary asynchronosly and returns UploadResult
+         */
+        public async Task<RawUploadResult> UploadFileAsync(IFormFile image, string userId)
         {
             var cloudinary = this.Cloudinary();
 
             var streamReader = new StreamReader(image.OpenReadStream());
 
             var fileName = DateTime.Now.ToUniversalTime().ToString("yyyyMMdd\\THHmmssfff");
-            var folder = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd");
+
+            // Encode the uploader's id to Base64. Better encryption later on.
+            var encodedUserId = this.encodeService.Base64Encode(userId);
+
+            /* Set the folder to which the pictures will be uploaded as the ecnoded id + the current days date,
+            so the images are sorted for each user. */
+            var folder = encodedUserId + "/" + DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd");
 
             var file = new FileDescription(fileName, streamReader.BaseStream);
 
@@ -37,9 +48,24 @@
 
             var uploadResult = await cloudinary.UploadAsync(uploadParams);
 
-            return uploadResult.SecureUri.ToString();
+            return uploadResult;
         }
 
+        /*
+         The method deletes a file from Cloudinary asynchronosly
+         */
+        public async Task DeleteFileAsync(string publicId)
+        {
+            var cloudinary = this.Cloudinary();
+
+            var deletionParams = new DeletionParams(publicId);
+
+            await cloudinary.DestroyAsync(deletionParams);
+        }
+
+        /*
+         Create an instance of Cloudinary using the configuration from appsettings.
+         */
         private Cloudinary Cloudinary()
         {
             Account account = new Account(

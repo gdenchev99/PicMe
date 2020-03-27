@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import FollowersComponent from './FollowersComponent';
+import FollowingsComponent from './FollowingsComponent';
 import axios from 'axios';
 
-export class Followers extends Component {
+export class Followings extends Component {
 
     constructor(props) {
         super(props);
@@ -15,20 +15,20 @@ export class Followers extends Component {
     }
 
     async componentDidMount() {
-        await this.handleGetFollowers();
+        await this.handleGetFollowings();
     }
 
-    handleGetFollowers = async () => {
+    handleGetFollowings = async () => {
         let username = this.props.match.params.username;
 
-        const result = await axios.get(`/api/Profiles/Followers?username=${username}`);
+        const result = await axios.get(`/api/Profiles/Followings?username=${username}`);
 
         this.setState({ data: result.data, username: username });
     }
 
     render() {
         return (
-            <FollowersComponent data={this.state.data} username={this.state.username}/>
+            <FollowingsComponent data={this.state.data} username={this.state.username} />
         );
     }
 }

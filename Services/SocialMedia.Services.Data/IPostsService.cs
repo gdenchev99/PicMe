@@ -14,5 +14,7 @@
         Task<IEnumerable<FeedViewModel>> GetAllAsync(string id);
 
         Task<PostViewModel> GetAsync(int id);
+
+        Task<IEnumerable<ProfilePostViewModel>> GetProfilePostsAsync(string username);
     }
 }

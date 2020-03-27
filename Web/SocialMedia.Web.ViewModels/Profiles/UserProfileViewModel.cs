@@ -17,13 +17,9 @@
 
         public string ProfilePictureUrl { get; set; }
 
-        public ICollection<UserPostModel> Posts { get; set; }
-
         public ICollection<UserFollowerModel> Followers { get; set; }
 
         public ICollection<UserFollowingModel> Followings { get; set; }
-
-        public int PostsCount => this.Posts.Count;
 
         public int FollowersCount => this.Followers.Count;
 

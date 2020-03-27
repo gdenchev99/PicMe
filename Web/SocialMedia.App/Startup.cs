@@ -80,6 +80,7 @@ namespace SocialMedia.App
 
             //Helper services
             services.AddTransient<ICloudinaryService, CloudinaryService>();
+            services.AddTransient<IEncodeService, EncodeService>();
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();

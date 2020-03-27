@@ -14,5 +14,8 @@
         Task<string> RemoveFollowerAsync(AddFollowerModel model);
 
         Task<IEnumerable<FollowerViewModel>> GetUserFollowersAsync(string username);
+
+        Task<IEnumerable<FollowingViewModel>> GetUserFollowingsAsync(string username);
+
     }
 }

@@ -19,6 +19,8 @@
         [Required]
         public string MediaSource { get; set; }
 
+        public string MediaPublicId { get; set; }
+
         public string CreatorId { get; set; }
 
         public ApplicationUser Creator { get; set; }

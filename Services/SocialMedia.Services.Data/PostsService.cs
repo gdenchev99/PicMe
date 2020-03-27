@@ -24,12 +24,16 @@
 
         public async Task<bool> CreateAsync(PostCreateModel postCreateModel)
         {
-            var mediaUrl = await this.cloudinaryService.UploadFileAsync(postCreateModel.MediaSource);
+            var uploadResult = await this.cloudinaryService.UploadFileAsync(postCreateModel.MediaSource, postCreateModel.CreatorId);
+            var mediaUrl = uploadResult.SecureUri.ToString();
+            var publicId = uploadResult.PublicId;
+
 
             var post = new Post
             {
                 Description = postCreateModel.Description,
                 MediaSource = mediaUrl,
+                MediaPublicId = publicId,
                 CreatorId = postCreateModel.CreatorId,
             };
 
@@ -50,9 +54,10 @@
                 return false;
             }
 
-            var mediaUrl = post.MediaSource;
+            var publicId = post.MediaPublicId;
 
             // Delete the media from Cloud
+            await this.cloudinaryService.DeleteFileAsync(publicId);
 
             // Delete the entire post
             this.postRepository.HardDelete(post);
@@ -102,6 +107,17 @@
             }
 
             return post;
+        }
+
+        public async Task<IEnumerable<ProfilePostViewModel>> GetProfilePostsAsync(string username)
+        {
+            var posts = await this.postRepository.All()
+                .Where(p => p.Creator.UserName == username)
+                .OrderByDescending(p => p.CreatedOn)
+                .To<ProfilePostViewModel>()
+                .ToListAsync();
+
+            return posts;
         }
     }
 }

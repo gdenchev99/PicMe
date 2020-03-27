@@ -33,13 +33,13 @@ function ProfileComponent(params) {
 										<h5>{params.state.followersCount}</h5>
 									</div>
 									<div className="col-12 col-lg-4">
-										<h3 className="mb-0">Following</h3>
+										<Link to={`${params.data.userName}/followings`}><h3 className="mb-0">Following</h3></Link>
 										<h5>{params.data.followingsCount}</h5>
 
 									</div>
 									<div className="col-12 col-lg-4">
 										<h3 className="mb-0">Posts</h3>
-										<h5>{params.data.postsCount}</h5>
+										<h5>{params.state.postsCount}</h5>
 									</div>
 								</div>
 							</div>

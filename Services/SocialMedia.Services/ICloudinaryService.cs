@@ -1,10 +1,14 @@
 ﻿namespace SocialMedia.Services
 {
-    using Microsoft.AspNetCore.Http;
     using System.Threading.Tasks;
+
+    using CloudinaryDotNet.Actions;
+    using Microsoft.AspNetCore.Http;
 
     public interface ICloudinaryService
     {
-        public Task<string> UploadFileAsync(IFormFile file);
+        Task<RawUploadResult> UploadFileAsync(IFormFile file, string userId);
+
+        Task DeleteFileAsync(string publicId);
     }
 }
