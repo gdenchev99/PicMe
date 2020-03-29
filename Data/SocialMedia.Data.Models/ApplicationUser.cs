@@ -38,6 +38,8 @@ namespace SocialMedia.Data.Models
         [PersonalData]
         public string ProfilePictureUrl { get; set; }
 
+        public string PicturePublicId { get; set; }
+
         // Followers
         public ICollection<UserFollower> Followers { get; set; }
 

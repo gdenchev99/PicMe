@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using SocialMedia.Data.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using SocialMedia.Services.Messaging;
 
 namespace SocialMedia.App.Areas.Identity.Pages.Account
 {
@@ -88,9 +88,10 @@ namespace SocialMedia.App.Areas.Identity.Pages.Account
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            var defaultProfilePicture = @"https://res.cloudinary.com/dibntzvzk/image/upload/v1585424980/DefaultPhotos/240_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju_vcoocw.jpg";
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Username, FirstName = Input.FirstName, LastName = Input.LastName, Email = Input.Email };
+                var user = new ApplicationUser { UserName = Input.Username, FirstName = Input.FirstName, LastName = Input.LastName, Email = Input.Email, ProfilePictureUrl = defaultProfilePicture };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -104,7 +105,7 @@ namespace SocialMedia.App.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    await _emailSender.SendEmailAsync("admin@localhost.com", "admin", Input.Email, "Email confirmation at localhost",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)

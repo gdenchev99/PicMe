@@ -60,6 +60,7 @@ namespace SocialMedia.App
             services.AddSignalR();
 
             services.Configure<CloudinaryConfig>(this.configuration.GetSection("Cloudinary"));
+            services.Configure<SendGridConfig>(this.configuration.GetSection("SendGrid"));
 
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
@@ -83,7 +84,7 @@ namespace SocialMedia.App
             services.AddTransient<IEncodeService, EncodeService>();
 
             // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<IEmailSender, SendGridEmailSender>();
             services.AddTransient<IPostsService, PostsService>();
             services.AddTransient<IProfilesService, ProfilesService>();
             services.AddTransient<ICommentsService, CommentsService>();

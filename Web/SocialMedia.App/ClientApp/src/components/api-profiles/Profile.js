@@ -15,10 +15,12 @@ export class Profile extends Component {
             isFollowing: false,
             currentUserName: "",
             btnText: "Follow",
-            followersCount: 0
+            followersCount: 0,
+            profilePicture: ""
         }
 
         this.handleAction = this.handleAction.bind(this);
+        this.handleMedia = this.handleMedia.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -32,7 +34,7 @@ export class Profile extends Component {
         await this.handleFollowing();
     }
 
-    handleData = async() => {
+    handleData = async () => {
         let username = this.props.match.params.username;
 
         let profileResponse = await axios.get(`/api/Profiles/Get?username=${username}`);
@@ -40,29 +42,30 @@ export class Profile extends Component {
 
         this.setState({
             data: profileResponse.data,
+            profilePicture: profileResponse.data.profilePictureUrl,
             posts: postsResponse.data,
             postsCount: postsResponse.data.length,
             followersCount: profileResponse.data.followersCount
         });
     }
 
-    handleFollowing = async() => {
+    handleFollowing = async () => {
 
         let currentUser = await authService.getUser();
         let currentUserName = currentUser.name;
         this.setState({ currentUserName: currentUserName });
-        
+
         let isFollowing = await profileService.isFollowing(currentUserName, this.state.data.followers);
 
-         if (isFollowing) {
-             this.setState({isFollowing: isFollowing, btnText:"Unfollow"});
-         }
+        if (isFollowing) {
+            this.setState({ isFollowing: isFollowing, btnText: "Unfollow" });
+        }
     }
 
-    handleAddFollower = async() => {
+    handleAddFollower = async () => {
         let currentUser = await authService.getUser();
         let followerId = currentUser.sub;
-        
+
         profileService.addFollower(this.state.data.id, followerId)
             .then(() => {
                 this.setState({ btnText: "Unfollow", isFollowing: true, followersCount: this.state.followersCount + 1 })
@@ -70,15 +73,15 @@ export class Profile extends Component {
             .catch(error => console.log(error));
     }
 
-    handleRemoveFollower = async() => {
+    handleRemoveFollower = async () => {
         let currentUser = await authService.getUser();
         let followerId = currentUser.sub;
 
         profileService.removeFollower(this.state.data.id, followerId)
-        .then(() => {
-            this.setState({btnText: "Follow", isFollowing: false, followersCount: this.state.followersCount - 1})
-        })
-        .catch(error => console.log(error));
+            .then(() => {
+                this.setState({ btnText: "Follow", isFollowing: false, followersCount: this.state.followersCount - 1 })
+            })
+            .catch(error => console.log(error));
     }
 
     handleAction = () => {
@@ -89,12 +92,38 @@ export class Profile extends Component {
         }
     }
 
+    handleMedia = async (event) => {
+        event.persist();
+        let user = await authService.getUser();
+        let username = user.name;
+
+        if (event.target.files && event.target.files[0]) {
+            let file = event.target.files[0];
+
+            let data = new FormData();
+            data.append("picture", file);
+            data.set("username", username);
+
+            this.setState({ loading: true })
+            await axios.post('/api/Profiles/ProfilePicture', data, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(result => this.setState({ profilePicture: result.data }));
+        }
+    }
+
     render() {
-        return(
+        return (
             <div>
-            {this.state && this.state.data &&
-            <ProfileComponent data={this.state.data} state={this.state}  handleAction={this.handleAction} />
-            }
+                {this.state && this.state.data &&
+                    <ProfileComponent data={this.state.data}
+                        state={this.state}
+                        handleAction={this.handleAction}
+                        handleMedia={this.handleMedia} />
+                }
             </div>
         );
     }

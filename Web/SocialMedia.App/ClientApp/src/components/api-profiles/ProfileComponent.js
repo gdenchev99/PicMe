@@ -17,11 +17,18 @@ function ProfileComponent(params) {
 										<h3 className="mb-0 text-truncated">{params.data.userName}</h3>
 										<p className="lead">{params.data.firstName + " " + params.data.lastName}</p>
 										<p>
-											I love to read, hang out with friends, watch football, listen to music, and learn new things.
+											Bio goes here
                            			    </p>
 									</div>
 									<div className="col-12 col-lg-2 col-md-6 text-center">
-										<img src={params.data.profilePictureUrl} alt="" className="mx-auto rounded-circle img-fluid" />
+										<div>
+											<label htmlFor="img-input">
+												<img src={params.state.profilePicture}
+													className="mx-auto rounded-circle img-fluid profile-picture" />
+											</label>
+											{params.data.userName === params.state.currentUserName ?
+												<input id="img-input" type="file" onChange={params.handleMedia} hidden /> : null}
+										</div>
 
 										{params.data.userName === params.state.currentUserName ?
 											<Link to={`/authentication/profile`}>

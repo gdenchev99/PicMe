@@ -4,17 +4,18 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using Microsoft.Extensions.Options;
     using SendGrid;
     using SendGrid.Helpers.Mail;
+    using SocialMedia.Helpers;
 
     public class SendGridEmailSender : IEmailSender
     {
         private readonly SendGridClient client;
 
-        public SendGridEmailSender(string apiKey)
+        public SendGridEmailSender(IOptions<SendGridConfig> config)
         {
-            this.client = new SendGridClient(apiKey);
+            this.client = new SendGridClient(config.Value.ApiKey);
         }
 
         public async Task SendEmailAsync(string from, string fromName, string to, string subject, string htmlContent, IEnumerable<EmailAttachment> attachments = null)

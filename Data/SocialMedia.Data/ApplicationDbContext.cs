@@ -124,12 +124,12 @@
                 entity.HasOne(uf => uf.User)
                     .WithMany(u => u.Followers)
                     .HasForeignKey(uf => uf.UserId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(uf => uf.Follower)
                     .WithMany(u => u.Followings)
                     .HasForeignKey(uf => uf.FollowerId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<Comment>(entity =>

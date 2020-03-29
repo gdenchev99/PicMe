@@ -1,11 +1,13 @@
 ﻿namespace SocialMedia.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
     using SocialMedia.Data.Common.Repositories;
     using SocialMedia.Data.Models;
+    using SocialMedia.Services;
     using SocialMedia.Services.Mapping;
     using SocialMedia.Web.ViewModels.Profiles;
 
@@ -13,11 +15,15 @@
     {
         private readonly IRepository<ApplicationUser> userRepository;
         private readonly IRepository<UserFollower> userFollowerRepository;
+        private readonly ICloudinaryService cloudinaryService;
 
-        public ProfilesService(IRepository<ApplicationUser> userRepository, IRepository<UserFollower> userFollowerRepository)
+        public ProfilesService(IRepository<ApplicationUser> userRepository, 
+            IRepository<UserFollower> userFollowerRepository,
+            ICloudinaryService cloudinaryService)
         {
             this.userRepository = userRepository;
             this.userFollowerRepository = userFollowerRepository;
+            this.cloudinaryService = cloudinaryService;
         }
 
         /*
@@ -119,6 +125,37 @@
                 .ToListAsync();
 
             return followings;
+        }
+
+        public async Task<string> UploadProfilePicture(UploadPictureInputModel model)
+        {
+            var username = model.Username;
+            var picture = model.Picture;
+
+            var user = this.userRepository.All()
+                .FirstOrDefault(u => u.UserName == username);
+
+            var publicId = user.PicturePublicId;
+
+            // Delete the current profile picture from the cloud if the user has one.
+            if (publicId != null)
+            {
+                await this.cloudinaryService.DeleteFileAsync(publicId);
+            }
+
+            // Upload the new picture to the cloud
+            var uploadResult = await this.cloudinaryService.UploadFileAsync(picture, user.Id);
+
+            var profilePictureUrl = uploadResult.SecureUri.ToString();
+            var picturePublicId = uploadResult.PublicId;
+
+            user.ProfilePictureUrl = profilePictureUrl;
+            user.PicturePublicId = picturePublicId;
+
+            this.userRepository.Update(user);
+            await this.userRepository.SaveChangesAsync();
+
+            return profilePictureUrl;
         }
     }
 }

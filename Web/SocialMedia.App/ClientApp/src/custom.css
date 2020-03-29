@@ -684,3 +684,8 @@ textarea::placeholder {
 .btn-toggle-following:hover i:before {
   content: '\f129';
 }
+
+/* Profile Picture */
+.profile-picture{
+  height: 118px;
+}

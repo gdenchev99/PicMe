@@ -59,5 +59,13 @@ namespace SocialMedia.App.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("ProfilePicture")]
+        public async Task<IActionResult> ProfilePicture([FromForm]UploadPictureInputModel model)
+        {
+            var result = await this.service.UploadProfilePicture(model);
+
+            return Ok(result);
+        }
     }
 }
