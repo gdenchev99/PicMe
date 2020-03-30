@@ -11,6 +11,7 @@ import { Profile } from './components/api-profiles/Profile';
 import { PrivateMessage } from './components/api-messages/PrivateMessage';
 import { Followers } from './components/api-profiles/Followers';
 import { Followings } from './components/api-profiles/Followings';
+import { NotFound } from './components/NotFound';
 
 import 'bootstrap';
 import './custom.css'
@@ -22,6 +23,7 @@ export default class App extends Component {
     return (
       <Layout>
         <Route exact path='/' component={Home} />
+        <Route exact path='/404' component={NotFound} />
         <AuthorizeRoute exact path='/createpost' component={ CreatePost } />
         <AuthorizeRoute exact path='/user/:username' component={Profile} />
         <AuthorizeRoute exact path='/user/:username/followers' component={Followers} />

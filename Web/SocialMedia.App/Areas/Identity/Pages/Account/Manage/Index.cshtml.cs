@@ -8,6 +8,7 @@ using SocialMedia.Data.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 
 namespace SocialMedia.App.Areas.Identity.Pages.Account.Manage
 {
@@ -15,13 +16,16 @@ namespace SocialMedia.App.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ILogger<IndexModel> logger;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            ILogger<IndexModel> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            this.logger = logger;
         }
 
         public string Username { get; set; }
@@ -34,6 +38,11 @@ namespace SocialMedia.App.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            [Required]
+            [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
+            [Display(Name = "Username")]
+            public string Username { get; set; }
+
             [Required]
             [Display(Name = "First Name")]
             public string FirstName { get; set; }
@@ -58,6 +67,7 @@ namespace SocialMedia.App.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
+                Username = userName,
                 FirstName = firstName,
                 LastName = lastName,
                 PhoneNumber = phoneNumber
@@ -101,6 +111,12 @@ namespace SocialMedia.App.Areas.Identity.Pages.Account.Manage
             if (Input.LastName != lastName)
             {
                 user.LastName = Input.LastName;
+            }
+
+            var username = await _userManager.GetUserNameAsync(user);
+            if (Input.Username != username)
+            {
+                var setUsername = await _userManager.SetUserNameAsync(user, Input.Username);
             }
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);

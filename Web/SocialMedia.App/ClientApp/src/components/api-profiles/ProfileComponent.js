@@ -53,7 +53,9 @@ function ProfileComponent(params) {
 						</div>
 					</div>
 
-					{params.state.posts.map(post =>
+					{params.state.isFollowing === false ?
+						<div className="offset-lg-3"><h3>This profile is private, please follow the user!</h3></div> :
+						params.state.posts.map(post =>
 						<div key={post.id} className="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
 							<Link to={`/post/${post.id}`}>
 								{post.mediaSource.substr(post.mediaSource.lastIndexOf('.')) === ".mp4" ?

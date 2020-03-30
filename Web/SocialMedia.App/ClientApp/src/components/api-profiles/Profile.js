@@ -16,7 +16,8 @@ export class Profile extends Component {
             currentUserName: "",
             btnText: "Follow",
             followersCount: 0,
-            profilePicture: ""
+            profilePicture: "",
+            isFollowing: false
         }
 
         this.handleAction = this.handleAction.bind(this);
@@ -31,7 +32,24 @@ export class Profile extends Component {
 
     async componentDidMount() {
         await this.handleData();
+
+        if (this.state.data.id == undefined) {
+            return this.props.history.push('/404');
+        }
+
+        await this.handleIsPrivate();
         await this.handleFollowing();
+    }
+
+    handleIsPrivate = async () => {
+        let user = await authService.getUser();
+        let username = user.name;
+        let followersUsernames = this.state.data.followers.map(f => f.followerUserName);
+
+        if (followersUsernames.includes(username)) {
+            this.setState({ isFollowing: true })
+        }
+
     }
 
     handleData = async () => {

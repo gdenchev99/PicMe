@@ -16,6 +16,11 @@ export class AuthorizeService {
         return !!user;
     }
 
+    async refreshUser() {
+        await this.ensureUserManagerInitialized();
+        await this.userManager.signinSilent();
+    }
+
     async getUser() {
         if (this._user && this._user.profile) {
             return this._user.profile;
@@ -23,6 +28,7 @@ export class AuthorizeService {
 
         await this.ensureUserManagerInitialized();
         const user = await this.userManager.getUser();
+        
         return user && user.profile;
     }
 

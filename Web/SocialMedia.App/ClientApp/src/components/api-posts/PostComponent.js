@@ -48,8 +48,8 @@ function PostComponent(params) {
                                         <div className="comment-text">
                                             <strong><Link to={"/user/" + params.data.creatorUserName}>
                                                 {params.data.creatorUserName}</Link></strong>
-                                            <p>{params.state.description}</p> <span className="date sub-text">
-                                                on {params.data.createdOnFormat}</span>
+                                            <p id="description">{params.state.description}</p>
+                                            <span className="date sub-text"> on {params.data.createdOnFormat}</span>
                                         </div>
                                     </li>
                                 </ul>}
