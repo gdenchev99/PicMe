@@ -46,7 +46,8 @@ export class Profile extends Component {
         let username = user.name;
         let followersUsernames = this.state.data.followers.map(f => f.followerUserName);
 
-        if (followersUsernames.includes(username)) {
+        if (followersUsernames.includes(username) || 
+            this.props.match.params.username == username) {
             this.setState({ isFollowing: true })
         }
 

@@ -239,6 +239,10 @@ text-align: center;
 
 }
 
+.comment-text>p>.btn {
+  padding: 0;
+}
+
 /* ------------------------------- */
 /* Author
 ---------------------------------- */
@@ -520,13 +524,12 @@ ul small{
     }
     
     .modal-meta-top {
-        position: static;
+        position: absolute;
         padding-top: 15px;
     }
     
     .modal-meta-bottom {
-        position: static;
-        margin: 0 -15px;
+        margin: 0;
     }
 }
 

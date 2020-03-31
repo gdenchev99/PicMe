@@ -57,10 +57,20 @@ namespace SocialMedia.App
                     options.MinimumSameSitePolicy = SameSiteMode.None;
                 });
 
-            services.AddSignalR();
-
+            services.Configure<IdentityOptions>(
+                options =>
+                {
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequireDigit = true;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireLowercase = true;
+                    options.Password.RequiredUniqueChars = 0;
+                });
             services.Configure<CloudinaryConfig>(this.configuration.GetSection("Cloudinary"));
             services.Configure<SendGridConfig>(this.configuration.GetSection("SendGrid"));
+
+            services.AddSignalR();
 
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();

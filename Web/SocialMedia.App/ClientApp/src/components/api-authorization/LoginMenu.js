@@ -15,9 +15,13 @@ export class LoginMenu extends Component {
     }
 
     async componentDidMount() {
-        await authService.refreshUser();
         this._subscription = authService.subscribe(() => this.populateState());
-        this.populateState();
+        await this.populateState();
+
+        if(this.state.isAuthenticated) {
+            await authService.refreshUser();
+            this.populateState();
+        }
     }
 
     componentWillUnmount() {
