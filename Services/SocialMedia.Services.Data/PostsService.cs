@@ -77,6 +77,7 @@
 
             var posts = await this.postRepository.All()
                 .Where(p => p.Creator.Followers.Any(x => x.FollowerId == id))
+                .OrderByDescending(p => p.CreatedOn)
                 .To<FeedViewModel>()
                 .ToListAsync();
 

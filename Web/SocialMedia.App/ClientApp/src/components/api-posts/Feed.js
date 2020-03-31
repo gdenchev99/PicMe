@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import FeedComponent from './FeedComponent';
 import axios from 'axios';
 import authService from '../api-authorization/AuthorizeService';
-import { Login } from '../api-authorization/Login';
-import { LoginActions } from '../api-authorization/ApiAuthorizationConstants';
 
 export class Feed extends Component {
 
@@ -14,6 +12,8 @@ export class Feed extends Component {
             userId: "",
             data: []
         }
+
+        this.loadMore = this.loadMore.bind(this);
     }
 
     async componentDidMount() {
@@ -34,6 +34,10 @@ export class Feed extends Component {
         let response = await axios.get(`/api/Posts/All?id=${this.state.userId}`)
 
         this.setState({ data: response.data });
+    }
+
+    loadMore = async () => {
+
     }
 
     render() {

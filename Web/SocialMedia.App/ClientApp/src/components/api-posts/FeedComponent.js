@@ -3,13 +3,15 @@ import { Link } from "react-router-dom";
 import { CreateComment } from "../api-comments/CreateComment";
 import { Like } from '../api-likes/Like';
 import { FeedComments } from '../api-comments/FeedComments';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 function FeedComponent(params) {
     return (
         <React.Fragment>
             {params.data.length <= 0 ?
                 <h2>No posts here, please follow people in order to see what they post!</h2> :
-                params.data.map(post => <div key={post.id} className="container">
+                <InfiniteScroll dataLength={params.data.length}>
+                {params.data.map(post => <div key={post.id} className="container">
                 <div className="row">
 
                     <div className="col-lg-7 offset-lg-2">
@@ -53,7 +55,8 @@ function FeedComponent(params) {
 
                     </div>
                 </div>
-            </div>)
+            </div>)}
+            </InfiniteScroll>
             }
         </React.Fragment>
     );

@@ -21,7 +21,7 @@ namespace SocialMedia.App.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromBody] CommentCreateModel model)
+        public async Task<IActionResult> Create([FromBody]CommentCreateModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -37,6 +37,19 @@ namespace SocialMedia.App.Controllers
             {
                 return BadRequest("Failed to add to the database.");
             }
+
+            return Ok();
+        }
+
+        [HttpPost("Delete")]
+        public async Task<IActionResult> Delete([FromQuery]int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest("Invalid id");
+            }
+
+            await this.service.DeleteAsync(id);
 
             return Ok();
         }

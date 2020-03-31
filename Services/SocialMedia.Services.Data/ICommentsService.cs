@@ -9,7 +9,7 @@
     {
         Task<bool> CreateAsync(CommentCreateModel model);
 
-        Task<bool> DeleteAsync();
+        Task DeleteAsync(int id);
 
         Task<IEnumerable<PostCommentViewModel>> GetPostCommentsAsync(int postId);
 

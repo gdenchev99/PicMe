@@ -7,8 +7,7 @@
 
     public class PostCommentViewModel : IMapFrom<Comment>
     {
-        // Random key for mapping(foreach in react) - to be fixed.
-        public int CustomId => new Random().Next() + new Random().Next();
+        public int Id { get; set; }
 
         public string CreatorUserName { get; set; }
 

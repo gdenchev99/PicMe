@@ -1,5 +1,6 @@
 ﻿namespace SocialMedia.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -35,9 +36,13 @@
             return result;
         }
 
-        public Task<bool> DeleteAsync()
+        public async Task DeleteAsync(int id)
         {
-            throw new System.NotImplementedException();
+            var comment = await this.commentRepository.All()
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            this.commentRepository.HardDelete(comment);
+            var result = await this.commentRepository.SaveChangesAsync() > 0;
         }
 
         public async Task<IEnumerable<FeedCommentViewModel>> GetLastTwoAsync(int postId)

@@ -14,6 +14,8 @@ export class PostComments extends Component {
             isPostCreator: false,
             isLoading: true
         }
+
+        this.handleDelete = this.handleDelete.bind(this);
     }
 
     async componentDidMount() {
@@ -28,11 +30,24 @@ export class PostComments extends Component {
 
         let response = await axios.get(`/api/Comments/All?postId=${postId}`)
 
-        this.setState({data: response.data, 
-            totalComments: response.data.length, 
+        this.setState({data: response.data,
             currentUser: currentUser});
         
         this.setState({isLoading: false})
+    }
+
+    handleDelete = async(id) => {
+        
+        await axios.post(`/api/Comments/Delete?id=${id}`, null, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(e => console.log(e));
     }
 
     handleCreatorDelete = async () => {
@@ -51,7 +66,8 @@ export class PostComments extends Component {
                 {this.state.isLoading ? <div>Loading....</div> : 
                 <PostCommentsComponent data={this.state.data}
                 currentUser={this.state.currentUser}
-                isPostCreator={this.state.isPostCreator}/>}
+                isPostCreator={this.state.isPostCreator}
+                handleDelete={this.handleDelete}/>}
                     
             </React.Fragment>
         );
