@@ -35,6 +35,11 @@
             return result;
         }
 
+        public Task<bool> DeleteAsync()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public async Task<IEnumerable<FeedCommentViewModel>> GetLastTwoAsync(int postId)
         {
             if (postId <= 0)
@@ -47,6 +52,7 @@
                 .Where(c => c.PostId == postId)
                 .OrderByDescending(c => c.CreatedOn)
                 .Take(2)
+                .OrderBy(c => c.CreatedOn)
                 .To<FeedCommentViewModel>()
                 .ToListAsync();
 

@@ -9,6 +9,8 @@
     {
         Task<bool> CreateAsync(CommentCreateModel model);
 
+        Task<bool> DeleteAsync();
+
         Task<IEnumerable<PostCommentViewModel>> GetPostCommentsAsync(int postId);
 
         Task<IEnumerable<FeedCommentViewModel>> GetLastTwoAsync(int postId);

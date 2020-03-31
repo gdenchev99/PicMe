@@ -55,7 +55,7 @@ function PostComponent(params) {
                                 </ul>}
                             {/* Begin mapping comments here. */}
                             <ul className="img-comment-list">
-                                <PostComments postId={params.postId} />
+                                <PostComments postId={params.postId} postCreator={params.data.creatorUserName}/>
                             </ul>
                         </div>
                     </div>
