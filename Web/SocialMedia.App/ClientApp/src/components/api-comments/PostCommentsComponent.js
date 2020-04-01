@@ -20,6 +20,7 @@ function PostCommentsComponent(params) {
                     <span className="date sub-text">{c.createdOnFormat}</span>
                 </div>
             </li>)}
+            <center><button className="btn">Load More</button></center>
         </React.Fragment>
     );
 }

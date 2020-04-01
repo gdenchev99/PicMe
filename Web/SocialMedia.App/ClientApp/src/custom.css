@@ -17,6 +17,11 @@ code {
   margin-bottom: 1.5rem;
 }
 
+*:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 /*
 *
 * ===========================================================
