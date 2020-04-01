@@ -10,7 +10,8 @@ function FeedComponent(params) {
         <React.Fragment>
             {params.data.length <= 0 ?
                 <h2>No posts here, please follow people in order to see what they post!</h2> :
-                <InfiniteScroll dataLength={params.data.length}>
+                /* Infinite scroller config */
+                <InfiniteScroll dataLength={params.data.length} next={params.loadMore} hasMore={true}>
                 {params.data.map(post => <div key={post.id} className="container">
                 <div className="row">
 

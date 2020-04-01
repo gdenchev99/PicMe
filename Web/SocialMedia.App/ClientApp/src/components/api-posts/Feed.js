@@ -10,7 +10,9 @@ export class Feed extends Component {
         this.state = {
             isAuthenticated: false,
             userId: "",
-            data: []
+            data: [],
+            skipCount: 0,
+            takeCount: 2
         }
 
         this.loadMore = this.loadMore.bind(this);
@@ -31,20 +33,26 @@ export class Feed extends Component {
 
     handleData = async () => {
 
-        let response = await axios.get(`/api/Posts/All?id=${this.state.userId}`)
+        let response = await axios.get(`/api/Posts/Feed?id=${this.state.userId}
+        &skipCount=${this.state.skipCount}
+        &takeCount=${this.state.takeCount}`);
 
-        this.setState({ data: response.data });
+        this.setState({ data: response.data, skipCount: this.state.skipCount + this.state.takeCount });
     }
 
     loadMore = async () => {
+        let response = await axios.get(`/api/Posts/Feed?id=${this.state.userId}
+        &skipCount=${this.state.skipCount}
+        &takeCount=${this.state.takeCount}`);
 
+        this.setState({ data: this.state.data.concat(response.data), skipCount: this.state.skipCount + this.state.takeCount });
     }
 
     render() {
         return (
             <React.Fragment>
                 {this.state.isAuthenticated ?
-                    <FeedComponent data={this.state.data} /> :
+                    <FeedComponent data={this.state.data} loadMore={this.loadMore} /> :
                     <div><center><h1>Hello! Please login in order to proceed!</h1></center></div>}
             </React.Fragment>
         );

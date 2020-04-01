@@ -68,7 +68,7 @@
         }
 
         // id = id of currently logged in user.
-        public async Task<IEnumerable<FeedViewModel>> GetAllAsync(string id)
+        public async Task<IEnumerable<FeedViewModel>> GetFeedAsync(string id, int skipCount, int takeCount)
         {
             if (id == null)
             {
@@ -78,6 +78,8 @@
             var posts = await this.postRepository.All()
                 .Where(p => p.Creator.Followers.Any(x => x.FollowerId == id))
                 .OrderByDescending(p => p.CreatedOn)
+                .Skip(skipCount)
+                .Take(takeCount)
                 .To<FeedViewModel>()
                 .ToListAsync();
 

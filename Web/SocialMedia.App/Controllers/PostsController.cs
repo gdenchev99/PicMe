@@ -35,10 +35,10 @@ namespace SocialMedia.App.Controllers
             return Ok(result);
         }
 
-        [HttpGet("All")]
-        public async Task<IActionResult> GetAll(string id)
+        [HttpGet("Feed")]
+        public async Task<IActionResult> GetFeed(string id, int skipCount, int takeCount)
         {
-            var result = await this.service.GetAllAsync(id);
+            var result = await this.service.GetFeedAsync(id, skipCount, takeCount);
 
             return Ok(result);
         }
