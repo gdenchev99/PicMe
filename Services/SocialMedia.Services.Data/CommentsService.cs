@@ -69,7 +69,7 @@
             return comments;
         }
 
-        public async Task<IEnumerable<PostCommentViewModel>> GetPostCommentsAsync(int postId)
+        public async Task<IEnumerable<PostCommentViewModel>> GetPostCommentsAsync(int postId, int skipCount, int takeCount)
         {
             if (postId <= 0)
             {
@@ -79,6 +79,8 @@
             var comments = await this.commentRepository
                 .All()
                 .Where(c => c.PostId == postId)
+                .Skip(skipCount)
+                .Take(takeCount)
                 .To<PostCommentViewModel>()
                 .ToListAsync();
 

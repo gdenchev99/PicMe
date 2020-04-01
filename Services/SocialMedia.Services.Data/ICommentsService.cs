@@ -11,7 +11,7 @@
 
         Task DeleteAsync(int id);
 
-        Task<IEnumerable<PostCommentViewModel>> GetPostCommentsAsync(int postId);
+        Task<IEnumerable<PostCommentViewModel>> GetPostCommentsAsync(int postId, int skipCount, int takeCount);
 
         Task<IEnumerable<FeedCommentViewModel>> GetLastTwoAsync(int postId);
 

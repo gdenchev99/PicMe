@@ -55,14 +55,14 @@ namespace SocialMedia.App.Controllers
         }
 
         [HttpGet("All")]
-        public async Task<IActionResult> GetPostComments(int postId)
+        public async Task<IActionResult> GetPostComments(int postId, int skipCount, int takeCount)
         {
             if (postId <= 0)
             {
                 return BadRequest();
             }
 
-            var result = await this.service.GetPostCommentsAsync(postId);
+            var result = await this.service.GetPostCommentsAsync(postId, skipCount, takeCount);
 
             return Ok(result);
         }

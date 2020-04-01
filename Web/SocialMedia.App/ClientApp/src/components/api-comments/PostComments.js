@@ -12,10 +12,13 @@ export class PostComments extends Component {
             data: [],
             currentUser: "",
             isPostCreator: false,
-            isLoading: true
+            isLoading: true,
+            skipCount: 0,
+            takeCount: 4
         }
 
         this.handleDelete = this.handleDelete.bind(this);
+        this.loadMore = this.loadMore.bind(this);
     }
 
     async componentDidMount() {
@@ -28,12 +31,27 @@ export class PostComments extends Component {
         let user = await authService.getUser();
         let currentUser = user.name; 
 
-        let response = await axios.get(`/api/Comments/All?postId=${postId}`)
+        let response = await axios.get(`/api/Comments/All?postId=${postId}
+        &skipCount=${this.state.skipCount}
+        &takeCount=${this.state.takeCount}`)
 
         this.setState({data: response.data,
-            currentUser: currentUser});
+            currentUser: currentUser,
+            skipCount: this.state.skipCount + this.state.takeCount});
         
         this.setState({isLoading: false})
+    }
+
+    loadMore = async() => {
+        let postId = this.props.postId;
+
+        let response = await axios.get(`/api/Comments/All?postId=${postId}
+        &skipCount=${this.state.skipCount}
+        &takeCount=${this.state.takeCount}`)
+
+        if(response.data.length > 0) {
+            this.setState({ data: this.state.data.concat(response.data), skipCount: this.state.skipCount + this.state.takeCount });
+        }
     }
 
     handleDelete = async(id) => {
@@ -67,7 +85,8 @@ export class PostComments extends Component {
                 <PostCommentsComponent data={this.state.data}
                 currentUser={this.state.currentUser}
                 isPostCreator={this.state.isPostCreator}
-                handleDelete={this.handleDelete}/>}
+                handleDelete={this.handleDelete}
+                loadMore={this.loadMore}/>}
                     
             </React.Fragment>
         );
