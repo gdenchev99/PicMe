@@ -8,6 +8,7 @@ import { ApplicationPaths } from './components/api-authorization/ApiAuthorizatio
 import { CreatePost } from './components/api-posts/CreatePost';
 import { Post } from './components/api-posts/Post';
 import { Profile } from './components/api-profiles/Profile';
+import { AllMessages } from './components/api-messages/AllMessages';
 import { PrivateMessage } from './components/api-messages/PrivateMessage';
 import { Followers } from './components/api-profiles/Followers';
 import { Followings } from './components/api-profiles/Followings';
@@ -29,6 +30,7 @@ export default class App extends Component {
         <AuthorizeRoute exact path='/user/:username/followers' component={Followers} />
         <AuthorizeRoute exact path='/user/:username/followings' component={Followings} />
         <AuthorizeRoute exact path='/post/:id' component={Post} />
+        <AuthorizeRoute exact path='/messages' component={AllMessages} />
         <AuthorizeRoute exact path='/messages/u/:username' component={PrivateMessage} />
         <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
       </Layout>

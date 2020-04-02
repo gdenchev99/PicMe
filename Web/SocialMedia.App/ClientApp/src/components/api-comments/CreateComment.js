@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import CreateCommentComponent from './CreateCommentComponent';
 import authService from '../api-authorization/AuthorizeService';
 import axios from "axios";
@@ -17,6 +17,8 @@ export class CreateComment extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleAddEmoji = this.handleAddEmoji.bind(this);
         this.handleEmojiPicker = this.handleEmojiPicker.bind(this);
+
+        this.emojiRef = React.createRef();
     }
 
     handleAddEmoji = e => {
@@ -57,19 +59,20 @@ export class CreateComment extends Component {
     }
 
     handleEmojiPicker = (event) => {
-        let emojiPicker = document.getElementById("emoji-picker")
-        
-        if (emojiPicker.style.display == "block") {
-            emojiPicker.style.display = "none";
+        if (this.emojiRef.current.style.display == "block") {
+            this.emojiRef.current.style.display = "none";
         } else {
-            emojiPicker.style.display = "block";
+            this.emojiRef.current.style.display = "block";
         }
     }
 
     render() {
         return (
             <CreateCommentComponent handleData={this.handleData} state={this.state}
-                handleChange={this.handleChange} addEmoji={this.handleAddEmoji} showPicker={this.handleEmojiPicker} />
+                handleChange={this.handleChange} 
+                addEmoji={this.handleAddEmoji} 
+                showPicker={this.handleEmojiPicker} 
+                emojiRef={this.emojiRef}/>
         );
     }
 }

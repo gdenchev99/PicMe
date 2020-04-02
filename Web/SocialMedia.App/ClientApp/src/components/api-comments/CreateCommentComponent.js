@@ -6,7 +6,7 @@ function CreateCommentComponent(params) {
 
     return (
         <Fragment>
-            <div id="emoji-picker" className="emoji-picker"><Picker onSelect={params.addEmoji} /></div>
+            <div ref={params.emojiRef} className="emoji-picker"><Picker onSelect={params.addEmoji} /></div>
             <div className="cardbox-comments">
                 <div className="search">
                     <textarea className="comment-area" placeholder="Write a comment" name="text" type="text" value={params.state.text} onChange={params.handleChange} />

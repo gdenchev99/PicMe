@@ -597,16 +597,16 @@ ul small{
 
 /* Messaging */
 
-::-webkit-scrollbar {
+.chat::-webkit-scrollbar {
   width: 5px;
 }
 
-::-webkit-scrollbar-track {
+.chat::-webkit-scrollbar-track {
   width: 5px;
   background: #f5f5f5;
 }
 
-::-webkit-scrollbar-thumb {
+.chat::-webkit-scrollbar-thumb {
   width: 1em;
   background-color: #ddd;
   outline: 1px solid slategrey;

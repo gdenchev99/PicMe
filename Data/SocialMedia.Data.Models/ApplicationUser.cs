@@ -23,7 +23,7 @@ namespace SocialMedia.Data.Models
             this.Comments = new HashSet<Comment>();
             this.Likes = new HashSet<Like>();
             this.SentMessages = new HashSet<Message>();
-            this.ReceivedMessages = new HashSet<Message>();
+            this.UserChatRooms = new HashSet<UserChatRoom>();
         }
 
         // Personal Data
@@ -53,7 +53,7 @@ namespace SocialMedia.Data.Models
 
         public ICollection<Message> SentMessages { get; set; }
 
-        public ICollection<Message> ReceivedMessages { get; set; }
+        public ICollection<UserChatRoom> UserChatRooms { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }

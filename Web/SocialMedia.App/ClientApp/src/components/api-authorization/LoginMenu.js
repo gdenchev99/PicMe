@@ -58,6 +58,9 @@ export class LoginMenu extends Component {
                 <NavLink tag={Link} className="text-dark" to={`/user/${userName}`}>My Profile</NavLink>
             </NavItem>
             <NavItem>
+                <NavLink tag={Link} className="text-dark" to={`/messages`}>My Messages</NavLink>
+            </NavItem>
+            <NavItem>
                 <NavLink tag={Link} className="text-dark" to={logoutPath}>Logout</NavLink>
             </NavItem>
         </Fragment>);

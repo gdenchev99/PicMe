@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialMedia.Data;
 
 namespace SocialMedia.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200401204615_MessageEntityUpdate")]
+    partial class MessageEntityUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -339,18 +341,6 @@ namespace SocialMedia.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("SocialMedia.Data.Models.ChatRoom", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ChatRooms");
-                });
-
             modelBuilder.Entity("SocialMedia.Data.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -427,28 +417,28 @@ namespace SocialMedia.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ChatRoomId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("ReceiverId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SenderId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(800)")
                         .HasMaxLength(800);
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ChatRoomId");
+                    b.HasIndex("ReceiverId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("SenderId");
 
                     b.ToTable("Messages");
                 });
@@ -492,21 +482,6 @@ namespace SocialMedia.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Posts");
-                });
-
-            modelBuilder.Entity("SocialMedia.Data.Models.UserChatRoom", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("ChatRoomId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "ChatRoomId");
-
-                    b.HasIndex("ChatRoomId");
-
-                    b.ToTable("UserChatRooms");
                 });
 
             modelBuilder.Entity("SocialMedia.Data.Models.UserFollower", b =>
@@ -611,15 +586,13 @@ namespace SocialMedia.Data.Migrations
 
             modelBuilder.Entity("SocialMedia.Data.Models.Message", b =>
                 {
-                    b.HasOne("SocialMedia.Data.Models.ChatRoom", "ChatRoom")
-                        .WithMany("Messages")
-                        .HasForeignKey("ChatRoomId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.HasOne("SocialMedia.Data.Models.ApplicationUser", "Receiver")
+                        .WithMany("ReceivedMessages")
+                        .HasForeignKey("ReceiverId");
 
-                    b.HasOne("SocialMedia.Data.Models.ApplicationUser", "User")
+                    b.HasOne("SocialMedia.Data.Models.ApplicationUser", "Sender")
                         .WithMany("SentMessages")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("SenderId");
                 });
 
             modelBuilder.Entity("SocialMedia.Data.Models.Post", b =>
@@ -628,21 +601,6 @@ namespace SocialMedia.Data.Migrations
                         .WithMany("Posts")
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("SocialMedia.Data.Models.UserChatRoom", b =>
-                {
-                    b.HasOne("SocialMedia.Data.Models.ChatRoom", "ChatRoom")
-                        .WithMany("UserChatRooms")
-                        .HasForeignKey("ChatRoomId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SocialMedia.Data.Models.ApplicationUser", "User")
-                        .WithMany("UserChatRooms")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("SocialMedia.Data.Models.UserFollower", b =>
