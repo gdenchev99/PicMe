@@ -16,14 +16,18 @@
         private readonly IRepository<ApplicationUser> userRepository;
         private readonly IRepository<UserFollower> userFollowerRepository;
         private readonly ICloudinaryService cloudinaryService;
+        private readonly IRepository<ChatRoom> chatRoomRepository;
 
-        public ProfilesService(IRepository<ApplicationUser> userRepository, 
+        public ProfilesService(
+            IRepository<ApplicationUser> userRepository, 
             IRepository<UserFollower> userFollowerRepository,
-            ICloudinaryService cloudinaryService)
+            ICloudinaryService cloudinaryService,
+            IRepository<ChatRoom> chatRoomRepository)
         {
             this.userRepository = userRepository;
             this.userFollowerRepository = userFollowerRepository;
             this.cloudinaryService = cloudinaryService;
+            this.chatRoomRepository = chatRoomRepository;
         }
 
         /*

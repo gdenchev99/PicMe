@@ -14,7 +14,11 @@ function ProfileComponent(params) {
 							<div className="card-body">
 								<div className="row">
 									<div className="col-12 col-lg-10 col-md-6">
-										<h3 className="mb-0 text-truncated">{params.data.userName}</h3>
+										<h3 className="mb-0 text-truncated">{params.data.userName}
+										{params.data.userName === params.state.currentUserName ? null : 
+											<Link to={`/messages/u/${params.data.userName}`}>
+											<button className="btn btn-primary msgbtn">Message</button></Link> }
+										</h3>
 										<p className="lead">{params.data.firstName + " " + params.data.lastName}</p>
 										<p>
 											Bio goes here
@@ -32,8 +36,9 @@ function ProfileComponent(params) {
 
 										{params.data.userName === params.state.currentUserName ?
 											<Link to={`/authentication/profile`}>
-												<button className="btn btn-primary fbtwn-margin">Settings</button></Link> :
+											<button className="btn btn-primary fbtwn-margin">Settings</button></Link> :
 											<button onClick={params.handleAction} className="btn btn-block btn-outline-success fwbtn-margin"><span className="fa fa-plus-circle"></span>{params.state.btnText}</button>}
+
 									</div>
 									<div className="col-12 col-lg-4">
 										<Link to={`${params.data.userName}/followers`}><h3 className="mb-0">Followers</h3></Link>

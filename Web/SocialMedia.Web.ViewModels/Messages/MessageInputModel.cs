@@ -2,8 +2,10 @@
 {
     public class MessageInputModel
     {
-        public string SenderId { get; set; }
+        public string UserOneId { get; set; }
 
-        public string ReceiverId { get; set; }
+        public string UserTwoUsername { get; set; }
+
+        public string Text { get; set; }
     }
 }

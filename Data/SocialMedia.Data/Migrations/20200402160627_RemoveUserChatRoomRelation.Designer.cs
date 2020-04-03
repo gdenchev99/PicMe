@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialMedia.Data;
 
 namespace SocialMedia.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200402160627_RemoveUserChatRoomRelation")]
+    partial class RemoveUserChatRoomRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -346,17 +348,17 @@ namespace SocialMedia.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("UserOneId")
+                    b.Property<string>("RecipientId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("UserTwoId")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserOneId");
+                    b.HasIndex("RecipientId");
 
-                    b.HasIndex("UserTwoId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("ChatRooms");
                 });
@@ -578,13 +580,13 @@ namespace SocialMedia.Data.Migrations
 
             modelBuilder.Entity("SocialMedia.Data.Models.ChatRoom", b =>
                 {
-                    b.HasOne("SocialMedia.Data.Models.ApplicationUser", "UserOne")
+                    b.HasOne("SocialMedia.Data.Models.ApplicationUser", "Recipient")
                         .WithMany()
-                        .HasForeignKey("UserOneId");
+                        .HasForeignKey("RecipientId");
 
-                    b.HasOne("SocialMedia.Data.Models.ApplicationUser", "UserTwo")
+                    b.HasOne("SocialMedia.Data.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserTwoId");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("SocialMedia.Data.Models.Comment", b =>

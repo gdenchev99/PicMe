@@ -40,8 +40,6 @@
 
         public DbSet<ChatRoom> ChatRooms { get; set; }
 
-        public DbSet<UserChatRoom> UserChatRooms { get; set; }
-
         public DbSet<UserFollower> UserFollowers { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
@@ -164,26 +162,9 @@
 
             builder.Entity<Message>(entity =>
             {
-                entity.HasOne(m => m.User)
-                    .WithMany(u => u.SentMessages)
-                    .HasForeignKey(m => m.UserId);
-
                 entity.HasOne(m => m.ChatRoom)
                     .WithMany(c => c.Messages)
                     .HasForeignKey(m => m.ChatRoomId);
-            });
-
-            builder.Entity<UserChatRoom>(entity =>
-            {
-                entity.HasKey(uc => new { uc.UserId, uc.ChatRoomId });
-
-                entity.HasOne(uc => uc.ChatRoom)
-                    .WithMany(c => c.UserChatRooms)
-                    .HasForeignKey(uc => uc.ChatRoomId);
-
-                entity.HasOne(uc => uc.User)
-                    .WithMany(u => u.UserChatRooms)
-                    .HasForeignKey(uc => uc.UserId);
             });
         }
 

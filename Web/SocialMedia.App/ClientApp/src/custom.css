@@ -704,6 +704,10 @@ textarea::placeholder {
   cursor: pointer;
 }
 
+.msgbtn {
+  margin-left: 10px;
+}
+
 /* Error 404 */
 .error-404 {
   margin: 0 auto;

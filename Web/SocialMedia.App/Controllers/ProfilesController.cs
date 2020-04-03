@@ -31,9 +31,10 @@ namespace SocialMedia.App.Controllers
         [HttpPost("Follow")]
         public async Task<IActionResult> Follow([FromBody]AddFollowerModel model)
         {
-            var result = await this.service.AddFollowerAsync(model);
+            // Follow the user
+            await this.service.AddFollowerAsync(model);
 
-            return Ok(result);
+            return Ok();
         }
 
         [HttpPost("Unfollow")]

@@ -6,13 +6,18 @@
     {
         public ChatRoom()
         {
-            this.UserChatRooms = new HashSet<UserChatRoom>();
             this.Messages = new HashSet<Message>();
         }
 
         public int Id { get; set; }
 
-        public ICollection<UserChatRoom> UserChatRooms { get; set; }
+        public string UserOneId { get; set; }
+
+        public ApplicationUser UserOne { get; set; }
+
+        public string UserTwoId { get; set; }
+
+        public ApplicationUser UserTwo { get; set; }
 
         public ICollection<Message> Messages { get; set; }
     }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialMedia.Data;
 
 namespace SocialMedia.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200402123242_ChatRoomNameUpdate")]
+    partial class ChatRoomNameUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -346,17 +348,7 @@ namespace SocialMedia.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("UserOneId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserTwoId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserOneId");
-
-                    b.HasIndex("UserTwoId");
 
                     b.ToTable("ChatRooms");
                 });
@@ -504,6 +496,21 @@ namespace SocialMedia.Data.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("SocialMedia.Data.Models.UserChatRoom", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ChatRoomId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "ChatRoomId");
+
+                    b.HasIndex("ChatRoomId");
+
+                    b.ToTable("UserChatRooms");
+                });
+
             modelBuilder.Entity("SocialMedia.Data.Models.UserFollower", b =>
                 {
                     b.Property<string>("UserId")
@@ -576,17 +583,6 @@ namespace SocialMedia.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SocialMedia.Data.Models.ChatRoom", b =>
-                {
-                    b.HasOne("SocialMedia.Data.Models.ApplicationUser", "UserOne")
-                        .WithMany()
-                        .HasForeignKey("UserOneId");
-
-                    b.HasOne("SocialMedia.Data.Models.ApplicationUser", "UserTwo")
-                        .WithMany()
-                        .HasForeignKey("UserTwoId");
-                });
-
             modelBuilder.Entity("SocialMedia.Data.Models.Comment", b =>
                 {
                     b.HasOne("SocialMedia.Data.Models.ApplicationUser", "Creator")
@@ -624,7 +620,7 @@ namespace SocialMedia.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("SocialMedia.Data.Models.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("SentMessages")
                         .HasForeignKey("UserId");
                 });
 
@@ -634,6 +630,21 @@ namespace SocialMedia.Data.Migrations
                         .WithMany("Posts")
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("SocialMedia.Data.Models.UserChatRoom", b =>
+                {
+                    b.HasOne("SocialMedia.Data.Models.ChatRoom", "ChatRoom")
+                        .WithMany("Users")
+                        .HasForeignKey("ChatRoomId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SocialMedia.Data.Models.ApplicationUser", "User")
+                        .WithMany("ChatRooms")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SocialMedia.Data.Models.UserFollower", b =>

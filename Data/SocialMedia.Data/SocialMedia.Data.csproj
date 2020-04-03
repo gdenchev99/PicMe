@@ -11,6 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200402141629_ChatTableUpdates.cs" />
+    <Compile Remove="Migrations\20200402141629_ChatTableUpdates.Designer.cs" />
+    <Compile Remove="Migrations\20200402155020_ChatRelations.cs" />
+    <Compile Remove="Migrations\20200402155020_ChatRelations.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
 
