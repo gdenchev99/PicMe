@@ -8,6 +8,8 @@
     <ProjectReference Include="..\..\Data\SocialMedia.Data.Common\SocialMedia.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\SocialMedia.Data.Models\SocialMedia.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\SocialMedia.Data\SocialMedia.Data.csproj" />
+    <ProjectReference Include="..\..\Services\SocialMedia.Services.Data\SocialMedia.Services.Data.csproj" />
+    <ProjectReference Include="..\SocialMedia.Web.ViewModels\SocialMedia.Web.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

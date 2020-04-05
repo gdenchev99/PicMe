@@ -3,14 +3,19 @@
     using AutoMapper;
     using SocialMedia.Data.Models;
     using SocialMedia.Services.Mapping;
-    using System.Linq;
 
-    public class AllChatRoomsViewModel : IMapFrom<ChatRoom>, IHaveCustomMappings
+    public class AllChatRoomsViewModel : IMapFrom<ChatRoom>
     {
+        public int Id { get; set; }
+
+        public string Username { get; set; }
+
         public string RecipientFullName { get; set; }
 
-        public void CreateMappings(IProfileExpression configuration)
-        {
-        }
+        public string ProfilePicture { get; set; }
+
+        public string LastMessage { get; set; }
+
+        public string LastMessageDate { get; set; }
     }
 }

@@ -25,18 +25,10 @@ namespace SocialMedia.App.Controllers
             return Ok(result);
         }
 
-        [HttpPost("Send")]
-        public async Task<IActionResult> SendMessage([FromBody]MessageInputModel model)
-        {
-            await this.service.CreateAsync(model);
-
-            return Ok();
-        }
-
         [HttpGet("ChatRoom")]
-        public async Task<IActionResult> GetChatRoom(string username)
+        public async Task<IActionResult> GetChatRoom(string currentId, string receiverUsername)
         {
-            var result = await this.service.GetChatRoom(username);
+            var result = await this.service.GetChatRoom(currentId, receiverUsername);
 
             return Ok(result);
         }

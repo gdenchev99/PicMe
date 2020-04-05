@@ -28,34 +28,70 @@
 
         public async Task<IEnumerable<AllChatRoomsViewModel>> GetAllChatRoomsAsync(string userId)
         {
-            var allRooms = await this.chatRoomRepository.All()
-                .Where(c => c.Messages.Count > 0)
-                .OrderByDescending(c => c.Messages.Count)
-                .To<AllChatRoomsViewModel>()
+            var roomsInitiatedByCurrentUser = await this.chatRoomRepository.All()
+                .Where(c => c.UserOneId == userId)
+                .Select(c => new AllChatRoomsViewModel
+                {
+                    Id = c.Id,
+                    Username = c.UserTwo.UserName,
+                    RecipientFullName = c.UserTwo.FirstName + " " + c.UserTwo.LastName,
+                    ProfilePicture = c.UserTwo.ProfilePictureUrl,
+                    LastMessage = c.Messages.OrderByDescending(x => x.CreatedOn).FirstOrDefault().Text,
+                    LastMessageDate = c.Messages.OrderByDescending(x => x.CreatedOn).FirstOrDefault().CreatedOn.ToString("dd MMM"),
+                })
                 .ToListAsync();
 
-            return allRooms;
+            var roomsInitiatedByAnotherUser = await this.chatRoomRepository.All()
+                .Where(c => c.UserTwoId == userId)
+                .Select(c => new AllChatRoomsViewModel
+                {
+                    Id = c.Id,
+                    Username = c.UserOne.UserName,
+                    RecipientFullName = c.UserOne.FirstName + " " + c.UserOne.LastName,
+                    ProfilePicture = c.UserOne.ProfilePictureUrl,
+                    LastMessage = c.Messages.OrderByDescending(x => x.CreatedOn).FirstOrDefault().Text,
+                    LastMessageDate = c.Messages.OrderByDescending(x => x.CreatedOn).FirstOrDefault().CreatedOn.ToString("dd MMM"),
+                })
+                .ToListAsync();
+
+            var rooms = roomsInitiatedByCurrentUser.Concat(roomsInitiatedByAnotherUser);
+
+            return rooms;
         }
 
-        public async Task CreateAsync(MessageInputModel model)
+        public async Task<MessageViewModel> CreateAsync(MessageInputModel model)
         {
             var chatRoom = await this.InitiliazeChatRoom(model);
+
+            var user = await this.userRepository.All()
+                .FirstOrDefaultAsync(u => u.Id == model.UserOneId);
 
             var message = new Message
             {
                 ChatRoomId = chatRoom.Id,
                 UserId = model.UserOneId,
                 Text = model.Text,
+                User = user,
             };
 
             await this.messageRepository.AddAsync(message);
             await this.messageRepository.SaveChangesAsync();
+
+            var mappedMessage = AutoMapperConfig.MapperInstance.Map<Message, MessageViewModel>(message);
+
+            return mappedMessage;
         }
 
-        public async Task<IEnumerable<MessageViewModel>> GetChatRoom(string username)
+        public async Task<IEnumerable<MessageViewModel>> GetChatRoom(string currentId, string receiverUsername)
         {
+            var receiver = await this.userRepository.All()
+                .FirstOrDefaultAsync(u => u.UserName == receiverUsername);
+            var receiverId = receiver.Id;
+
             var chatRoom = await this.messageRepository.All()
-                .Where(c => c.ChatRoom.UserOne.UserName == username || c.ChatRoom.UserTwo.UserName == username)
+                .Where(c =>
+                (c.ChatRoom.UserOneId == currentId && c.ChatRoom.UserTwoId == receiverId) ||
+                (c.ChatRoom.UserOneId == receiverId && c.ChatRoom.UserTwoId == currentId))
                 .To<MessageViewModel>()
                 .ToListAsync();
 

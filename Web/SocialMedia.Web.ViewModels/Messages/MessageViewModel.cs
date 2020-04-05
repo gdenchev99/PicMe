@@ -3,11 +3,12 @@
     using AutoMapper;
     using SocialMedia.Data.Models;
     using SocialMedia.Services.Mapping;
-    using System;
 
     public class MessageViewModel : IMapFrom<Message>, IHaveCustomMappings
     {
         public int Id { get; set; }
+
+        public int ChatRoomId { get; set; }
 
         public string UserUserName { get; set; }
 

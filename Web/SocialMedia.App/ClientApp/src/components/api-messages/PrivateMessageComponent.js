@@ -15,7 +15,7 @@ function PrivateMessageComponent(params) {
                                 <span className="h5 mb-0 px-3 py-1">{params.state.receiverUsername}</span></Link>
                         </p>
                     </div>
-                    <div className="px-4 py-5 chat-box chat bg-white">
+                    <div ref={params.windowRef} className="px-4 py-5 chat-box chat bg-white">
                         {params.data.map(m => m.userUserName === params.state.myUsername ?
                             <div key={m.id} className="media w-50 ml-auto mb-3">
                                 <div className="media-body">
@@ -44,8 +44,10 @@ function PrivateMessageComponent(params) {
                                 onChange={params.handleChange} value={params.state.text}
                                 aria-describedby="button-addon2" className=" chat-input rounded-0 border-0 bg-light" />
                             <div className="input-group-append">
+                            {params.state.text.replace(/\s/g, '').length ?
                                 <button id="button-addon2" type="submit" onClick={params.sendMessage}
-                                    className="btn btn-link"><i className="fa fa-paper-plane"></i></button>
+                                    className="btn btn-link"><i className="fa fa-paper-plane"></i></button> :
+                                <button id="button-addon2" className="btn btn-link"><i className="fa fa-paper-plane"></i></button>}
                             </div>
                         </div>
                     </div>

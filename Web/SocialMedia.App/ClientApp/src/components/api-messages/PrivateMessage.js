@@ -18,6 +18,9 @@ export class PrivateMessage extends Component {
         };
 
         this.connection = null;
+        this.defaultPicture = "https://res.cloudinary.com/dibntzvzk/image/upload/v1585424980/DefaultPhotos/240_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju_vcoocw.jpg";
+
+        this.windowRef = React.createRef();
 
         this.handleChange = this.handleChange.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
@@ -26,23 +29,38 @@ export class PrivateMessage extends Component {
     componentDidMount = async () => {
         await this.getMessages();
 
-        const user = await authService.getUser();
-        const myUsername = user.name;
+        /* Scroll to the bottom of the chat */
+        this.windowRef.current.scrollTop = this.windowRef.current.scrollHeight;
 
-        this.setState({myUsername: myUsername});
-
-        // this.connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        this.connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
         
-        // this.connection.start()
-        //     .then(() => console.log("Connection established!"))
-        //     .catch(() => console.log("Connection failed."));
+        await this.connection.start()
+            .then(() => console.log("Connection established!"))
+            .catch(() => console.log("Connection failed."));
 
-
+        await this.handleJoinChatRoom();
+        this.handleAppendMessage();
     }
 
     handleChange = ({ target }) => {
         this.setState({ [target.name]: target.value });
     };
+
+    handleJoinChatRoom = async () => {
+        if (this.state.data.length > 0) {
+            var roomId = this.state.data[0].chatRoomId;
+            this.connection.invoke("JoinChatRoom", roomId)
+        }
+    }
+
+    handleAppendMessage = () => {
+        this.connection.on("ReceiveMessage", message => {
+            let msgs = this.state.data;
+            msgs.push(message);
+            this.setState({text: "", data:msgs});
+            console.log(message);
+        })
+    }
 
     sendMessage = async () => {
         let user = await authService.getUser();
@@ -55,25 +73,37 @@ export class PrivateMessage extends Component {
             text: this.state.text
         };
 
-        axios.post("api/Messages/Send", data, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(r => console.log(r))
-        .catch(e => console.log(e));
-        
+        this.connection.invoke("SendMessage", data);
+
+        // axios.post("api/Messages/Send", data, {
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //     }
+        // })
+        // .then(r => {
+        //     let msgs = this.state.data;
+        //     msgs.push(r.data);
+        //     this.setState({text: "", data:msgs});
+        // })
+        // .catch(e => console.log(e));
     }
 
     getMessages = async () => {
-        let username = this.props.match.params.username;
+        let receiverUsername = this.props.match.params.username;
+        let user = await authService.getUser();
+        let currentId = user.sub;
 
-        let result = await axios.get(`api/Messages/ChatRoom?username=${username}`);
+        let result = await axios.get(`api/Messages/ChatRoom?currentId=${currentId}&receiverUsername=${receiverUsername}`);
 
-        let receiverPicture = result.data.find(r => r.userUserName == username).userProfilePictureUrl;
+        let receiver = result.data.find(r => r.userUserName == receiverUsername);
 
-        this.setState({data: result.data, receiverUsername: username, receiverPicture: receiverPicture});
+        let receiverPicture = receiver == null ? this.defaultPicture : receiver.userProfilePictureUrl;
+
+        this.setState({data: result.data, 
+            receiverUsername: receiverUsername, 
+            receiverPicture: receiverPicture,
+            myUsername: user.name});
     }
 
     render() {
@@ -81,7 +111,8 @@ export class PrivateMessage extends Component {
             <PrivateMessageComponent data={this.state.data}
             state={this.state}
             sendMessage={this.sendMessage}
-            handleChange={this.handleChange}/>
+            handleChange={this.handleChange}
+            windowRef={this.windowRef}/>
         );
     }
 }

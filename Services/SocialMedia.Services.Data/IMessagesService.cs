@@ -9,8 +9,8 @@
     {
         Task<IEnumerable<AllChatRoomsViewModel>> GetAllChatRoomsAsync(string userId);
 
-        Task CreateAsync(MessageInputModel model);
+        Task<MessageViewModel> CreateAsync(MessageInputModel model);
 
-        Task<IEnumerable<MessageViewModel>> GetChatRoom(string username);
+        Task<IEnumerable<MessageViewModel>> GetChatRoom(string currentId, string receiverUsername);
     }
 }

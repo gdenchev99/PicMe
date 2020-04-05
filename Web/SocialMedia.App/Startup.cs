@@ -27,6 +27,7 @@ using SocialMedia.Web.ViewModels.Posts;
 using SocialMedia.Helpers;
 using SocialMedia.Services;
 using SocialMedia.Features.Chat;
+using SocialMedia.Web.ViewModels.Messages;
 
 namespace SocialMedia.App
 {

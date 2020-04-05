@@ -6,6 +6,10 @@ import axios from 'axios';
 export class AllMessages extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            data: []
+        }
     }
 
     async componentDidMount() {
@@ -18,13 +22,12 @@ export class AllMessages extends Component {
 
         let result = await axios.get(`/api/Messages/ChatRooms?userId=${userId}`);
 
-        console.log(result.data);
-        
+        this.setState({data: result.data});
     }
 
     render() {
         return(
-            <AllMessagesComponent />
+            <AllMessagesComponent data={this.state.data}/>
         );
     }
 }
