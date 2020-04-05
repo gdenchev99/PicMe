@@ -21,16 +21,6 @@ function FeedComponent(params) {
 
                             <div className="cardbox-heading">
 
-                                <div className="dropdown float-right">
-                                    <button className="btn btn-flat btn-flat-icon" type="button" data-toggle="dropdown" aria-expanded="false">
-                                        <em className="fa fa-ellipsis-h"></em>
-                                    </button>
-                                    <div className="dropdown-menu dropdown-scale dropdown-menu-right" role="menu">
-                                        <a className="dropdown-item" href="#">Hide post</a>
-                                        <a className="dropdown-item" href="#">Stop following</a>
-                                        <a className="dropdown-item" href="#">Report</a>
-                                    </div>
-                                </div>
                                 <div className="media m-0">
                                     <div className="d-flex mr-3">
                                         <Link to={"/user/" + post.creatorUserName}><img className="img-fluid rounded-circle"

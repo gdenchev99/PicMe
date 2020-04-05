@@ -569,6 +569,15 @@ ul small{
   bottom: 15px;
 }
 
+@media (max-width: 485px) { 
+  .feed-comments-component .comment-emoji{
+    font-size: 20px;
+    position: relative;
+    bottom: 15px;
+    right: 10px;
+  }
+}
+
 .btn-emoji{
   position: relative;
   right: 22px;
@@ -732,4 +741,28 @@ textarea::placeholder {
 }
 .error-404 .m-t-20 {
   margin-top: 20px!important;
+}
+
+.searchBar input{
+  border-radius: 2px;
+  border: 1px solid #000;
+  text-align: center;
+}
+
+.search-icon {
+  position: relative;
+  right: 25px;
+}
+
+@media (max-width: 390px) { 
+  .searchBar input {
+    position: relative;
+    top: 10px;
+  }
+
+  .search-icon {
+    position: relative;
+    left: 9.5rem;
+    bottom: 14px;
+  }
 }

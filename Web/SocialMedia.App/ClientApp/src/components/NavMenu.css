@@ -15,6 +15,7 @@ html {
 
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+  list-style-type: none;
 }
 
 .feedCustom {
@@ -23,4 +24,10 @@ html {
   top: 0px; 
   left: 0px; 
   will-change: auto;
+}
+
+@media (max-width: 500px) { 
+  .brand {
+      display: none;
+  }
 }

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { LoginMenu } from './api-authorization/LoginMenu';
 import './NavMenu.css';
 import authService from './api-authorization/AuthorizeService';
+import { Search } from './api-posts/Search';
 
 export class NavMenu extends Component {
   static displayName = NavMenu.name;
@@ -29,19 +30,19 @@ export class NavMenu extends Component {
   render () {
     return (
       <header>
-        <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
+        <Navbar className="navbar-expand ng-white border-bottom box-shadow mb-3" light>
           <Container>
-            <NavbarBrand tag={Link} to="/">SocialMedia</NavbarBrand>
-            <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
-            <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
+            <NavbarBrand className="brand" tag={Link} to="/">SocialMedia</NavbarBrand>
+            <NavItem>
+              <Search>
+              </Search>
+            </NavItem>
+            <NavItem className="d-sm-inline-flex flex-sm-row-reverse">
               <ul className="navbar-nav flex-grow">
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
-                </NavItem>
                 <LoginMenu>
                 </LoginMenu>
               </ul>
-            </Collapse>
+            </NavItem>
           </Container>
         </Navbar>
       </header>

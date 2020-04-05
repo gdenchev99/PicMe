@@ -12,6 +12,10 @@ export class LoginMenu extends Component {
             isAuthenticated: false,
             userName: null
         };
+
+        this.profileImgSrc = "https://res.cloudinary.com/dibntzvzk/image/upload/v1586118845/DefaultPhotos/user_gihmo1.png";
+        this.messagesImgSrc = "https://res.cloudinary.com/dibntzvzk/image/upload/v1586119212/DefaultPhotos/send_gn4jza.png";
+        this.createImgSrc = "https://res.cloudinary.com/dibntzvzk/image/upload/v1586121807/DefaultPhotos/addpost_wswvya.jpg";
     }
 
     async componentDidMount() {
@@ -52,13 +56,18 @@ export class LoginMenu extends Component {
     authenticatedView(userName, profilePath, logoutPath) {
         return (<Fragment>
             <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/createpost">New Post</NavLink>
+                <NavLink tag={Link} className="text-dark" to="/createpost">
+                    <img height="30px" src={this.createImgSrc} />
+                </NavLink>
             </NavItem>
             <NavItem>
-                <NavLink tag={Link} className="text-dark" to={`/user/${userName}`}>My Profile</NavLink>
+                <NavLink tag={Link} className="text-dark" to={`/user/${userName}`}>
+                    <img height="20px" src={this.profileImgSrc} /></NavLink>
             </NavItem>
             <NavItem>
-                <NavLink tag={Link} className="text-dark" to={`/messages`}>My Messages</NavLink>
+                <NavLink tag={Link} className="text-dark" to={`/messages`}>
+                    <img height="20px" src={this.messagesImgSrc} />
+                </NavLink>
             </NavItem>
             <NavItem>
                 <NavLink tag={Link} className="text-dark" to={logoutPath}>Logout</NavLink>
