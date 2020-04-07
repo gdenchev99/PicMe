@@ -58,7 +58,7 @@ export class PrivateMessage extends Component {
             let msgs = this.state.data;
             msgs.push(message);
             this.setState({text: "", data:msgs});
-            console.log(message);
+            this.windowRef.current.scrollTop = this.windowRef.current.scrollHeight;
         })
     }
 
@@ -74,19 +74,6 @@ export class PrivateMessage extends Component {
         };
 
         this.connection.invoke("SendMessage", data);
-
-        // axios.post("api/Messages/Send", data, {
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     }
-        // })
-        // .then(r => {
-        //     let msgs = this.state.data;
-        //     msgs.push(r.data);
-        //     this.setState({text: "", data:msgs});
-        // })
-        // .catch(e => console.log(e));
     }
 
     getMessages = async () => {

@@ -754,6 +754,32 @@ textarea::placeholder {
   right: 25px;
 }
 
+#search-results {
+  margin-left: 42%;
+}
+
+.search-picture {
+  padding-right: 10px;
+  position: relative;
+  top: 8px;
+}
+
+.search-fullname {
+  display: block;
+    position: relative;
+    left: 58px;
+    bottom: 6px;
+}
+
+a {
+  text-decoration: none;
+}
+
+#search-results img {
+  border-radius: 50%;
+  height: 40px;
+}
+
 @media (max-width: 390px) { 
   .searchBar input {
     position: relative;
@@ -764,5 +790,9 @@ textarea::placeholder {
     position: relative;
     left: 9.5rem;
     bottom: 14px;
+  }
+
+  #search-results {
+    margin-left: 6%;
   }
 }

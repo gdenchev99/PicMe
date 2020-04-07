@@ -52,7 +52,6 @@ export class CreateComment extends Component {
             }
         })
             .then(result => {
-                console.log(result);
                 this.setState({ text: "" })
             })
             .catch(errors => console.log(errors));

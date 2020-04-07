@@ -161,5 +161,21 @@
 
             return profilePictureUrl;
         }
+
+        public async Task<IEnumerable<ProfileSearchViewModel>> SearchProfilesAsync(string searchString)
+        {
+            if (string.IsNullOrEmpty(searchString))
+            {
+                throw new ArgumentNullException("The search string is empty.");
+            }
+
+            var searchResult = await this.userRepository.All()
+                .Where(s => s.UserName.StartsWith(searchString))
+                .Take(5)
+                .To<ProfileSearchViewModel>()
+                .ToListAsync();
+
+            return searchResult;
+        }
     }
 }

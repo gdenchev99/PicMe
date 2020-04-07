@@ -68,5 +68,13 @@ namespace SocialMedia.App.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("Search")]
+        public async Task<IActionResult> Search(string searchString)
+        {
+            var result = await this.service.SearchProfilesAsync(searchString);
+
+            return Ok(result);
+        }
     }
 }

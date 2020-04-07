@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { LoginMenu } from './api-authorization/LoginMenu';
 import './NavMenu.css';
 import authService from './api-authorization/AuthorizeService';
-import { Search } from './api-posts/Search';
+import { Search } from './api-profiles/Search';
 
 export class NavMenu extends Component {
   static displayName = NavMenu.name;
