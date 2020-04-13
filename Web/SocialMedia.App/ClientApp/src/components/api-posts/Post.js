@@ -65,8 +65,11 @@ export class Post extends Component {
             {this.state.isLoading && 
                 <div>Loading... </div>}
             {!this.state.isLoading &&
-                    <PostComponent state={this.state} data={this.state.data} postId={this.postId}
-                    handleDelete={this.handleDeletePost} currentUser={this.state.currentUser}/>}
+                    <PostComponent state={this.state} 
+                    data={this.state.data}
+                    postId={this.postId}
+                    handleDelete={this.handleDeletePost} 
+                    currentUser={this.state.currentUser}/>}
             </React.Fragment>
         );
     }

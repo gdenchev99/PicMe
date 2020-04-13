@@ -15,7 +15,7 @@ namespace SocialMedia.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.2")
+                .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -278,6 +278,9 @@ namespace SocialMedia.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsPrivate")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -463,6 +466,41 @@ namespace SocialMedia.Data.Migrations
                     b.ToTable("Messages");
                 });
 
+            modelBuilder.Entity("SocialMedia.Data.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Info")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Read")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications");
+                });
+
             modelBuilder.Entity("SocialMedia.Data.Models.Post", b =>
                 {
                     b.Property<int>("Id")
@@ -514,6 +552,9 @@ namespace SocialMedia.Data.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
@@ -625,6 +666,19 @@ namespace SocialMedia.Data.Migrations
 
                     b.HasOne("SocialMedia.Data.Models.ApplicationUser", "User")
                         .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("SocialMedia.Data.Models.Notification", b =>
+                {
+                    b.HasOne("SocialMedia.Data.Models.Post", "Post")
+                        .WithMany("Notifications")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SocialMedia.Data.Models.ApplicationUser", "User")
+                        .WithMany("Notifications")
                         .HasForeignKey("UserId");
                 });
 

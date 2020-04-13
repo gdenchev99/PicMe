@@ -1,5 +1,6 @@
 ﻿namespace SocialMedia.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -66,6 +67,11 @@
             var user = await this.userRepository.All()
                 .FirstOrDefaultAsync(u => u.Id == model.UserOneId);
 
+            if (user == null)
+            {
+                throw new ArgumentNullException("User is invalid.");
+            }
+
             var message = new Message
             {
                 ChatRoomId = chatRoom.Id,
@@ -86,6 +92,12 @@
         {
             var receiver = await this.userRepository.All()
                 .FirstOrDefaultAsync(u => u.UserName == receiverUsername);
+
+            if (receiver ==  null)
+            {
+                throw new ArgumentNullException("User is invalid.");
+            }
+
             var receiverId = receiver.Id;
 
             var chatRoom = await this.messageRepository.All()
@@ -102,6 +114,12 @@
         {
             var userTwo = await this.userRepository.All()
                 .FirstOrDefaultAsync(u => u.UserName == model.UserTwoUsername);
+
+            if (userTwo == null)
+            {
+                throw new ArgumentNullException("User is invalid.");
+            }
+
             var userTwoId = userTwo.Id;
 
             var chatRoomExists = await this.chatRoomRepository.All()

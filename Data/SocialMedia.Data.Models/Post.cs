@@ -12,6 +12,7 @@
         {
             this.Comments = new HashSet<Comment>();
             this.Likes = new HashSet<Like>();
+            this.Notifications = new HashSet<Notification>();
         }
 
         public string Description { get; set; }
@@ -23,10 +24,12 @@
 
         public string CreatorId { get; set; }
 
-        public ApplicationUser Creator { get; set; }
+        public virtual ApplicationUser Creator { get; set; }
 
-        public ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
 
-        public ICollection<Like> Likes { get; set; }
+        public virtual ICollection<Like> Likes { get; set; }
+
+        public virtual ICollection<Notification> Notifications { get; set; }
     }
 }

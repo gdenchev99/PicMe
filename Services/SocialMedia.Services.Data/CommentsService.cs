@@ -41,6 +41,11 @@
             var comment = await this.commentRepository.All()
                 .FirstOrDefaultAsync(c => c.Id == id);
 
+            if (comment == null)
+            {
+                throw new ArgumentNullException("Comment could not be found");
+            }
+
             this.commentRepository.HardDelete(comment);
             var result = await this.commentRepository.SaveChangesAsync() > 0;
         }
@@ -49,7 +54,7 @@
         {
             if (postId <= 0)
             {
-                return null;
+                throw new ArgumentException("The provided id is invalid");
             }
 
             var comments = await this.commentRepository
@@ -73,7 +78,7 @@
         {
             if (postId <= 0)
             {
-                return null;
+                throw new ArgumentException("The provided id is invalid.");
             }
 
             var comments = await this.commentRepository

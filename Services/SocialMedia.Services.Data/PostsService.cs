@@ -7,6 +7,7 @@
     using SocialMedia.Services;
     using SocialMedia.Services.Mapping;
     using SocialMedia.Web.ViewModels.Posts;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -51,7 +52,7 @@
 
             if (post == null)
             {
-                return false;
+                throw new ArgumentNullException("Post is invalid");
             }
 
             var publicId = post.MediaPublicId;
@@ -72,21 +73,16 @@
         {
             if (id == null)
             {
-                return null;
+                throw new ArgumentNullException("The provided user id is invalid");
             }
 
             var posts = await this.postRepository.All()
-                .Where(p => p.Creator.Followers.Any(x => x.FollowerId == id))
+                .Where(p => p.Creator.Followers.Any(x => x.FollowerId == id && x.IsApproved == true))
                 .OrderByDescending(p => p.CreatedOn)
                 .Skip(skipCount)
                 .Take(takeCount)
                 .To<FeedViewModel>()
                 .ToListAsync();
-
-            if (posts == null)
-            {
-                return null;
-            }
 
             return posts;
         }
@@ -94,20 +90,15 @@
         // id = id of post
         public async Task<PostViewModel> GetAsync(int id)
         {
-            if (id < 0)
+            if (id <= 0)
             {
-                return null;
+                throw new ArgumentException("Post id is invalid");
             }
 
             var post = await this.postRepository.All()
                 .Where(p => p.Id == id)
                 .To<PostViewModel>()
                 .FirstOrDefaultAsync();
-
-            if (post == null)
-            {
-                return null;
-            }
 
             return post;
         }

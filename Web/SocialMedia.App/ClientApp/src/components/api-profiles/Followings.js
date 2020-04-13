@@ -8,8 +8,7 @@ export class Followings extends Component {
         super(props);
 
         this.state = {
-            data: [],
-            username: ""
+            data: []
         }
 
     }
@@ -23,12 +22,12 @@ export class Followings extends Component {
 
         const result = await axios.get(`/api/Profiles/Followings?username=${username}`);
 
-        this.setState({ data: result.data, username: username });
+        this.setState({ data: result.data });
     }
 
     render() {
         return (
-            <FollowingsComponent data={this.state.data} username={this.state.username} />
+            <FollowingsComponent data={this.state.data} />
         );
     }
 }

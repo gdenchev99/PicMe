@@ -13,41 +13,50 @@ export class Profile extends Component {
             posts: [],
             postsCount: 0,
             isFollowing: false,
+            isRequested: false,
+            currentUser: null,
             currentUserName: "",
             btnText: "Follow",
             followersCount: 0,
-            profilePicture: "",
-            isFollowing: false
+            followingsCount: 0,
+            profilePicture: ""
         }
 
         this.handleAction = this.handleAction.bind(this);
         this.handleMedia = this.handleMedia.bind(this);
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.match.params.username !== this.props.match.params.username) {
-            this.handleData();
+    async componentDidUpdate(prevProps, prevState) {
+        if ((prevProps.match.params.username !== this.props.match.params.username) ||
+            (prevState.data.id != this.state.data.id)) {
+           await this.handleData();
+           await this.handleFollowing();
+           await this.handleIsPrivate();
         }
     }
 
     async componentDidMount() {
+        let currentUser = await authService.getUser();
+        let currentUserName = currentUser.name;
+        this.setState({currentUser: currentUser, currentUserName: currentUserName});
+
         await this.handleData();
 
         if (this.state.data.id == undefined) {
             return this.props.history.push('/404');
         }
 
-        await this.handleIsPrivate();
         await this.handleFollowing();
+        await this.handleIsPrivate();
+        
     }
 
     handleIsPrivate = async () => {
-        let user = await authService.getUser();
-        let username = user.name;
-        let followersUsernames = this.state.data.followers.map(f => f.followerUserName);
+        let isFollowing = await profileService.isFollowing(this.state.currentUserName, this.state.data.followers);
+        let isPrivate = this.state.data.isPrivate;
 
-        if (followersUsernames.includes(username) || 
-            this.props.match.params.username == username) {
+        if ((isFollowing && isPrivate == false) ||
+            this.props.match.params.username == this.state.currentUserName) {
             this.setState({ isFollowing: true })
         }
 
@@ -58,47 +67,66 @@ export class Profile extends Component {
 
         let profileResponse = await axios.get(`/api/Profiles/Get?username=${username}`);
         let postsResponse = await axios.get(`/api/Posts/Profile?username=${username}`);
+        let followersCount = profileService.getFollowersCount(profileResponse.data.followers);
+        let followingsCount = profileService.getFollowingsCount(profileResponse.data.followings);
 
         this.setState({
             data: profileResponse.data,
             profilePicture: profileResponse.data.profilePictureUrl,
             posts: postsResponse.data,
             postsCount: postsResponse.data.length,
-            followersCount: profileResponse.data.followersCount
+            followersCount: followersCount,
+            followingsCount: followingsCount
         });
     }
 
     handleFollowing = async () => {
 
-        let currentUser = await authService.getUser();
-        let currentUserName = currentUser.name;
-        this.setState({ currentUserName: currentUserName });
+        /* Reset the state before checking again */
+        this.setState({isFollowing: false, isRequested: false})
 
-        let isFollowing = await profileService.isFollowing(currentUserName, this.state.data.followers);
+        let isFollowing = await profileService.isFollowing(this.state.currentUserName, this.state.data.followers);
+        
+        let isRequested = await profileService.isRequested(this.state.currentUserName, this.state.data.followers);
+
+        if(!isFollowing && !isRequested) {
+            this.setState({isFollowing: isFollowing, isRequested: isRequested, btnText: "Follow"});
+        }
 
         if (isFollowing) {
             this.setState({ isFollowing: isFollowing, btnText: "Unfollow" });
+        }  
+        
+        if(isRequested) {
+            this.setState({isRequested: isRequested ,btnText: "Requested"})
         }
+        
     }
 
     handleAddFollower = async () => {
-        let currentUser = await authService.getUser();
-        let followerId = currentUser.sub;
 
-        profileService.addFollower(this.state.data.id, followerId)
+        let isFollowing = this.state.data.isPrivate ? false : true;
+        let isRequested = !isFollowing;
+
+        await profileService.addFollower(this.state.data.id, this.state.currentUser.sub)
             .then(() => {
-                this.setState({ btnText: "Unfollow", isFollowing: true, followersCount: this.state.followersCount + 1 })
+                // If the profile is private, isRequested is set to true when following the user.
+                isRequested ? 
+                this.setState({ btnText: "Requested", isRequested: isRequested}) :
+                this.setState({ btnText: "Unfollow", isFollowing: isFollowing, followersCount: this.state.followersCount + 1 })
             })
             .catch(error => console.log(error));
     }
 
     handleRemoveFollower = async () => {
-        let currentUser = await authService.getUser();
-        let followerId = currentUser.sub;
 
-        profileService.removeFollower(this.state.data.id, followerId)
+        profileService.removeFollower(this.state.data.id, this.state.currentUser.sub)
             .then(() => {
-                this.setState({ btnText: "Follow", isFollowing: false, followersCount: this.state.followersCount - 1 })
+                this.setState({ btnText: "Follow", 
+                 isFollowing: false,
+                 isRequested: false,
+                 followersCount: this.state.followersCount - 1 })
+                
             })
             .catch(error => console.log(error));
     }
@@ -113,15 +141,13 @@ export class Profile extends Component {
 
     handleMedia = async (event) => {
         event.persist();
-        let user = await authService.getUser();
-        let username = user.name;
 
         if (event.target.files && event.target.files[0]) {
             let file = event.target.files[0];
 
             let data = new FormData();
             data.append("picture", file);
-            data.set("username", username);
+            data.set("username", this.state.currentUserName);
 
             this.setState({ loading: true })
             await axios.post('/api/Profiles/ProfilePicture', data, {
@@ -138,8 +164,10 @@ export class Profile extends Component {
         return (
             <div>
                 {this.state && this.state.data &&
-                    <ProfileComponent data={this.state.data}
+                    <ProfileComponent key={this.state.data.id}
+                        data={this.state.data}
                         state={this.state}
+                        isFollowing={this.state.isFollowing}
                         handleAction={this.handleAction}
                         handleMedia={this.handleMedia} />
                 }

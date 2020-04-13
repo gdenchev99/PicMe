@@ -2,6 +2,18 @@ import axios from 'axios';
 
 class ProfileService {
 
+    getFollowersCount(followers) {
+        let count = followers.filter(f => f.isApproved === true).length;
+
+        return count;
+    }
+
+    getFollowingsCount(followings) {
+        let count = followings.filter(f => f.isApproved === true).length;
+
+        return count;
+    }
+
     async addFollower(userId, followerId) {
         let data = {
             userId: userId,
@@ -35,7 +47,15 @@ class ProfileService {
     }
 
     async isFollowing(currentUserName, followers) {
-        if (followers.some(f => currentUserName === f.followerUserName)) {
+        if (followers.some(f => currentUserName === f.followerUserName && f.isApproved === true)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    async isRequested(currentUserName, followers) {
+        if (followers.some(f => currentUserName === f.followerUserName && f.isApproved === false)) {
             return true;
         }
 

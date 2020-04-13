@@ -8,8 +8,7 @@ export class Followers extends Component {
         super(props);
 
         this.state = {
-            data: [],
-            username: ""
+            data: []
         }
 
     }
@@ -23,12 +22,12 @@ export class Followers extends Component {
 
         const result = await axios.get(`/api/Profiles/Followers?username=${username}`);
 
-        this.setState({ data: result.data, username: username });
+        this.setState({ data: result.data});
     }
 
     render() {
         return (
-            <FollowersComponent data={this.state.data} username={this.state.username}/>
+            <FollowersComponent data={this.state.data} />
         );
     }
 }

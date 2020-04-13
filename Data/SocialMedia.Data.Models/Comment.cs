@@ -6,16 +6,21 @@
 
     public class Comment : BaseDeletableModel<int>
     {
+        public Comment()
+        {
+
+        }
+
         [Required]
         [MaxLength(300)]
         public string Text { get; set; }
 
         public string CreatorId { get; set; }
 
-        public ApplicationUser Creator { get; set; }
+        public virtual ApplicationUser Creator { get; set; }
 
         public int PostId { get; set; }
 
-        public Post Post { get; set; }
+        public virtual Post Post { get; set; }
     }
 }

@@ -38,6 +38,8 @@
 
         public DbSet<Message> Messages { get; set; }
 
+        public DbSet<Notification> Notifications { get; set; }
+
         public DbSet<ChatRoom> ChatRooms { get; set; }
 
         public DbSet<UserFollower> UserFollowers { get; set; }
@@ -165,6 +167,17 @@
                 entity.HasOne(m => m.ChatRoom)
                     .WithMany(c => c.Messages)
                     .HasForeignKey(m => m.ChatRoomId);
+            });
+
+            builder.Entity<Notification>(entity =>
+            {
+                entity.HasOne(n => n.User)
+                    .WithMany(u => u.Notifications)
+                    .HasForeignKey(n => n.UserId);
+
+                entity.HasOne(n => n.Post)
+                    .WithMany(p => p.Notifications)
+                    .HasForeignKey(n => n.PostId);
             });
         }
 

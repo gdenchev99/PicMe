@@ -28,6 +28,7 @@ using SocialMedia.Helpers;
 using SocialMedia.Services;
 using SocialMedia.Features.Chat;
 using SocialMedia.Web.ViewModels.Messages;
+using Microsoft.AspNet.SignalR;
 
 namespace SocialMedia.App
 {
@@ -46,7 +47,8 @@ namespace SocialMedia.App
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
+                options => options.UseLazyLoadingProxies()
+                .UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -71,7 +73,7 @@ namespace SocialMedia.App
             services.Configure<CloudinaryConfig>(this.configuration.GetSection("Cloudinary"));
             services.Configure<SendGridConfig>(this.configuration.GetSection("SendGrid"));
 
-            services.AddSignalR();
+            services.AddSignalR(config => config.EnableDetailedErrors = true);
 
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
@@ -96,6 +98,7 @@ namespace SocialMedia.App
 
             // Application services
             services.AddTransient<IEmailSender, SendGridEmailSender>();
+            services.AddTransient<INotificationsService, NotificationsService>();
             services.AddTransient<IPostsService, PostsService>();
             services.AddTransient<IProfilesService, ProfilesService>();
             services.AddTransient<ICommentsService, CommentsService>();
@@ -146,6 +149,7 @@ namespace SocialMedia.App
                     pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
                 endpoints.MapHub<ChatHub>("/chatHub");
+                endpoints.MapHub<NotificationsHub>("/notificationsHub");
             });
 
             app.UseSpa(spa =>

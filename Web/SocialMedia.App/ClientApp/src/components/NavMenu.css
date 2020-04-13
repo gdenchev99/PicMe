@@ -26,8 +26,37 @@ html {
   will-change: auto;
 }
 
+.unread {
+  position: relative;
+  bottom:10px;
+  left:35px;
+  z-index: 1;
+}
+
+@media(max-width: 547px) {
+  .notification-icon {
+    position: relative;
+    bottom: 18px;
+    left: 17px;
+  }
+}
+
 @media (max-width: 500px) { 
   .brand {
       display: none;
+  }
+  .notification-icon {
+    position: inherit;
+  }
+}
+
+@media(max-width: 440px) {
+  .unread {
+    left: 25px;
+  }
+  .notification-icon {
+    position: relative;
+    left:10px;
+    bottom: 0;
   }
 }

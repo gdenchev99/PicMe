@@ -22,6 +22,7 @@ namespace SocialMedia.Data.Models
             this.Posts = new HashSet<Post>();
             this.Comments = new HashSet<Comment>();
             this.Likes = new HashSet<Like>();
+            this.Notifications = new HashSet<Notification>();
         }
 
         // Personal Data
@@ -38,16 +39,20 @@ namespace SocialMedia.Data.Models
 
         public string PicturePublicId { get; set; }
 
+        public bool IsPrivate { get; set; }
+
         // Followers
-        public ICollection<UserFollower> Followers { get; set; }
+        public virtual ICollection<UserFollower> Followers { get; set; }
 
-        public ICollection<UserFollower> Followings { get; set; }
+        public virtual ICollection<UserFollower> Followings { get; set; }
 
-        public ICollection<Post> Posts { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
 
-        public ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
 
-        public ICollection<Like> Likes { get; set; }
+        public virtual ICollection<Like> Likes { get; set; }
+
+        public virtual ICollection<Notification> Notifications { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }

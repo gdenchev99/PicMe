@@ -245,8 +245,10 @@ text-align: center;
 }
 
 .comment-text>p>.btn {
+  position: relative;
   padding: 0;
   height: 16px;
+  padding-left: 5px;
 }
 .comment-text>p>.btn>i{
   position: relative;
@@ -673,6 +675,21 @@ textarea::placeholder {
   top: 0;
   right: 0;
   min-width: 92px;
+}
+
+.btn-approve {
+  left: 8rem;
+}
+
+@media (max-width: 1200px) { 
+  .user-follower .btn {
+    right: -3rem;
+  }
+
+  .btn-approve {
+    position: relative;
+    top: 10px;
+  }
 }
 
 .btn-default {

@@ -1,7 +1,8 @@
 ﻿namespace SocialMedia.Web.ViewModels.Profiles
 {
     using System.Collections.Generic;
-
+    using System.Linq;
+    using AutoMapper;
     using SocialMedia.Data.Models;
     using SocialMedia.Services.Mapping;
 
@@ -17,12 +18,10 @@
 
         public string ProfilePictureUrl { get; set; }
 
+        public bool IsPrivate { get; set; }
+
         public ICollection<UserFollowerModel> Followers { get; set; }
 
         public ICollection<UserFollowingModel> Followings { get; set; }
-
-        public int FollowersCount => this.Followers.Count;
-
-        public int FollowingsCount => this.Followings.Count;
     }
 }

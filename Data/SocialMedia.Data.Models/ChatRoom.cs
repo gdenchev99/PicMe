@@ -13,12 +13,12 @@
 
         public string UserOneId { get; set; }
 
-        public ApplicationUser UserOne { get; set; }
+        public virtual ApplicationUser UserOne { get; set; }
 
         public string UserTwoId { get; set; }
 
-        public ApplicationUser UserTwo { get; set; }
+        public virtual ApplicationUser UserTwo { get; set; }
 
-        public ICollection<Message> Messages { get; set; }
+        public virtual ICollection<Message> Messages { get; set; }
     }
 }

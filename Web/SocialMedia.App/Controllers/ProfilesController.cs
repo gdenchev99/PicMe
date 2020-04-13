@@ -61,6 +61,30 @@ namespace SocialMedia.App.Controllers
             return Ok(result);
         }
 
+        [HttpGet("Requests")]
+        public async Task<IActionResult> Requests(string id)
+        {
+            var result = await this.service.GetFollowerRequestsAsync(id);
+
+            return Ok(result);
+        }
+
+        [HttpPost("Approve")]
+        public async Task<IActionResult> ApproveRequest(string username)
+        {
+            var result = await this.service.ApproveRequestAsync(username);
+
+            return Ok(result);
+        }
+
+        [HttpPost("Delete")]
+        public async Task<IActionResult> DeleteRequest(string username)
+        {
+            var result = await this.service.DeleteRequestAsync(username);
+
+            return Ok(result);
+        }
+
         [HttpPost("ProfilePicture")]
         public async Task<IActionResult> ProfilePicture([FromForm]UploadPictureInputModel model)
         {

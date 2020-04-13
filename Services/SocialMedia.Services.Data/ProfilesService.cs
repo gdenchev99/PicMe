@@ -16,18 +16,15 @@
         private readonly IRepository<ApplicationUser> userRepository;
         private readonly IRepository<UserFollower> userFollowerRepository;
         private readonly ICloudinaryService cloudinaryService;
-        private readonly IRepository<ChatRoom> chatRoomRepository;
 
         public ProfilesService(
-            IRepository<ApplicationUser> userRepository, 
+            IRepository<ApplicationUser> userRepository,
             IRepository<UserFollower> userFollowerRepository,
-            ICloudinaryService cloudinaryService,
-            IRepository<ChatRoom> chatRoomRepository)
+            ICloudinaryService cloudinaryService)
         {
             this.userRepository = userRepository;
             this.userFollowerRepository = userFollowerRepository;
             this.cloudinaryService = cloudinaryService;
-            this.chatRoomRepository = chatRoomRepository;
         }
 
         /*
@@ -43,10 +40,20 @@
                 return "You are already following this user";
             }
 
+            var userToFollow = this.userRepository.All().FirstOrDefault(x => x.Id == model.UserId);
+
+            var isApproved = false;
+
+            if (userToFollow.IsPrivate == false)
+            {
+                isApproved = true;
+            }
+
             var userFollower = new UserFollower
             {
                 UserId = model.UserId,
                 FollowerId = model.FollowerId,
+                IsApproved = isApproved,
             };
 
             await this.userFollowerRepository.AddAsync(userFollower);
@@ -103,9 +110,9 @@
             }
 
             var followers = await this.userFollowerRepository.All()
-                .Where(f => f.User.UserName == username)
-                .To<FollowerViewModel>()
-                .ToListAsync();
+             .Where(f => f.User.UserName == username && f.IsApproved == true)
+             .To<FollowerViewModel>()
+             .ToListAsync();
 
             return followers;
         }
@@ -120,11 +127,11 @@
 
             if (user == null)
             {
-                return null;
+                throw new ArgumentNullException("User does not exist");
             }
 
             var followings = await this.userFollowerRepository.All()
-                .Where(f => f.Follower.UserName == username)
+                .Where(f => f.Follower.UserName == username && f.IsApproved == true)
                 .To<FollowingViewModel>()
                 .ToListAsync();
 
@@ -138,6 +145,11 @@
 
             var user = this.userRepository.All()
                 .FirstOrDefault(u => u.UserName == username);
+
+            if (user == null)
+            {
+                throw new ArgumentNullException("User does not exist");
+            }
 
             var publicId = user.PicturePublicId;
 
@@ -176,6 +188,78 @@
                 .ToListAsync();
 
             return searchResult;
+        }
+
+        public async Task<IEnumerable<RequestViewModel>> GetFollowerRequestsAsync(string id)
+        {
+            var user = await this.userRepository.All()
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (user == null)
+            {
+                throw new ArgumentNullException("User is invalid.");
+            }
+
+            var requests = await this.userFollowerRepository.All()
+                .Where(f => f.UserId == id && f.IsApproved == false)
+                .To<RequestViewModel>()
+                .ToListAsync();
+
+            return requests;
+        }
+
+        public async Task<string> ApproveRequestAsync(string username)
+        {
+            var requester = await this.userRepository.All()
+                .FirstOrDefaultAsync(u => u.UserName == username);
+
+            if (requester == null)
+            {
+                throw new ArgumentNullException("User could not be found.");
+            }
+
+            var requesterId = requester.Id;
+
+            var follower = await this.userFollowerRepository.All()
+                .FirstOrDefaultAsync(uf => uf.FollowerId == requesterId && uf.IsApproved == false);
+
+            follower.IsApproved = true;
+
+            var result = await this.userFollowerRepository.SaveChangesAsync();
+
+            if (result < 0)
+            {
+                throw new DbUpdateException("Saving changes to the database failed!");
+            }
+
+            return "Approved!";
+        }
+
+        public async Task<string> DeleteRequestAsync(string username)
+        {
+            var requester = await this.userRepository.All()
+                .FirstOrDefaultAsync(u => u.UserName == username);
+
+            if (requester == null)
+            {
+                throw new ArgumentNullException("User could not be found.");
+            }
+
+            var requesterId = requester.Id;
+
+            var follower = await this.userFollowerRepository.All()
+                .FirstOrDefaultAsync(uf => uf.FollowerId == requesterId && uf.IsApproved == false);
+
+            this.userFollowerRepository.Delete(follower);
+
+            var result = await this.userFollowerRepository.SaveChangesAsync();
+
+            if (result < 0)
+            {
+                throw new DbUpdateException("Saving changes to the database failed!");
+            }
+
+            return "Deleted!";
         }
     }
 }

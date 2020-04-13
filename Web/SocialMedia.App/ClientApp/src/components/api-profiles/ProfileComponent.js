@@ -46,7 +46,7 @@ function ProfileComponent(params) {
 									</div>
 									<div className="col-12 col-lg-4">
 										<Link to={`${params.data.userName}/followings`}><h3 className="mb-0">Following</h3></Link>
-										<h5>{params.data.followingsCount}</h5>
+										<h5>{params.state.followingsCount}</h5>
 
 									</div>
 									<div className="col-12 col-lg-4">
@@ -58,7 +58,7 @@ function ProfileComponent(params) {
 						</div>
 					</div>
 
-					{params.state.isFollowing === false ?
+					{(params.isFollowing === false && params.data.isPrivate) ?
 						<div className="offset-lg-3"><h3>This profile is private, please follow the user!</h3></div> :
 						params.state.posts.map(post =>
 						<div key={post.id} className="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">

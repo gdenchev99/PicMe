@@ -17,6 +17,12 @@
 
         Task<IEnumerable<FollowingViewModel>> GetUserFollowingsAsync(string username);
 
+        Task<IEnumerable<RequestViewModel>> GetFollowerRequestsAsync(string id);
+
+        Task<string> ApproveRequestAsync(string username);
+
+        Task<string> DeleteRequestAsync(string username);
+
         Task<string> UploadProfilePicture(UploadPictureInputModel model);
 
         Task<IEnumerable<ProfileSearchViewModel>> SearchProfilesAsync(string searchString);

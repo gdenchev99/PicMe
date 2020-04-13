@@ -44,16 +44,19 @@ namespace SocialMedia.App.Areas.Identity.Pages.Account.Manage
             public string Username { get; set; }
 
             [Required]
-            [Display(Name = "First Name")]
+            [Display(Name = "First name")]
             public string FirstName { get; set; }
 
             [Required]
-            [Display(Name = "Last Name")]
+            [Display(Name = "Last name")]
             public string LastName { get; set; }
 
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [Display(Name = "Private profile")]
+            public bool PrivateProfile { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -62,6 +65,7 @@ namespace SocialMedia.App.Areas.Identity.Pages.Account.Manage
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             var firstName = user.FirstName;
             var lastName = user.LastName;
+            var privateProfile = user.IsPrivate;
 
             Username = userName;
 
@@ -70,7 +74,8 @@ namespace SocialMedia.App.Areas.Identity.Pages.Account.Manage
                 Username = userName,
                 FirstName = firstName,
                 LastName = lastName,
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                PrivateProfile = privateProfile
             };
         }
 
@@ -102,6 +107,7 @@ namespace SocialMedia.App.Areas.Identity.Pages.Account.Manage
 
             var firstName = user.FirstName;
             var lastName = user.LastName;
+            var privateProfile = user.IsPrivate;
 
             if (Input.FirstName != firstName)
             {
@@ -111,6 +117,11 @@ namespace SocialMedia.App.Areas.Identity.Pages.Account.Manage
             if (Input.LastName != lastName)
             {
                 user.LastName = Input.LastName;
+            }
+
+            if (Input.PrivateProfile != privateProfile)
+            {
+                user.IsPrivate = Input.PrivateProfile;
             }
 
             var username = await _userManager.GetUserNameAsync(user);

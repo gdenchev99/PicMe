@@ -12,10 +12,14 @@ import { AllMessages } from './components/api-messages/AllMessages';
 import { PrivateMessage } from './components/api-messages/PrivateMessage';
 import { Followers } from './components/api-profiles/Followers';
 import { Followings } from './components/api-profiles/Followings';
+import { Requests } from './components/api-profiles/Requests';
+import { Notifications } from './components/api-notifications/Notifications';
 import { NotFound } from './components/NotFound';
+import { ToastContainer } from 'react-toastify';
 
 import 'bootstrap';
 import './custom.css'
+import 'react-toastify/dist/ReactToastify.css';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -23,12 +27,15 @@ export default class App extends Component {
   render () {
     return (
       <Layout>
+      <ToastContainer autoClose={4000} position='bottom-right' />
         <Route exact path='/' component={Home} />
         <Route exact path='/404' component={NotFound} />
         <AuthorizeRoute exact path='/createpost' component={ CreatePost } />
         <AuthorizeRoute exact path='/user/:username' component={Profile} />
         <AuthorizeRoute exact path='/user/:username/followers' component={Followers} />
         <AuthorizeRoute exact path='/user/:username/followings' component={Followings} />
+        <AuthorizeRoute exact path='/user/:username/requests' component={Requests} />
+        <AuthorizeRoute exact path='/notifications' component={Notifications} />
         <AuthorizeRoute exact path='/post/:id' component={Post} />
         <AuthorizeRoute exact path='/messages' component={AllMessages} />
         <AuthorizeRoute exact path='/messages/u/:username' component={PrivateMessage} />

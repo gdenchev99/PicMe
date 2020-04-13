@@ -3,6 +3,7 @@ import LikeComponent from './LikeComponent';
 import authService from '../api-authorization/AuthorizeService';
 import axios from 'axios';
 import { svgParams } from './LikeConstants';
+import notificationsService from '../api-notifications/NotificationsService';
 
 export class Like extends Component {
 
@@ -11,6 +12,8 @@ export class Like extends Component {
 
         this.state = {
             isLiked: false,
+            user: null,
+            userId: "",
             svgPath: "",
             svgFill: "",
             postId: props.postId,
@@ -18,10 +21,15 @@ export class Like extends Component {
             likesCount: 0
         }
 
+        this.connection = null;
+
         this.handleClick = this.handleClick.bind(this);
     }
 
     async componentDidMount() {
+        let user = await authService.getUser();
+        let userId = user.sub;
+        this.setState({user: user, userId: userId});
 
         await this.handleIsLiked();
 
@@ -49,34 +57,37 @@ export class Like extends Component {
     };
 
     handleAddLike = async () => {
-        let user = await authService.getUser();
-
-        let userId = user.sub;
-
-        let data = {userId: userId, postId: this.state.postId};
-
-        axios.post("/api/Likes/Add", data, {
+        let data = {userId: this.state.userId, postId: this.state.postId};
+        
+        await axios.post("/api/Likes/Add", data, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
         })
             .then(result => 
-            {
+            {   
                 this.setState({ likesCount: this.state.likesCount + 1 })
-                console.log(this.state.pictures)
+                // Get the post's creator's id from the result.
+                let posterId = result.data;
+                // Id of the post.
+                let postId = Number(this.state.postId);
+                // Get the username of the current user.
+                let username = this.state.user.name;
+                // The message of the notification
+                let info = `@${username} liked your post.`;
+                // Notify the creator of the post that his post has been liked by the current user.
+                // Arg1 - id of the post's creator, Arg2 - id of the post, Ar3 - instant notification message.
+                notificationsService.invokeNotificationMessage(posterId, postId, info);
             })
         .catch(error => console.log(error));
     }
 
     handleRemoveLike = async () => {
-        let user = await authService.getUser();
 
-        let userId = user.sub;
+        let data = {userId: this.state.userId, postId: this.state.postId};
 
-        let data = {userId: userId, postId: this.state.postId};
-
-        axios.post("/api/Likes/Remove", data, {
+        await axios.post("/api/Likes/Remove", data, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -84,18 +95,14 @@ export class Like extends Component {
         })
             .then(result => {
                 this.setState({ likesCount: this.state.likesCount - 1 })
-                console.log(this.state.pictures)
         })
         .catch(error => console.log(error));
     }
 
     handleIsLiked = async () => {
-        let user = await authService.getUser();
-
-        let userId = user.sub;
 
         let result = await axios.get("/api/Likes/Liked", {params: {
-            userId: userId,
+            userId: this.state.userId,
             postId: this.state.postId
         }});
 
@@ -105,8 +112,7 @@ export class Like extends Component {
     handleLatestLikes = async() => {
 
         var result = await axios.get(`/api/Likes/Feed?postId=${this.state.postId}`);
-        this.setState({pictures: result.data})
-        this.setState({likesCount: this.state.pictures.length})
+        this.setState({pictures: result.data, likesCount: result.data.length})
     }
 
     render() {
