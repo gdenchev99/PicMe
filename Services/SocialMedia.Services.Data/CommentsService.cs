@@ -14,13 +14,15 @@
     public class CommentsService : ICommentsService
     {
         private readonly IDeletableEntityRepository<Comment> commentRepository;
+        private readonly IRepository<Post> postRepository;
 
-        public CommentsService(IDeletableEntityRepository<Comment> commentRepository)
+        public CommentsService(IDeletableEntityRepository<Comment> commentRepository, IRepository<Post> postRepository)
         {
             this.commentRepository = commentRepository;
+            this.postRepository = postRepository;
         }
 
-        public async Task<bool> CreateAsync(CommentCreateModel model)
+        public async Task<string> CreateAsync(CommentCreateModel model)
         {
             var comment = new Comment
             {
@@ -33,7 +35,17 @@
 
             var result = await this.commentRepository.SaveChangesAsync() > 0;
 
-            return result;
+            if (!result)
+            {
+                throw new DbUpdateException("Could not add comment to the database.");
+            }
+
+            var postCreatorId = await this.postRepository.All()
+                .Where(p => p.Id == model.PostId)
+                .Select(p => p.CreatorId)
+                .FirstOrDefaultAsync();
+
+            return postCreatorId;
         }
 
         public async Task DeleteAsync(int id)

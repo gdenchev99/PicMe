@@ -23,7 +23,7 @@
             Groups.AddToGroupAsync(Context.ConnectionId, userId);
         }
 
-        public async Task Notify(string postCreatorId, int postId, string info)
+        public async Task Notify(string postCreatorId, int? postId, string info)
         {
             await this.service.CreateNotificationAsync(postCreatorId, postId, info);
             await Clients.Group(postCreatorId).ReceiveNotification(info);

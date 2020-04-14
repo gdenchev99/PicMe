@@ -57,6 +57,10 @@ namespace SocialMedia.App.Areas.Identity.Pages.Account.Manage
 
             [Display(Name = "Private profile")]
             public bool PrivateProfile { get; set; }
+
+            [Display(Name = "Bio")]
+            [StringLength(300, ErrorMessage = "The {0} must be {1} at most.")]
+            public string Bio { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -66,6 +70,7 @@ namespace SocialMedia.App.Areas.Identity.Pages.Account.Manage
             var firstName = user.FirstName;
             var lastName = user.LastName;
             var privateProfile = user.IsPrivate;
+            var bio = user.Bio;
 
             Username = userName;
 
@@ -75,7 +80,8 @@ namespace SocialMedia.App.Areas.Identity.Pages.Account.Manage
                 FirstName = firstName,
                 LastName = lastName,
                 PhoneNumber = phoneNumber,
-                PrivateProfile = privateProfile
+                PrivateProfile = privateProfile,
+                Bio = bio,
             };
         }
 
@@ -108,6 +114,7 @@ namespace SocialMedia.App.Areas.Identity.Pages.Account.Manage
             var firstName = user.FirstName;
             var lastName = user.LastName;
             var privateProfile = user.IsPrivate;
+            var bio = user.Bio;
 
             if (Input.FirstName != firstName)
             {
@@ -122,6 +129,11 @@ namespace SocialMedia.App.Areas.Identity.Pages.Account.Manage
             if (Input.PrivateProfile != privateProfile)
             {
                 user.IsPrivate = Input.PrivateProfile;
+            }
+
+            if (Input.Bio != bio)
+            {
+                user.Bio = Input.Bio;
             }
 
             var username = await _userManager.GetUserNameAsync(user);

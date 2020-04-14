@@ -7,7 +7,7 @@
 
     public interface ICommentsService
     {
-        Task<bool> CreateAsync(CommentCreateModel model);
+        Task<string> CreateAsync(CommentCreateModel model);
 
         Task DeleteAsync(int id);
 

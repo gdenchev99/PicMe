@@ -727,6 +727,7 @@ textarea::placeholder {
 /* Profile Picture */
 .profile-picture{
   height: 118px;
+  width: max-content;
   cursor: pointer;
 }
 

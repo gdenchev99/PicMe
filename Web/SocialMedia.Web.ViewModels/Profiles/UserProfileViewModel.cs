@@ -20,6 +20,8 @@
 
         public bool IsPrivate { get; set; }
 
+        public string Bio { get; set; }
+
         public ICollection<UserFollowerModel> Followers { get; set; }
 
         public ICollection<UserFollowingModel> Followings { get; set; }

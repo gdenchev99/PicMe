@@ -41,6 +41,9 @@ namespace SocialMedia.Data.Models
 
         public bool IsPrivate { get; set; }
 
+        [MaxLength(300)]
+        public string Bio { get; set; }
+
         // Followers
         public virtual ICollection<UserFollower> Followers { get; set; }
 

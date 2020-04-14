@@ -24,7 +24,7 @@
 
 
 
-        public async Task CreateNotificationAsync(string userId, int postId, string info)
+        public async Task CreateNotificationAsync(string userId, int? postId, string info)
         {
             if (string.IsNullOrEmpty(userId))
             {
@@ -47,11 +47,13 @@
             await this.repository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<NotificationViewModel>> GetNotificationsAsync(string userId)
+        public async Task<IEnumerable<NotificationViewModel>> GetNotificationsAsync(string userId, int skipCount, int takeCount)
         {
             var notifications = await this.repository.All()
                 .Where(n => n.UserId == userId)
                 .OrderByDescending(n => n.CreatedOn)
+                .Skip(skipCount)
+                .Take(takeCount)
                 .To<NotificationViewModel>()
                 .ToListAsync();
 

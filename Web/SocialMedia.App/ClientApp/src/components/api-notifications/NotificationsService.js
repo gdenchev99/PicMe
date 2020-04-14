@@ -4,8 +4,10 @@ import axios from 'axios';
 class NotificationsService {
     _connection = new signalR.HubConnectionBuilder().withUrl("/notificationsHub").build();
 
-    async getNotifications(userId) {
-        let result = await axios.get(`api/Notifications/Get?userId=${userId}`);
+    async getNotifications(userId, skipCount, takeCount) {
+        let result = await axios.get(`api/Notifications/Get?userId=${userId}
+        &skipCount=${skipCount}
+        &takeCount=${takeCount}`);
 
         return result.data;
     }

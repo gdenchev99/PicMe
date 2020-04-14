@@ -31,14 +31,9 @@ namespace SocialMedia.App.Controllers
                 ));
             }
 
-            var isAdded = await this.service.CreateAsync(model);
-            
-            if (isAdded == false)
-            {
-                return BadRequest("Failed to add to the database.");
-            }
+            var postCreatorId = await this.service.CreateAsync(model);
 
-            return Ok();
+            return Ok(postCreatorId);
         }
 
         [HttpPost("Delete")]

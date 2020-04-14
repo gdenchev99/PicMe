@@ -17,9 +17,9 @@ namespace SocialMedia.App.Controllers
         }
 
         [HttpGet("Get")]
-        public async Task<IActionResult> GetNotifications(string userId)
+        public async Task<IActionResult> GetNotifications(string userId, int skipCount, int takeCount)
         {
-            var result = await this.service.GetNotificationsAsync(userId);
+            var result = await this.service.GetNotificationsAsync(userId, skipCount, takeCount);
 
             return Ok(result);
         }

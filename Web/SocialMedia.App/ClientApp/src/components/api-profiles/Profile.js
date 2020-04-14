@@ -3,6 +3,7 @@ import ProfileComponent from './ProfileComponent';
 import axios from 'axios';
 import authService from '../api-authorization/AuthorizeService';
 import profileService from './ProfileService';
+import notificationsService from '../api-notifications/NotificationsService';
 
 export class Profile extends Component {
 
@@ -23,32 +24,28 @@ export class Profile extends Component {
         }
 
         this.handleAction = this.handleAction.bind(this);
-        this.handleMedia = this.handleMedia.bind(this);
+        this.handleProfilePicture = this.handleProfilePicture.bind(this);
     }
 
     async componentDidUpdate(prevProps, prevState) {
         if ((prevProps.match.params.username !== this.props.match.params.username) ||
             (prevState.data.id != this.state.data.id)) {
-           await this.handleData();
-           await this.handleFollowing();
-           await this.handleIsPrivate();
+            await this.handleData();
+            await this.handleFollowing();
+            await this.handleIsPrivate();
         }
     }
 
     async componentDidMount() {
         let currentUser = await authService.getUser();
         let currentUserName = currentUser.name;
-        this.setState({currentUser: currentUser, currentUserName: currentUserName});
+        this.setState({ currentUser: currentUser, currentUserName: currentUserName });
 
         await this.handleData();
 
-        if (this.state.data.id == undefined) {
-            return this.props.history.push('/404');
-        }
-
         await this.handleFollowing();
         await this.handleIsPrivate();
-        
+
     }
 
     handleIsPrivate = async () => {
@@ -67,6 +64,12 @@ export class Profile extends Component {
 
         let profileResponse = await axios.get(`/api/Profiles/Get?username=${username}`);
         let postsResponse = await axios.get(`/api/Posts/Profile?username=${username}`);
+
+        // Check if the user exists, if not redirect to 404 error page.
+        if (profileResponse.data.id == undefined) {
+            return this.props.history.push('/404');
+        }
+
         let followersCount = profileService.getFollowersCount(profileResponse.data.followers);
         let followingsCount = profileService.getFollowingsCount(profileResponse.data.followings);
 
@@ -83,24 +86,24 @@ export class Profile extends Component {
     handleFollowing = async () => {
 
         /* Reset the state before checking again */
-        this.setState({isFollowing: false, isRequested: false})
+        this.setState({ isFollowing: false, isRequested: false })
 
         let isFollowing = await profileService.isFollowing(this.state.currentUserName, this.state.data.followers);
-        
+
         let isRequested = await profileService.isRequested(this.state.currentUserName, this.state.data.followers);
 
-        if(!isFollowing && !isRequested) {
-            this.setState({isFollowing: isFollowing, isRequested: isRequested, btnText: "Follow"});
+        if (!isFollowing && !isRequested) {
+            this.setState({ isFollowing: isFollowing, isRequested: isRequested, btnText: "Follow" });
         }
 
         if (isFollowing) {
             this.setState({ isFollowing: isFollowing, btnText: "Unfollow" });
-        }  
-        
-        if(isRequested) {
-            this.setState({isRequested: isRequested ,btnText: "Requested"})
         }
-        
+
+        if (isRequested) {
+            this.setState({ isRequested: isRequested, btnText: "Requested" })
+        }
+
     }
 
     handleAddFollower = async () => {
@@ -110,10 +113,19 @@ export class Profile extends Component {
 
         await profileService.addFollower(this.state.data.id, this.state.currentUser.sub)
             .then(() => {
+                let receiverId = this.state.data.id;
+                let postId = null;
+                let username = this.state.currentUserName;
                 // If the profile is private, isRequested is set to true when following the user.
-                isRequested ? 
-                this.setState({ btnText: "Requested", isRequested: isRequested}) :
-                this.setState({ btnText: "Unfollow", isFollowing: isFollowing, followersCount: this.state.followersCount + 1 })
+                if (isRequested) {
+                    this.setState({ btnText: "Requested", isRequested: isRequested })
+                    let info = `@${username} has requested to follow you.`;
+                    notificationsService.invokeNotificationMessage(receiverId, postId, info);
+                } else {
+                    this.setState({ btnText: "Unfollow", isFollowing: isFollowing, followersCount: this.state.followersCount + 1 })
+                    let info = `@${username} followed you.`;
+                    notificationsService.invokeNotificationMessage(receiverId, postId, info);
+                }
             })
             .catch(error => console.log(error));
     }
@@ -122,11 +134,13 @@ export class Profile extends Component {
 
         profileService.removeFollower(this.state.data.id, this.state.currentUser.sub)
             .then(() => {
-                this.setState({ btnText: "Follow", 
-                 isFollowing: false,
-                 isRequested: false,
-                 followersCount: this.state.followersCount - 1 })
-                
+                this.setState({
+                    btnText: "Follow",
+                    isFollowing: false,
+                    isRequested: false,
+                    followersCount: this.state.followersCount - 1
+                })
+
             })
             .catch(error => console.log(error));
     }
@@ -139,7 +153,7 @@ export class Profile extends Component {
         }
     }
 
-    handleMedia = async (event) => {
+    handleProfilePicture = async (event) => {
         event.persist();
 
         if (event.target.files && event.target.files[0]) {
@@ -169,7 +183,7 @@ export class Profile extends Component {
                         state={this.state}
                         isFollowing={this.state.isFollowing}
                         handleAction={this.handleAction}
-                        handleMedia={this.handleMedia} />
+                        handleProfilePicture={this.handleProfilePicture} />
                 }
             </div>
         );

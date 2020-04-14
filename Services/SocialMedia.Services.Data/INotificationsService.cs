@@ -6,9 +6,9 @@
 
     public interface INotificationsService
     {
-        Task CreateNotificationAsync(string userId, int postId, string info);
+        Task CreateNotificationAsync(string userId, int? postId, string info);
 
-        Task<IEnumerable<NotificationViewModel>> GetNotificationsAsync(string userId);
+        Task<IEnumerable<NotificationViewModel>> GetNotificationsAsync(string userId, int skipCount, int takeCount);
 
         Task<int> GetUnreadNotificationsAsync(string userId);
 

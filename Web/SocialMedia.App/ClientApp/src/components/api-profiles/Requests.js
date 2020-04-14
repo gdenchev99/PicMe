@@ -8,7 +8,8 @@ export class Requests extends Component {
         super(props);
 
         this.state = {
-            data: []
+            data: [],
+            user: null
         }
 
         this.handleApprove = this.handleApprove.bind(this);
@@ -18,6 +19,9 @@ export class Requests extends Component {
     async componentDidMount() {
         let user = await authService.getUser();
         let currentUsername = user.name;
+
+        this.setState({user: user});
+
         let username = this.props.match.params.username;
 
         if(currentUsername !== username) {
@@ -29,10 +33,7 @@ export class Requests extends Component {
     }
 
     handleData = async () => {
-        let user = await authService.getUser();
-        let id = user.sub;
-
-        let username = this.props.match.params.username;
+        let id = this.state.user.sub;
 
         let result = await axios.get(`api/Profiles/Requests?id=${id}`);
 
