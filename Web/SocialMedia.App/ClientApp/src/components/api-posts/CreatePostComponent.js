@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactPlayer from 'react-player';
 
 function CreatePostComponent(params) {
 
@@ -12,7 +13,7 @@ function CreatePostComponent(params) {
                                     a publication</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" id="images-tab" data-toggle="tab" role="tab" aria-controls="images" aria-selected="false" href="#images">Images</a>
+                            <a className="nav-link" id="images-tab" data-toggle="tab" role="tab" aria-controls="images" aria-selected="false" href="#images">Media</a>
                         </li>
                     </ul>
                 </div>
@@ -34,9 +35,12 @@ function CreatePostComponent(params) {
                                         onChange={params.handleMedia} />
                                     <label className="custom-file-label" htmlFor="customFile">{params.state.fileName}</label>
                                 </div>
-                                <h3>Image preview: </h3>
+                                <h3>Media preview: </h3>
                                 {
-                                    params.state.media == null ? null : <img id="target" src={params.state.media} height="100%" width="100%" alt="preview-media" />
+                                    params.state.media == null ? null :
+                                    params.state.fileName.substr(params.state.fileName.lastIndexOf('.')) === ".mp4" ?
+                                            <ReactPlayer url={params.state.media} playing={false} controls wrapper="form-group" /> :
+                                            <img src={params.state.media} alt="preview-media" />
                                 }
                             </div>
                             <div className="py-4"></div>
@@ -47,17 +51,6 @@ function CreatePostComponent(params) {
                             {params.state.loading ?
                                 <button type="submit" className="btn btn-primary" disabled>Posting...</button> :
                                 <button type="submit" className="btn btn-primary">Post</button>}
-                        </div>
-                        <div className="btn-group">
-                            <button id="btnGroupDrop1" type="button" className="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                                <i className="fa fa-globe"></i>
-                                <div className="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
-                                    <a className="dropdown-item" href="#"><i className="fa fa-globe"></i> Public</a>
-                                    <a className="dropdown-item" href="#"><i className="fa fa-users"></i> Friends</a>
-                                    <a className="dropdown-item" href="#"><i className="fa fa-user"></i> Just me</a>
-                                </div>
-                            </button>
                         </div>
                     </div>
                 </div>

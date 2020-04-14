@@ -536,12 +536,13 @@ ul small{
     }
     
     .modal-meta-top {
-        position: absolute;
+        position: relative;
         padding-top: 15px;
     }
     
     .modal-meta-bottom {
         margin: 0;
+        position: relative;
     }
 }
 

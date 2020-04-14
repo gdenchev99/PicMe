@@ -33,9 +33,9 @@ export class CreatePost extends Component {
             this.setState({
               media: URL.createObjectURL(file),
               mediaSource: file,
-              fileName: event.target.files[0].name
+              fileName: file.name
             });
-        }
+        }   
     }
 
     handleData = async(event) => {

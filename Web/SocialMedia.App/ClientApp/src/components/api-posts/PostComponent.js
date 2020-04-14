@@ -4,6 +4,7 @@ import LikeComponent from '../api-likes/LikeComponent';
 import { PostComments } from '../api-comments/PostComments';
 import { Link } from "react-router-dom";
 import { Like } from '../api-likes/Like';
+import ReactPlayer from 'react-player';
 
 function PostComponent(params) {
 
@@ -11,7 +12,9 @@ function PostComponent(params) {
         <div className="card mb-3">
             <div className="row no-gutters">
                 <div className="col-md-8 modal-image">
-                    <img className="img-responsive" src={params.data.mediaSource} />
+                    {params.data.mediaSource.substr(params.data.mediaSource.lastIndexOf('.')) === ".mp4" ?
+                        <ReactPlayer url={params.data.mediaSource} playing={false} controls wrapper="modal-image"/> :
+                        <img src={params.data.mediaSource} className="img-responsive gallery-images" />}
                 </div>
                 <div className="col-md-4 modal-meta">
                     <div className="modal-body modal-meta-top">
@@ -23,14 +26,14 @@ function PostComponent(params) {
                             {/* Start settings button for post (only post creator can see this) */}
                             {params.data.creatorUserName == params.currentUser ?
                                 <Fragment>
-                                <button className="btn btn-flat btn-flat-icon settings-icon" type="button" data-toggle="dropdown" aria-expanded="false">
-                                    <em className="fa fa-ellipsis-h"></em>
-                                </button>
-                                <div className="dropdown-menu dropdown-scale dropdown-menu-right" role="menu">
-                                    <button className="dropdown-item btn btn-flat" onClick={params.handleDelete}>Delete post</button>
+                                    <button className="btn btn-flat btn-flat-icon settings-icon" type="button" data-toggle="dropdown" aria-expanded="false">
+                                        <em className="fa fa-ellipsis-h"></em>
+                                    </button>
+                                    <div className="dropdown-menu dropdown-scale dropdown-menu-right" role="menu">
+                                        <button className="dropdown-item btn btn-flat" onClick={params.handleDelete}>Delete post</button>
                                     </div>
                                 </Fragment>
-                            : null}
+                                : null}
 
                             {/* End settings button for post */}
                             <span>{params.data.createdOnFormat}</span>
@@ -55,7 +58,7 @@ function PostComponent(params) {
                                 </ul>}
                             {/* Begin mapping comments here. */}
                             <ul className="img-comment-list">
-                                <PostComments postId={params.postId} postCreator={params.data.creatorUserName}/>
+                                <PostComments postId={params.postId} postCreator={params.data.creatorUserName} />
                             </ul>
                         </div>
                     </div>
