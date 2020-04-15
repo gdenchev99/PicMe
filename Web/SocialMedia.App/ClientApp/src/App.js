@@ -27,7 +27,7 @@ export default class App extends Component {
   render () {
     return (
       <Layout>
-      <ToastContainer autoClose={4000} position='bottom-right' />
+      <ToastContainer autoClose={8000} position='bottom-right' />
         <Route exact path='/' component={Home} />
         <Route exact path='/404' component={NotFound} />
         <AuthorizeRoute exact path='/createpost' component={ CreatePost } />

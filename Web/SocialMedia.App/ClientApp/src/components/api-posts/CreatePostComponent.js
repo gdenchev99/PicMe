@@ -9,8 +9,7 @@ function CreatePostComponent(params) {
                 <div className="card-header">
                     <ul className="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
                         <li className="nav-item">
-                            <a className="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Make
-                                    a publication</a>
+                            <a className="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Description</a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" id="images-tab" data-toggle="tab" role="tab" aria-controls="images" aria-selected="false" href="#images">Media</a>
@@ -23,8 +22,8 @@ function CreatePostComponent(params) {
                             <div className="form-group">
                                 <label className="sr-only" htmlFor="message">post</label>
                                 <textarea className="form-control" name="description" id="message"
-                                 value={params.state.description} 
-                                onChange={params.handleChange} rows="3" placeholder="What are you thinking?"></textarea>
+                                    value={params.state.description}
+                                    onChange={params.handleChange} rows="3" placeholder="What are you thinking?"></textarea>
                             </div>
 
                         </div>
@@ -35,12 +34,17 @@ function CreatePostComponent(params) {
                                         onChange={params.handleMedia} />
                                     <label className="custom-file-label" htmlFor="customFile">{params.state.fileName}</label>
                                 </div>
+                                {params.state.loading ?
+                                    <div class="spinner-border spinner float-right" role="status">
+                                        <span class="sr-only spinner float-right">Uploading...</span>
+                                    </div> : null}
                                 <h3>Media preview: </h3>
                                 {
                                     params.state.media == null ? null :
-                                    params.state.fileName.substr(params.state.fileName.lastIndexOf('.')) === ".mp4" ?
-                                            <ReactPlayer url={params.state.media} playing={false} controls wrapper="form-group" /> :
-                                            <img src={params.state.media} alt="preview-media" />
+                                        params.state.fileName.substr(params.state.fileName.lastIndexOf('.')) === ".mp4" ?
+                                            <ReactPlayer url={params.state.media} playing={false}
+                                                controls wrapper="form-group" className="preview-media" /> :
+                                            <img src={params.state.media} className="preview-media" alt="preview-media" />
                                 }
                             </div>
                             <div className="py-4"></div>

@@ -18,9 +18,9 @@
 
         public string CreatorProfilePictureUrl { get; set; }
 
-        public string CreatedOnFormat { get; set; }
+        public string CreatedOn { get; set; }
 
-        public string MediaSource { get; set; }
+        public string MediaExtension { get; set; }
 
         public string MediaPublicId { get; set; }
 
@@ -43,8 +43,12 @@
                 opt => opt.MapFrom(x => x.Likes.Count));
 
             configuration.CreateMap<Post, FeedViewModel>().ForMember(
-                m => m.CreatedOnFormat,
+                m => m.CreatedOn,
                 opt => opt.MapFrom(x => x.CreatedOn.ToString("dd MMMM yyyy 'at' HH:MM")));
+
+            configuration.CreateMap<Post, FeedViewModel>().ForMember(
+                m => m.MediaExtension,
+                opt => opt.MapFrom(x => x.MediaSource.Substring(x.MediaSource.LastIndexOf("."))));
         }
     }
 }

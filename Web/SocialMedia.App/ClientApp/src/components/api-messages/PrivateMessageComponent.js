@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Picker } from 'emoji-mart';
 
 function PrivateMessageComponent(params) {
 
     return (
         <React.Fragment>
+            <div className="emoji-picker chat-picker"><Picker onSelect={params.addEmoji} /></div>
             <div className="row rounded-lg overflow-hidden shadow">
 
                 <div className="col-12 px-0">
@@ -44,6 +46,8 @@ function PrivateMessageComponent(params) {
                                 onChange={params.handleChange} value={params.state.text}
                                 aria-describedby="button-addon2" className=" chat-input rounded-0 border-0 bg-light" />
                             <div className="input-group-append">
+                            <i className="far fa-smile chat-emoji-icon comment-emoji">
+                                    <button onClick={params.showPicker} className="btn btn-emoji"></button></i>
                             {params.state.text.replace(/\s/g, '').length ?
                                 <button id="button-addon2" type="submit" onClick={params.sendMessage}
                                     className="btn btn-link"><i className="fa fa-paper-plane"></i></button> :

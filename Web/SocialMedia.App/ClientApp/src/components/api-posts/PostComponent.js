@@ -12,8 +12,8 @@ function PostComponent(params) {
         <div className="card mb-3">
             <div className="row no-gutters">
                 <div className="col-md-8 modal-image">
-                    {params.data.mediaSource.substr(params.data.mediaSource.lastIndexOf('.')) === ".mp4" ?
-                        <Video cloudName="dibntzvzk" publicId={params.data.mediaPublicId} controls="true"
+                    {params.data.mediaExtension === ".mp4" ?
+                        <Video cloudName="dibntzvzk" publicId={params.data.mediaPublicId} controls={true}
                         className="img-responsive gallery-images" /> :
                         <Image cloudName="dibntzvzk" publicId={params.data.mediaPublicId} 
                         className="img-responsive gallery-images"/>}

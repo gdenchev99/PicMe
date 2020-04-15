@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import {Image, Video} from 'cloudinary-react';
+import { Image, Video } from 'cloudinary-react';
 
 function ProfileComponent(params) {
 
@@ -23,7 +23,7 @@ function ProfileComponent(params) {
 										<p className="lead">{params.data.firstName + " " + params.data.lastName}</p>
 										<p>
 											{params.data.bio}
-                           			    </p>
+										</p>
 									</div>
 									<div className="col-12 col-lg-2 col-md-6 text-center">
 										<div>
@@ -64,11 +64,11 @@ function ProfileComponent(params) {
 						params.state.posts.map(post =>
 							<div key={post.id} className="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
 								<Link to={`/post/${post.id}`}>
-									{post.mediaSource.substr(post.mediaSource.lastIndexOf('.')) === ".mp4" ?
-										<Video cloudName="dibntzvzk" publicId={post.mediaPublicId} 
-										className="img-responsive gallery-images" /> :
-										<Image cloudName="dibntzvzk" publicId={post.mediaPublicId} 
-										className="img-responsive gallery-images"/>}
+									{post.mediaExtension === ".mp4" ?
+										<Video cloudName="dibntzvzk" publicId={post.mediaPublicId}
+											className="img-responsive gallery-images" /> :
+										<Image cloudName="dibntzvzk" publicId={post.mediaPublicId}
+											className="img-responsive gallery-images" />}
 								</Link>
 							</div>)}
 				</div>

@@ -36,6 +36,7 @@ export class Notifications extends Component {
 
         let data = await notificationsService.getNotifications(userId, skipCount, takeCount);
         this.setState({data: data, skipCount: this.state.skipCount + this.state.takeCount});
+        console.log(data);
     }
 
     loadMore = async () => {

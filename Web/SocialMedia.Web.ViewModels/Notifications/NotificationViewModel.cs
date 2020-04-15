@@ -1,5 +1,6 @@
 ﻿namespace SocialMedia.Web.ViewModels.Notifications
 {
+    using AutoMapper;
     using SocialMedia.Data.Models;
     using SocialMedia.Services.Mapping;
 
@@ -12,5 +13,7 @@
         public string Info { get; set; }
 
         public string PostMediaSource { get; set; }
+
+        public string PostMediaPublicId { get; set; }
     }
 }

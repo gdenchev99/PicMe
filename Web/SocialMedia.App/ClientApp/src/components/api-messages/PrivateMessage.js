@@ -24,6 +24,9 @@ export class PrivateMessage extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
+        this.handleAddEmoji = this.handleAddEmoji.bind(this);
+        this.handleEmojiPicker = this.handleEmojiPicker.bind(this);
+        this.handleCloseOnClick = this.handleCloseOnClick.bind(this);
     }
 
     componentDidMount = async () => {
@@ -31,6 +34,9 @@ export class PrivateMessage extends Component {
 
         /* Scroll to the bottom of the chat */
         this.windowRef.current.scrollTop = this.windowRef.current.scrollHeight;
+
+        // Close emoji picker on click
+        document.addEventListener("mousedown", this.handleCloseOnClick);
 
         this.connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
         
@@ -41,6 +47,13 @@ export class PrivateMessage extends Component {
         await this.handleJoinChatRoom();
         this.handleAppendMessage();
     }
+
+    handleAddEmoji = e => {
+        let emoji = e.native;
+        this.setState({
+            text: this.state.text + emoji
+        });
+    };
 
     handleChange = ({ target }) => {
         this.setState({ [target.name]: target.value });
@@ -93,10 +106,34 @@ export class PrivateMessage extends Component {
             myUsername: user.name});
     }
 
+    handleEmojiPicker = (event) => {
+        let picker = document.getElementsByClassName("emoji-picker")[0];
+        if (picker.style.display == "block") {
+            picker.style.display = "none";
+        } else {
+            picker.style.display = "block";
+        }
+    }
+
+     // Close the emoji box when you click outside of it.
+     handleCloseOnClick = (event) => {
+        try {
+            let node = document.getElementsByClassName("emoji-picker")[0];
+            if (!node.contains(event.target)) {
+                // Handle outside click here
+                node.style.display = "none";
+            }
+        } catch (error) {
+            return null;
+        }
+    }
+
     render() {
         return (
             <PrivateMessageComponent data={this.state.data}
             state={this.state}
+            showPicker={this.handleEmojiPicker}
+            addEmoji={this.handleAddEmoji}
             sendMessage={this.sendMessage}
             handleChange={this.handleChange}
             windowRef={this.windowRef}/>

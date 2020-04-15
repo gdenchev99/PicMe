@@ -23,11 +23,9 @@
         /*
          The method uploads files to Cloudinary asynchronosly and returns UploadResult
          */
-        public async Task<RawUploadResult> UploadFileAsync(IFormFile image, string userId)
+        public async Task<RawUploadResult> UploadFileAsync(IFormFile inputFile, string userId)
         {
             var cloudinary = this.Cloudinary();
-
-            var streamReader = new StreamReader(image.OpenReadStream());
 
             var fileName = DateTime.Now.ToUniversalTime().ToString("yyyyMMdd\\THHmmssfff");
 
@@ -38,7 +36,7 @@
             so the images are sorted for each user. */
             var folder = encodedUserId + "/" + DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd");
 
-            var file = new FileDescription(fileName, streamReader.BaseStream);
+            var file = new FileDescription(fileName, inputFile.OpenReadStream());
 
             var uploadParams = new RawUploadParams
             {

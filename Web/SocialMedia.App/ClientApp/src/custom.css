@@ -607,6 +607,21 @@ ul small{
   bottom: 54px;
 }
 
+.chat-picker {
+  position: relative;
+  top: 11.5rem;
+  z-index: 1;
+  float: right;
+  right: 4rem;
+  margin-left: -27rem;
+  display: none;
+}
+
+.chat-emoji-icon {
+  position: relative;
+  top: 15px;
+}
+
 /* Messaging */
 
 .chat::-webkit-scrollbar {
@@ -786,7 +801,6 @@ textarea::placeholder {
 .search-fullname {
   display: block;
     position: relative;
-    left: 58px;
     bottom: 6px;
 }
 
@@ -814,4 +828,23 @@ a {
   #search-results {
     margin-left: 6%;
   }
+}
+
+.notifications-media {
+    right: 0;
+    height: 50px;
+    width: 100px;
+    position: absolute;
+    bottom: 7px;
+}
+
+.preview-media {
+  max-width: 100%;
+}
+
+.spinner {
+    position: relative;
+    bottom: 2.2rem;
+    z-index: 2;
+    right: 6rem;
 }

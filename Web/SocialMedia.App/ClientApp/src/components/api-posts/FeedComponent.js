@@ -31,16 +31,16 @@ function FeedComponent(params) {
                                                 <Link to={"/user/" + post.creatorUserName}><p className="m-0">{post.creatorFirstName} {post.creatorLastName}</p></Link>
                                                 <small><span><i className="icon ion-md-pin"></i>{post.creatorUserName}</span></small>
                                                 <Link to={`/post/${post.id}`}>
-                                                    <small><span><i className="icon ion-md-time"></i>{post.createdOnFormat}</span></small>
+                                                    <small><span><i className="icon ion-md-time"></i>{post.createdOn}</span></small>
                                                 </Link>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="cardbox-item">
-                                        {post.mediaSource.substr(post.mediaSource.lastIndexOf('.')) === ".mp4" ?
+                                        {post.mediaExtension === ".mp4" ?
                                             <Video cloudName="dibntzvzk" publicId={post.mediaPublicId} 
-                                            controls="true" className="img-responsive gallery-images" /> :
+                                            controls={true} className="img-responsive gallery-images" /> :
                                             <Image cloudName="dibntzvzk" publicId={post.mediaPublicId} 
                                             className="img-responsive gallery-images"/>}
                                     </div>
