@@ -4,7 +4,7 @@ import { CreateComment } from "../api-comments/CreateComment";
 import { Like } from '../api-likes/Like';
 import { FeedComments } from '../api-comments/FeedComments';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import ReactPlayer from 'react-player';
+import {Image, Video} from 'cloudinary-react';
 
 function FeedComponent(params) {
     return (
@@ -39,8 +39,10 @@ function FeedComponent(params) {
 
                                     <div className="cardbox-item">
                                         {post.mediaSource.substr(post.mediaSource.lastIndexOf('.')) === ".mp4" ?
-                                            <ReactPlayer url={post.mediaSource} playing={false} controls wrapper="cardbox-item" /> :
-                                            <img src={post.mediaSource} className="img-responsive gallery-images" />}
+                                            <Video cloudName="dibntzvzk" publicId={post.mediaPublicId} 
+                                            controls="true" className="img-responsive gallery-images" /> :
+                                            <Image cloudName="dibntzvzk" publicId={post.mediaPublicId} 
+                                            className="img-responsive gallery-images"/>}
                                     </div>
                                     <Like postId={post.id} />
                                     <FeedComments postId={post.id} commentsCount={post.commentsCount} />

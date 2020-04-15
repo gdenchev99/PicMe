@@ -8,5 +8,7 @@
         public int Id { get; set; }
 
         public string MediaSource { get; set; }
+
+        public string MediaPublicId { get; set; }
     }
 }

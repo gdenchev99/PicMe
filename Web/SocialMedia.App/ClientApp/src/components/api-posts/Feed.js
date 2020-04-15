@@ -22,7 +22,6 @@ export class Feed extends Component {
     async componentDidMount() {
         await this.populateState();
         await this.handleData();
-
     }
 
     async populateState() {

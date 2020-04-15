@@ -22,6 +22,8 @@
 
         public string MediaSource { get; set; }
 
+        public string MediaPublicId { get; set; }
+
         public string Description { get; set; }
 
         public string Id { get; set; }

@@ -17,5 +17,7 @@
         public string CreatedOnFormat => this.CreatedOn.ToString("dd MMMM yyyy 'at' HH:MM");
 
         public string MediaSource { get; set; }
+
+        public string MediaPublicId { get; set; }
     }
 }

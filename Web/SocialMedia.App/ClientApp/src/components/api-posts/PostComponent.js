@@ -4,7 +4,7 @@ import LikeComponent from '../api-likes/LikeComponent';
 import { PostComments } from '../api-comments/PostComments';
 import { Link } from "react-router-dom";
 import { Like } from '../api-likes/Like';
-import ReactPlayer from 'react-player';
+import {Image, Video} from 'cloudinary-react';
 
 function PostComponent(params) {
 
@@ -13,8 +13,10 @@ function PostComponent(params) {
             <div className="row no-gutters">
                 <div className="col-md-8 modal-image">
                     {params.data.mediaSource.substr(params.data.mediaSource.lastIndexOf('.')) === ".mp4" ?
-                        <ReactPlayer url={params.data.mediaSource} playing={false} controls wrapper="modal-image"/> :
-                        <img src={params.data.mediaSource} className="img-responsive gallery-images" />}
+                        <Video cloudName="dibntzvzk" publicId={params.data.mediaPublicId} controls="true"
+                        className="img-responsive gallery-images" /> :
+                        <Image cloudName="dibntzvzk" publicId={params.data.mediaPublicId} 
+                        className="img-responsive gallery-images"/>}
                 </div>
                 <div className="col-md-4 modal-meta">
                     <div className="modal-body modal-meta-top">

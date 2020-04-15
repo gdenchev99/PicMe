@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import {Image, Video} from 'cloudinary-react';
 
 function ProfileComponent(params) {
 
@@ -64,8 +65,10 @@ function ProfileComponent(params) {
 							<div key={post.id} className="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
 								<Link to={`/post/${post.id}`}>
 									{post.mediaSource.substr(post.mediaSource.lastIndexOf('.')) === ".mp4" ?
-										<video src={post.mediaSource} className="img-responsive gallery-images" /> :
-										<img src={post.mediaSource} className="img-responsive gallery-images" />}
+										<Video cloudName="dibntzvzk" publicId={post.mediaPublicId} 
+										className="img-responsive gallery-images" /> :
+										<Image cloudName="dibntzvzk" publicId={post.mediaPublicId} 
+										className="img-responsive gallery-images"/>}
 								</Link>
 							</div>)}
 				</div>
