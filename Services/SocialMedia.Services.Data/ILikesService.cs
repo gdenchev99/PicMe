@@ -13,5 +13,7 @@
         bool IsPostLikedByUser(string userId, int postId);
 
         Task<IEnumerable<LikeViewModel>> GetLastThreeAsync(int postId);
+
+        Task<bool> ExistsAsync(int id);
     }
 }

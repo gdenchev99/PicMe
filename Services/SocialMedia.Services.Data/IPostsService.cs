@@ -7,7 +7,7 @@
 
     public interface IPostsService
     {
-        Task<bool> CreateAsync(PostCreateModel postCreateModel);
+        Task<bool> CreateAsync(PostCreateModel postCreateModel, string mediaUrl, string publicId);
 
         Task<bool> DeleteAsync(int id);
 
@@ -16,5 +16,7 @@
         Task<PostViewModel> GetAsync(int id);
 
         Task<IEnumerable<ProfilePostViewModel>> GetProfilePostsAsync(string username);
+
+        Task<bool> ExistsAsync(int id);
     }
 }

@@ -15,21 +15,14 @@
     public class PostsService : IPostsService
     {
         private readonly IDeletableEntityRepository<Post> postRepository;
-        private readonly ICloudinaryService cloudinaryService;
 
-        public PostsService(IDeletableEntityRepository<Post> postRepository, ICloudinaryService cloudinaryService)
+        public PostsService(IDeletableEntityRepository<Post> postRepository)
         {
             this.postRepository = postRepository;
-            this.cloudinaryService = cloudinaryService;
         }
 
-        public async Task<bool> CreateAsync(PostCreateModel postCreateModel)
+        public async Task<bool> CreateAsync(PostCreateModel postCreateModel, string mediaUrl, string publicId)
         {
-            var uploadResult = await this.cloudinaryService.UploadFileAsync(postCreateModel.MediaSource, postCreateModel.CreatorId);
-            var mediaUrl = uploadResult.SecureUri.ToString();
-            var publicId = uploadResult.PublicId;
-
-
             var post = new Post
             {
                 Description = postCreateModel.Description,
@@ -50,16 +43,6 @@
             var post = this.postRepository.All()
                 .FirstOrDefault(p => p.Id == id);
 
-            if (post == null)
-            {
-                throw new ArgumentNullException("Post is invalid");
-            }
-
-            var publicId = post.MediaPublicId;
-
-            // Delete the media from Cloud
-            await this.cloudinaryService.DeleteFileAsync(publicId);
-
             // Delete the entire post
             this.postRepository.HardDelete(post);
 
@@ -71,11 +54,6 @@
         // id = id of currently logged in user.
         public async Task<IEnumerable<FeedViewModel>> GetFeedAsync(string id, int skipCount, int takeCount)
         {
-            if (id == null)
-            {
-                throw new ArgumentNullException("The provided user id is invalid");
-            }
-
             var posts = await this.postRepository.All()
                 .Where(p => p.Creator.Followers.Any(x => x.FollowerId == id && x.IsApproved == true))
                 .OrderByDescending(p => p.CreatedOn)
@@ -90,11 +68,6 @@
         // id = id of post
         public async Task<PostViewModel> GetAsync(int id)
         {
-            if (id <= 0)
-            {
-                throw new ArgumentException("Post id is invalid");
-            }
-
             var post = await this.postRepository.All()
                 .Where(p => p.Id == id)
                 .To<PostViewModel>()
@@ -112,6 +85,16 @@
                 .ToListAsync();
 
             return posts;
+        }
+
+        public async Task<bool> ExistsAsync(int id)
+        {
+            var post = await this.postRepository.All()
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            bool exists = post != null;
+
+            return exists;
         }
     }
 }

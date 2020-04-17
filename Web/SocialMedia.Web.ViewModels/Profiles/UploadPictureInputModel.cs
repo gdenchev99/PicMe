@@ -7,7 +7,7 @@
     public class UploadPictureInputModel
     {
         [Required]
-        public string Username { get; set; }
+        public string Id { get; set; }
 
         [Required]
         public IFormFile Picture { get; set; }

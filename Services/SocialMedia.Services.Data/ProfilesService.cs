@@ -15,31 +15,20 @@
     {
         private readonly IRepository<ApplicationUser> userRepository;
         private readonly IRepository<UserFollower> userFollowerRepository;
-        private readonly ICloudinaryService cloudinaryService;
 
         public ProfilesService(
             IRepository<ApplicationUser> userRepository,
-            IRepository<UserFollower> userFollowerRepository,
-            ICloudinaryService cloudinaryService)
+            IRepository<UserFollower> userFollowerRepository)
         {
             this.userRepository = userRepository;
             this.userFollowerRepository = userFollowerRepository;
-            this.cloudinaryService = cloudinaryService;
         }
 
         /*
          A method that allows you to follow somebody through their profile, by clicking the follow button.
          */
-        public async Task<string> AddFollowerAsync(AddFollowerModel model)
+        public async Task<bool> AddFollowerAsync(AddFollowerModel model)
         {
-            var follower = this.userFollowerRepository.All()
-                .FirstOrDefault(uf => uf.UserId == model.UserId && uf.FollowerId == model.FollowerId);
-
-            if (follower != null)
-            {
-                return "You are already following this user";
-            }
-
             var userToFollow = this.userRepository.All().FirstOrDefault(x => x.Id == model.UserId);
 
             var isApproved = false;
@@ -58,9 +47,9 @@
 
             await this.userFollowerRepository.AddAsync(userFollower);
 
-            await this.userFollowerRepository.SaveChangesAsync();
+            var result = await this.userFollowerRepository.SaveChangesAsync() > 0;
 
-            return "You followed the user successfully";
+            return result;
         }
 
         /*
@@ -68,12 +57,12 @@
          */
         public async Task<UserProfileViewModel> GetUserProfileAsync(string username)
         {
-            var user = await this.userRepository
+            var profile = await this.userRepository
                             .All()
                             .To<UserProfileViewModel>()
                             .FirstOrDefaultAsync(u => u.UserName == username);
 
-            return user;
+            return profile;
         }
 
         /*
@@ -83,11 +72,6 @@
         {
             var follower = this.userFollowerRepository.All()
                 .FirstOrDefault(uf => uf.UserId == model.UserId && uf.FollowerId == model.FollowerId);
-
-            if (follower == null)
-            {
-                return "You are not following this user";
-            }
 
             this.userFollowerRepository.Delete(follower);
 
@@ -101,14 +85,6 @@
          */
         public async Task<IEnumerable<FollowerViewModel>> GetUserFollowersAsync(string username)
         {
-            var user = await this.userRepository.All()
-                .FirstOrDefaultAsync(u => u.UserName == username);
-
-            if (user == null)
-            {
-                return null;
-            }
-
             var followers = await this.userFollowerRepository.All()
              .Where(f => f.User.UserName == username && f.IsApproved == true)
              .To<FollowerViewModel>()
@@ -122,14 +98,6 @@
          */
         public async Task<IEnumerable<FollowingViewModel>> GetUserFollowingsAsync(string username)
         {
-            var user = await this.userRepository.All()
-                .FirstOrDefaultAsync(u => u.UserName == username);
-
-            if (user == null)
-            {
-                throw new ArgumentNullException("User does not exist");
-            }
-
             var followings = await this.userFollowerRepository.All()
                 .Where(f => f.Follower.UserName == username && f.IsApproved == true)
                 .To<FollowingViewModel>()
@@ -138,32 +106,10 @@
             return followings;
         }
 
-        public async Task<string> UploadProfilePicture(UploadPictureInputModel model)
+        public async Task<string> UploadProfilePictureAsync(string id, string profilePictureUrl, string picturePublicId)
         {
-            var username = model.Username;
-            var picture = model.Picture;
-
             var user = this.userRepository.All()
-                .FirstOrDefault(u => u.UserName == username);
-
-            if (user == null)
-            {
-                throw new ArgumentNullException("User does not exist");
-            }
-
-            var publicId = user.PicturePublicId;
-
-            // Delete the current profile picture from the cloud if the user has one.
-            if (publicId != null)
-            {
-                await this.cloudinaryService.DeleteFileAsync(publicId);
-            }
-
-            // Upload the new picture to the cloud
-            var uploadResult = await this.cloudinaryService.UploadFileAsync(picture, user.Id);
-
-            var profilePictureUrl = uploadResult.SecureUri.ToString();
-            var picturePublicId = uploadResult.PublicId;
+                .FirstOrDefault(u => u.Id == id);
 
             user.ProfilePictureUrl = profilePictureUrl;
             user.PicturePublicId = picturePublicId;
@@ -176,11 +122,6 @@
 
         public async Task<IEnumerable<ProfileSearchViewModel>> SearchProfilesAsync(string searchString)
         {
-            if (string.IsNullOrEmpty(searchString))
-            {
-                throw new ArgumentNullException("The search string is empty.");
-            }
-
             var searchResult = await this.userRepository.All()
                 .Where(s => s.UserName.StartsWith(searchString))
                 .Take(5)
@@ -192,14 +133,6 @@
 
         public async Task<IEnumerable<RequestViewModel>> GetFollowerRequestsAsync(string id)
         {
-            var user = await this.userRepository.All()
-                .FirstOrDefaultAsync(u => u.Id == id);
-
-            if (user == null)
-            {
-                throw new ArgumentNullException("User is invalid.");
-            }
-
             var requests = await this.userFollowerRepository.All()
                 .Where(f => f.UserId == id && f.IsApproved == false)
                 .To<RequestViewModel>()
@@ -208,15 +141,10 @@
             return requests;
         }
 
-        public async Task<string> ApproveRequestAsync(string username)
+        public async Task<bool> ApproveRequestAsync(string username)
         {
             var requester = await this.userRepository.All()
                 .FirstOrDefaultAsync(u => u.UserName == username);
-
-            if (requester == null)
-            {
-                throw new ArgumentNullException("User could not be found.");
-            }
 
             var requesterId = requester.Id;
 
@@ -225,25 +153,15 @@
 
             follower.IsApproved = true;
 
-            var result = await this.userFollowerRepository.SaveChangesAsync();
+            var result = await this.userFollowerRepository.SaveChangesAsync() > 0;
 
-            if (result < 0)
-            {
-                throw new DbUpdateException("Saving changes to the database failed!");
-            }
-
-            return "Approved!";
+            return result;
         }
 
-        public async Task<string> DeleteRequestAsync(string username)
+        public async Task<bool> DeleteRequestAsync(string username)
         {
             var requester = await this.userRepository.All()
                 .FirstOrDefaultAsync(u => u.UserName == username);
-
-            if (requester == null)
-            {
-                throw new ArgumentNullException("User could not be found.");
-            }
 
             var requesterId = requester.Id;
 
@@ -252,14 +170,39 @@
 
             this.userFollowerRepository.Delete(follower);
 
-            var result = await this.userFollowerRepository.SaveChangesAsync();
+            var result = await this.userFollowerRepository.SaveChangesAsync() > 0;
 
-            if (result < 0)
-            {
-                throw new DbUpdateException("Saving changes to the database failed!");
-            }
+            return result;
+        }
 
-            return "Deleted!";
+        public async Task<bool> FollowerExistsAsync(string userId, string followerId)
+        {
+            var follower = await this.userFollowerRepository.All()
+                .FirstOrDefaultAsync(x => x.UserId == userId && x.FollowerId == followerId);
+
+            bool exists = follower != null;
+
+            return exists;
+        }
+
+        public async Task<bool> UserExistsByIdAsync(string userId)
+        {
+            var user = await this.userRepository.All()
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            bool exists = user != null;
+
+            return exists;
+        }
+
+        public async Task<bool> UserExistsByNameAsync(string username)
+        {
+            var user = await this.userRepository.All()
+                .FirstOrDefaultAsync(u => u.UserName == username);
+
+            bool exists = user != null;
+
+            return exists;
         }
     }
 }

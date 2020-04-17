@@ -10,6 +10,7 @@ export class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            error: null,
             data: {},
             posts: [],
             postsCount: 0,
@@ -62,13 +63,12 @@ export class Profile extends Component {
     handleData = async () => {
         let username = this.props.match.params.username;
 
-        let profileResponse = await axios.get(`/api/Profiles/Get?username=${username}`);
-        let postsResponse = await axios.get(`/api/Posts/Profile?username=${username}`);
+        let profileResponse = await axios.get(`/api/Profiles/Get?username=${username}`)
+        .catch(error => {
+            this.setState({error: error.response.data.message});
+        });
 
-        // Check if the user exists, if not redirect to 404 error page.
-        if (profileResponse.data.id == undefined) {
-            return this.props.history.push('/404');
-        }
+        let postsResponse = await axios.get(`/api/Posts/Profile?username=${username}`);
 
         let followersCount = profileService.getFollowersCount(profileResponse.data.followers);
         let followingsCount = profileService.getFollowingsCount(profileResponse.data.followings);
@@ -161,7 +161,7 @@ export class Profile extends Component {
 
             let data = new FormData();
             data.append("picture", file);
-            data.set("username", this.state.currentUserName);
+            data.set("id", this.state.currentUser.sub);
 
             this.setState({ loading: true })
             await axios.post('/api/Profiles/ProfilePicture', data, {
@@ -175,7 +175,13 @@ export class Profile extends Component {
     }
 
     render() {
+        
+        if(this.state.error) {
+            this.props.history.push("/404");
+        }
+
         return (
+            <React.Fragment>
             <div>
                 {this.state && this.state.data &&
                     <ProfileComponent key={this.state.data.id}
@@ -186,6 +192,7 @@ export class Profile extends Component {
                         handleProfilePicture={this.handleProfilePicture} />
                 }
             </div>
+            </React.Fragment>
         );
     }
 }

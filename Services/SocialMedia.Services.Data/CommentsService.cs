@@ -35,11 +35,6 @@
 
             var result = await this.commentRepository.SaveChangesAsync() > 0;
 
-            if (!result)
-            {
-                throw new DbUpdateException("Could not add comment to the database.");
-            }
-
             var postCreatorId = await this.postRepository.All()
                 .Where(p => p.Id == model.PostId)
                 .Select(p => p.CreatorId)
@@ -53,22 +48,12 @@
             var comment = await this.commentRepository.All()
                 .FirstOrDefaultAsync(c => c.Id == id);
 
-            if (comment == null)
-            {
-                throw new ArgumentNullException("Comment could not be found");
-            }
-
             this.commentRepository.HardDelete(comment);
             var result = await this.commentRepository.SaveChangesAsync() > 0;
         }
 
         public async Task<IEnumerable<FeedCommentViewModel>> GetLastTwoAsync(int postId)
         {
-            if (postId <= 0)
-            {
-                throw new ArgumentException("The provided id is invalid");
-            }
-
             var comments = await this.commentRepository
                 .All()
                 .Where(c => c.PostId == postId)
@@ -88,11 +73,6 @@
 
         public async Task<IEnumerable<PostCommentViewModel>> GetPostCommentsAsync(int postId, int skipCount, int takeCount)
         {
-            if (postId <= 0)
-            {
-                throw new ArgumentException("The provided id is invalid.");
-            }
-
             var comments = await this.commentRepository
                 .All()
                 .Where(c => c.PostId == postId)
@@ -107,6 +87,16 @@
             }
 
             return comments;
+        }
+
+        public async Task<bool> ExistsAsync(int id)
+        {
+            var comment = await this.postRepository.All()
+                .FirstOrDefaultAsync(e => e.Id == id);
+
+            bool exists = comment != null;
+
+            return exists;
         }
     }
 }

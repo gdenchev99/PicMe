@@ -15,5 +15,6 @@
 
         Task<IEnumerable<FeedCommentViewModel>> GetLastTwoAsync(int postId);
 
+        Task<bool> ExistsAsync(int id);
     }
 }

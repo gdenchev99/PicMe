@@ -3,13 +3,21 @@ import axios from 'axios';
 class ProfileService {
 
     getFollowersCount(followers) {
-        let count = followers.filter(f => f.isApproved === true).length;
+        let count = 0;
+
+        if(followers != null) {
+        count = followers.filter(f => f.isApproved === true).length;
+        }
 
         return count;
     }
 
     getFollowingsCount(followings) {
-        let count = followings.filter(f => f.isApproved === true).length;
+        let count = 0;
+
+        if(followings != null) {
+            count = followings.filter(f => f.isApproved === true).length;
+        }
 
         return count;
     }

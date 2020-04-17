@@ -16,18 +16,15 @@
         private readonly IRepository<Like> likeRepository;
         private readonly IRepository<ApplicationUser> userRepository;
         private readonly IRepository<Post> postRepository;
-        private readonly INotificationsService notifications;
 
         public LikesService(
             IRepository<Like> likeRepository,
             IRepository<ApplicationUser> userRepository,
-            IRepository<Post> postRepository,
-            INotificationsService notifications)
+            IRepository<Post> postRepository)
         {
             this.likeRepository = likeRepository;
             this.userRepository = userRepository;
             this.postRepository = postRepository;
-            this.notifications = notifications;
         }
 
         public async Task<string> AddAsync(AddLikeModel model)
@@ -37,16 +34,6 @@
 
             var post = await this.postRepository.All()
                 .FirstOrDefaultAsync(p => p.Id == model.PostId);
-
-            if (user == null)
-            {
-                throw new ArgumentNullException("User is invalid.");
-            }
-
-            if (post == null)
-            {
-                throw new ArgumentNullException("Post is invalid.");
-            }
 
             var like = new Like
             {
@@ -58,19 +45,9 @@
                 .Where(l => l.PostId == model.PostId)
                 .Any(l => l.UserId == model.UserId);
 
-            if (likeExists)
-            {
-                return "You have already liked this post";
-            }
-
             await this.likeRepository.AddAsync(like);
 
             var result = await this.likeRepository.SaveChangesAsync() > 0;
-
-            if (!result)
-            {
-                throw new DbUpdateException("The database update failed while adding like to the post.");
-            }
 
             var postCreatorId = await this.likeRepository.All()
                 .Where(l => l.PostId == model.PostId)
@@ -82,11 +59,6 @@
 
         public async Task<IEnumerable<LikeViewModel>> GetLastThreeAsync(int postId)
         {
-            if (postId <= 0)
-            {
-                throw new ArgumentException("Post id is invalid");
-            }
-
             var likes = await this.likeRepository.All()
                 .Where(l => l.PostId == postId)
                 .OrderByDescending(l => l.CreatedOn)
@@ -120,21 +92,21 @@
             var like = this.likeRepository.All()
                 .FirstOrDefault(l => l.PostId == model.PostId && l.UserId == model.UserId);
 
-            if (like == null)
-            {
-                return "You haven't liked this post";
-            }
-
             this.likeRepository.Delete(like);
 
             var result = await this.likeRepository.SaveChangesAsync() > 0;
 
-            if (!result)
-            {
-                throw new DbUpdateException("Could not remove like from the database");
-            }
-
             return "Like removed successfully";
+        }
+
+        public async Task<bool> ExistsAsync(int id)
+        {
+            var like = await this.likeRepository.All()
+                .FirstOrDefaultAsync(l => l.Id == id);
+
+            bool exists = like != null;
+
+            return exists;
         }
     }
 }

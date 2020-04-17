@@ -26,16 +26,6 @@
 
         public async Task CreateNotificationAsync(string userId, int? postId, string info)
         {
-            if (string.IsNullOrEmpty(userId))
-            {
-                throw new ArgumentNullException("User Id cannot be null");
-            }
-
-            if (string.IsNullOrEmpty(info))
-            {
-                throw new ArgumentNullException("Info cannot be null");
-            }
-
             var notification = new Notification
             {
                 UserId = userId,
@@ -86,11 +76,6 @@
             }
 
             var result = await this.repository.SaveChangesAsync() > 0;
-
-            if (!result)
-            {
-                throw new DbUpdateException("Failed to update the notifications");
-            }
 
             return string.Empty;
         }

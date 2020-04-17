@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Services.Data;
+using SocialMedia.Web.ViewModels;
 using SocialMedia.Web.ViewModels.Comments;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,12 @@ namespace SocialMedia.App.Controllers
     public class CommentsController : ControllerBase
     {
         private readonly ICommentsService service;
+        private readonly IPostsService postsService;
 
-        public CommentsController(ICommentsService service)
+        public CommentsController(ICommentsService service, IPostsService postsService)
         {
             this.service = service;
+            this.postsService = postsService;
         }
 
         [HttpPost("Create")]
@@ -39,9 +42,11 @@ namespace SocialMedia.App.Controllers
         [HttpPost("Delete")]
         public async Task<IActionResult> Delete([FromQuery]int id)
         {
-            if (id <= 0)
+            bool commentExists = await this.service.ExistsAsync(id);
+
+            if (!commentExists)
             {
-                return BadRequest("Invalid id");
+                return BadRequest(new BadRequestViewModel { Message = "Comment doesn't exist." });
             }
 
             await this.service.DeleteAsync(id);
@@ -52,9 +57,11 @@ namespace SocialMedia.App.Controllers
         [HttpGet("All")]
         public async Task<IActionResult> GetPostComments(int postId, int skipCount, int takeCount)
         {
-            if (postId <= 0)
+            bool postExists = await this.postsService.ExistsAsync(postId);
+
+            if (!postExists)
             {
-                return BadRequest();
+                return BadRequest(new BadRequestViewModel { Message = "Post does not exist." });
             }
 
             var result = await this.service.GetPostCommentsAsync(postId, skipCount, takeCount);
@@ -65,9 +72,11 @@ namespace SocialMedia.App.Controllers
         [HttpGet("Feed")]
         public async Task<IActionResult> GetFeedComments(int postId)
         {
-            if (postId <= 0)
+            bool postExists = await this.postsService.ExistsAsync(postId);
+
+            if (!postExists)
             {
-                return BadRequest();
+                return BadRequest(new BadRequestViewModel { Message = "Post does not exist." });
             }
 
             var result = await this.service.GetLastTwoAsync(postId);

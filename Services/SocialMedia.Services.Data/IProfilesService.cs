@@ -9,7 +9,7 @@
     {
         Task<UserProfileViewModel> GetUserProfileAsync(string username);
 
-        Task<string> AddFollowerAsync(AddFollowerModel model);
+        Task<bool> AddFollowerAsync(AddFollowerModel model);
 
         Task<string> RemoveFollowerAsync(AddFollowerModel model);
 
@@ -19,12 +19,18 @@
 
         Task<IEnumerable<RequestViewModel>> GetFollowerRequestsAsync(string id);
 
-        Task<string> ApproveRequestAsync(string username);
+        Task<bool> ApproveRequestAsync(string username);
 
-        Task<string> DeleteRequestAsync(string username);
+        Task<bool> DeleteRequestAsync(string username);
 
-        Task<string> UploadProfilePicture(UploadPictureInputModel model);
+        Task<string> UploadProfilePictureAsync(string id, string profilePictureUrl, string picturePublicId);
 
         Task<IEnumerable<ProfileSearchViewModel>> SearchProfilesAsync(string searchString);
+
+        Task<bool> UserExistsByIdAsync(string userId);
+
+        Task<bool> UserExistsByNameAsync(string username);
+
+        Task<bool> FollowerExistsAsync(string userId, string followerId);
     }
 }

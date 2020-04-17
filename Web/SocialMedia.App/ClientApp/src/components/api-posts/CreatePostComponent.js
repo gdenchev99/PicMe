@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
+import { InlineError } from '../errors/InlineErrors';
 
 function CreatePostComponent(params) {
 
@@ -34,9 +35,10 @@ function CreatePostComponent(params) {
                                         onChange={params.handleMedia} />
                                     <label className="custom-file-label" htmlFor="customFile">{params.state.fileName}</label>
                                 </div>
+                                <InlineError field='MediaSource' errors={params.state.errors} />
                                 {params.state.loading ?
-                                    <div class="spinner-border spinner float-right" role="status">
-                                        <span class="sr-only spinner float-right">Uploading...</span>
+                                    <div className="spinner-border spinner float-right" role="status">
+                                        <span className="sr-only spinner float-right">Uploading...</span>
                                     </div> : null}
                                 <h3>Media preview: </h3>
                                 {

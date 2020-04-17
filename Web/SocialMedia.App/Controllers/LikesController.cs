@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Services.Data;
+using SocialMedia.Web.ViewModels;
 using SocialMedia.Web.ViewModels.Likes;
 using System.Threading.Tasks;
 
@@ -25,6 +26,13 @@ namespace SocialMedia.App.Controllers
                 return BadRequest("Model state is not valid.");
             }
 
+            bool likeExists = this.service.IsPostLikedByUser(model.UserId, model.PostId);
+
+            if (likeExists)
+            {
+                return BadRequest(new BadRequestViewModel { Message = "You have already liked this post." });
+            }
+
             var result = await this.service.AddAsync(model);
 
             return Ok(result);
@@ -36,6 +44,13 @@ namespace SocialMedia.App.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest("Model state is not valid");
+            }
+
+            bool likeExists = this.service.IsPostLikedByUser(model.UserId, model.PostId);
+
+            if (likeExists)
+            {
+                return BadRequest(new BadRequestViewModel { Message = "You have already liked this post." });
             }
 
             var result = await this.service.RemoveAsync(model);

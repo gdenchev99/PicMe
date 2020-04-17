@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SocialMedia.Services;
 using SocialMedia.Services.Data;
+using SocialMedia.Web.ViewModels;
 using SocialMedia.Web.ViewModels.Profiles;
 using System;
 using System.Collections.Generic;
@@ -14,15 +16,26 @@ namespace SocialMedia.App.Controllers
     public class ProfilesController : ControllerBase
     {
         private readonly IProfilesService service;
+        private readonly ICloudinaryService cloudinaryService;
 
-        public ProfilesController(IProfilesService service)
+        public ProfilesController(
+            IProfilesService service, 
+            ICloudinaryService cloudinaryService)
         {
             this.service = service;
+            this.cloudinaryService = cloudinaryService;
         }
         
         [HttpGet("Get")]
         public async Task<IActionResult> Get(string username)
         {
+            bool userExists = await this.service.UserExistsByNameAsync(username);
+
+            if (!userExists)
+            {
+                return BadRequest(new BadRequestViewModel { Message = "This user does not exist." });
+            }
+
             var userProfile = await this.service.GetUserProfileAsync(username);
 
             return Ok(userProfile);
@@ -31,6 +44,13 @@ namespace SocialMedia.App.Controllers
         [HttpPost("Follow")]
         public async Task<IActionResult> Follow([FromBody]AddFollowerModel model)
         {
+            bool followerExists = await this.service.FollowerExistsAsync(model.UserId, model.FollowerId);
+
+            if (followerExists)
+            {
+                return BadRequest(new BadRequestViewModel { Message = "You are already following this user." });
+            }
+
             // Follow the user
             await this.service.AddFollowerAsync(model);
 
@@ -40,6 +60,13 @@ namespace SocialMedia.App.Controllers
         [HttpPost("Unfollow")]
         public async Task<IActionResult> Unfollow([FromBody]AddFollowerModel model)
         {
+            bool followerExists = await this.service.FollowerExistsAsync(model.UserId, model.FollowerId);
+
+            if (!followerExists)
+            {
+                return BadRequest(new BadRequestViewModel { Message = "You cannot unfollow this user, because you don't follow him." });
+            }
+
             var result = await this.service.RemoveFollowerAsync(model);
 
             return Ok(result);
@@ -48,6 +75,13 @@ namespace SocialMedia.App.Controllers
         [HttpGet("Followers")]
         public async Task<IActionResult> Followers(string username)
         {
+            bool userExists = await this.service.UserExistsByNameAsync(username);
+
+            if (!userExists)
+            {
+                return BadRequest(new BadRequestViewModel { Message = "This user does not exist" });
+            }
+
             var result = await this.service.GetUserFollowersAsync(username);
 
             return Ok(result);
@@ -56,6 +90,13 @@ namespace SocialMedia.App.Controllers
         [HttpGet("Followings")]
         public async Task<IActionResult> Followings(string username)
         {
+            bool userExists = await this.service.UserExistsByNameAsync(username);
+
+            if (!userExists)
+            {
+                return BadRequest(new BadRequestViewModel { Message = "This user does not exist" });
+            }
+
             var result = await this.service.GetUserFollowingsAsync(username);
 
             return Ok(result);
@@ -64,6 +105,13 @@ namespace SocialMedia.App.Controllers
         [HttpGet("Requests")]
         public async Task<IActionResult> Requests(string id)
         {
+            bool userExists = await this.service.UserExistsByIdAsync(id);
+
+            if (!userExists)
+            {
+                return BadRequest(new BadRequestViewModel { Message = "This user does not exist" });
+            }
+
             var result = await this.service.GetFollowerRequestsAsync(id);
 
             return Ok(result);
@@ -72,23 +120,42 @@ namespace SocialMedia.App.Controllers
         [HttpPost("Approve")]
         public async Task<IActionResult> ApproveRequest(string username)
         {
+            bool userExists = await this.service.UserExistsByNameAsync(username);
+
+            if (!userExists)
+            {
+                return BadRequest(new BadRequestViewModel { Message = "This user does not exist" });
+            }
+
             var result = await this.service.ApproveRequestAsync(username);
 
-            return Ok(result);
+            return Ok();
         }
 
         [HttpPost("Delete")]
         public async Task<IActionResult> DeleteRequest(string username)
         {
+            bool userExists = await this.service.UserExistsByNameAsync(username);
+
+            if (!userExists)
+            {
+                return BadRequest(new BadRequestViewModel { Message = "This user does not exist" });
+            }
+
             var result = await this.service.DeleteRequestAsync(username);
 
-            return Ok(result);
+            return Ok();
         }
 
         [HttpPost("ProfilePicture")]
         public async Task<IActionResult> ProfilePicture([FromForm]UploadPictureInputModel model)
         {
-            var result = await this.service.UploadProfilePicture(model);
+            var uploadResult = await this.cloudinaryService.UploadFileAsync(model.Picture, model.Id);
+
+            var profilePictureUrl = uploadResult.SecureUri.ToString();
+            var picturePublicId = uploadResult.PublicId;
+
+            var result = await this.service.UploadProfilePictureAsync(model.Id, profilePictureUrl, picturePublicId);
 
             return Ok(result);
         }

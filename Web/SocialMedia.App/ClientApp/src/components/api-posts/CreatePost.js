@@ -60,7 +60,11 @@ export class CreatePost extends Component {
         .then(result => {
                 this.setState({description: "", media: null, loading: false, fileName: "Choose Image"})
             })
-        .catch(errors => console.log(errors.response.data.errors));
+        .catch(errors => 
+            {
+                console.log(errors.response.data.errors)
+                this.setState({errors: errors.response.data.errors ,loading: false});
+            });
     }
     
 
