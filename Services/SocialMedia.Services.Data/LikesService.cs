@@ -66,28 +66,18 @@
                 .To<LikeViewModel>()
                 .ToListAsync();
 
-            if (likes.Count < 0)
-            {
-                return null;
-            }
-
             return likes;
         }
 
-        public bool IsPostLikedByUser(string userId, int postId)
+        public async Task<bool> IsPostLikedByUserAsync(string userId, int postId)
         {
-            var like = this.likeRepository.All()
-                .Any(l => l.PostId == postId && l.UserId == userId);
+            var isLiked = await this.likeRepository.All()
+                .AnyAsync(l => l.PostId == postId && l.UserId == userId);
 
-            if (!like)
-            {
-                return false;
-            }
-
-            return true;
+            return isLiked;
         }
 
-        public async Task<string> RemoveAsync(AddLikeModel model)
+        public async Task<bool> RemoveAsync(AddLikeModel model)
         {
             var like = this.likeRepository.All()
                 .FirstOrDefault(l => l.PostId == model.PostId && l.UserId == model.UserId);
@@ -96,7 +86,7 @@
 
             var result = await this.likeRepository.SaveChangesAsync() > 0;
 
-            return "Like removed successfully";
+            return result;
         }
 
         public async Task<bool> ExistsAsync(int id)

@@ -14,15 +14,11 @@
     public class NotificationsService : INotificationsService
     {
         private readonly IRepository<Notification> repository;
-        private readonly ILogger<NotificationsService> logger;
 
-        public NotificationsService(IRepository<Notification> repository, ILogger<NotificationsService> logger)
+        public NotificationsService(IRepository<Notification> repository)
         {
             this.repository = repository;
-            this.logger = logger;
         }
-
-
 
         public async Task CreateNotificationAsync(string userId, int? postId, string info)
         {
@@ -50,7 +46,7 @@
             return notifications;
         }
 
-        public async Task<int> GetUnreadNotificationsAsync(string userId)
+        public async Task<int> GetUnreadNotificationsCountAsync(string userId)
         {
             int unreadCount = await this.repository.All()
                 .Where(n => n.UserId == userId && n.Read == false)

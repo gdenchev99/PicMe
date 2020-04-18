@@ -10,7 +10,7 @@
     {
         public static ApplicationDbContext Context()
         {
-            var dbName = DateTime.Now.ToUniversalTime().ToString("yyyyMMdd\\THHmmssfff");
+            var dbName = Guid.NewGuid().ToString();
 
             IOptions<OperationalStoreOptions> operationalStoreOptions = Options.Create(new OperationalStoreOptions());
 

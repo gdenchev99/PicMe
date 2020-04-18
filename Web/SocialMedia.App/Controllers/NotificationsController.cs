@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Services.Data;
 using System.Threading.Tasks;
 
 namespace SocialMedia.App.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
@@ -27,7 +29,7 @@ namespace SocialMedia.App.Controllers
         [HttpGet("Unread")]
         public async Task<IActionResult> GetUnreadNotifications(string userId)
         {
-            var result = await this.service.GetUnreadNotificationsAsync(userId);
+            var result = await this.service.GetUnreadNotificationsCountAsync(userId);
 
             return Ok(result);
         }

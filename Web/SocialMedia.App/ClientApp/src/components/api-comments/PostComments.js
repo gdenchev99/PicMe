@@ -63,7 +63,8 @@ export class PostComments extends Component {
             }
         })
             .then(res => {
-                console.log(res)
+                console.log(res);
+                document.getElementById(id).style.display = "none"; // Remove the comment from the view.
             })
             .catch(e => console.log(e));
     }

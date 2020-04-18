@@ -81,17 +81,12 @@
                 .To<PostCommentViewModel>()
                 .ToListAsync();
 
-            if (comments.Count <= 0)
-            {
-                return null;
-            }
-
             return comments;
         }
 
         public async Task<bool> ExistsAsync(int id)
         {
-            var comment = await this.postRepository.All()
+            var comment = await this.commentRepository.All()
                 .FirstOrDefaultAsync(e => e.Id == id);
 
             bool exists = comment != null;

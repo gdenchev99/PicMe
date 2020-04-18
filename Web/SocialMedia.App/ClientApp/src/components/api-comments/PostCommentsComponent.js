@@ -5,7 +5,8 @@ function PostCommentsComponent(params) {
 
     return (
         <React.Fragment>
-            {params.data.length <= 0 ? null : params.data.map(c => <li key={c.id}>
+            {params.data.length <= 0 ? null : params.data.map(c => 
+            <li id={c.id} key={c.id}>
                 <div className="comment-img">
                     <img src={c.creatorProfilePictureUrl} />
                 </div>

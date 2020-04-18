@@ -29,6 +29,9 @@ using SocialMedia.Services;
 using SocialMedia.Features.Chat;
 using SocialMedia.Web.ViewModels.Messages;
 using Microsoft.AspNet.SignalR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+using System;
 
 namespace SocialMedia.App
 {
@@ -70,6 +73,7 @@ namespace SocialMedia.App
                     options.Password.RequireLowercase = true;
                     options.Password.RequiredUniqueChars = 0;
                 });
+
             services.Configure<CloudinaryConfig>(this.configuration.GetSection("Cloudinary"));
             services.Configure<SendGridConfig>(this.configuration.GetSection("SendGrid"));
 

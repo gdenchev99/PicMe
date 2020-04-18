@@ -28,7 +28,6 @@ export class AuthorizeService {
 
         await this.ensureUserManagerInitialized();
         const user = await this.userManager.getUser();
-        
         return user && user.profile;
     }
 
@@ -36,6 +35,12 @@ export class AuthorizeService {
         await this.ensureUserManagerInitialized();
         const user = await this.userManager.getUser();
         return user && user.access_token;
+    }
+
+    async getRefreshToken() {
+        await this.ensureUserManagerInitialized();
+        const user = await this.userManager.getUser();
+        return user && user.refresh_token;
     }
 
     // We try to authenticate the user in three different ways:

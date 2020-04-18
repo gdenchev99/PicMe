@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Services.Data;
 using SocialMedia.Web.ViewModels;
 using SocialMedia.Web.ViewModels.Messages;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.App.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
@@ -45,7 +47,7 @@ namespace SocialMedia.App.Controllers
                 return BadRequest(new BadRequestViewModel { Message = "This user does not exist" });
             }
 
-            var result = await this.service.GetChatRoom(currentId, receiverUsername);
+            var result = await this.service.GetChatRoomMessagesAsync(currentId, receiverUsername);
 
             return Ok(result);
         }

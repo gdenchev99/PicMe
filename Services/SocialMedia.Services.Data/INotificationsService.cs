@@ -10,7 +10,7 @@
 
         Task<IEnumerable<NotificationViewModel>> GetNotificationsAsync(string userId, int skipCount, int takeCount);
 
-        Task<int> GetUnreadNotificationsAsync(string userId);
+        Task<int> GetUnreadNotificationsCountAsync(string userId);
 
         Task<string> UpdateReadStatusAsync(string userId);
     }

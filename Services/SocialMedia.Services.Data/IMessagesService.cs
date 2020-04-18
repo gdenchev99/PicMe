@@ -11,6 +11,6 @@
 
         Task<MessageViewModel> CreateAsync(MessageInputModel model);
 
-        Task<IEnumerable<MessageViewModel>> GetChatRoom(string currentId, string receiverUsername);
+        Task<IEnumerable<MessageViewModel>> GetChatRoomMessagesAsync(string currentId, string receiverUsername);
     }
 }

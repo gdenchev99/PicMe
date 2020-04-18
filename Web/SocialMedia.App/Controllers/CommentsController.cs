@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Services.Data;
 using SocialMedia.Web.ViewModels;
 using SocialMedia.Web.ViewModels.Comments;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.App.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]

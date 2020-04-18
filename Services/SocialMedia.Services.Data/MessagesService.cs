@@ -83,7 +83,7 @@
             return mappedMessage;
         }
 
-        public async Task<IEnumerable<MessageViewModel>> GetChatRoom(string currentId, string receiverUsername)
+        public async Task<IEnumerable<MessageViewModel>> GetChatRoomMessagesAsync(string currentId, string receiverUsername)
         {
             var receiver = await this.userRepository.All()
                 .FirstOrDefaultAsync(u => u.UserName == receiverUsername);

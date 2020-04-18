@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Services.Data;
 using SocialMedia.Web.ViewModels;
 using SocialMedia.Web.ViewModels.Likes;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.App.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
@@ -26,7 +28,7 @@ namespace SocialMedia.App.Controllers
                 return BadRequest("Model state is not valid.");
             }
 
-            bool likeExists = this.service.IsPostLikedByUser(model.UserId, model.PostId);
+            bool likeExists = await this.service.IsPostLikedByUserAsync(model.UserId, model.PostId);
 
             if (likeExists)
             {
@@ -46,11 +48,11 @@ namespace SocialMedia.App.Controllers
                 return BadRequest("Model state is not valid");
             }
 
-            bool likeExists = this.service.IsPostLikedByUser(model.UserId, model.PostId);
+            bool likeExists = await this.service.IsPostLikedByUserAsync(model.UserId, model.PostId);
 
-            if (likeExists)
+            if (!likeExists)
             {
-                return BadRequest(new BadRequestViewModel { Message = "You have already liked this post." });
+                return BadRequest(new BadRequestViewModel { Message = "You haven't liked this post." });
             }
 
             var result = await this.service.RemoveAsync(model);
@@ -59,9 +61,9 @@ namespace SocialMedia.App.Controllers
         }
 
         [HttpGet("Liked")]
-        public bool IsLiked(string userId, int postId)
+        public async Task<bool> IsLiked(string userId, int postId)
         {
-            var result = this.service.IsPostLikedByUser(userId, postId);
+            var result = await this.service.IsPostLikedByUserAsync(userId, postId);
 
             return result;
         }

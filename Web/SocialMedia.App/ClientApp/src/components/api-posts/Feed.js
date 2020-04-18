@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import FeedComponent from './FeedComponent';
 import axios from 'axios';
 import authService from '../api-authorization/AuthorizeService';
-import ReactDOM from 'react-dom';
 
 export class Feed extends Component {
 
@@ -22,6 +21,7 @@ export class Feed extends Component {
     async componentDidMount() {
         await this.populateState();
         await this.handleData();
+
     }
 
     async populateState() {

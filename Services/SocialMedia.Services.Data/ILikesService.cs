@@ -8,9 +8,9 @@
     {
         Task<string> AddAsync(AddLikeModel model);
 
-        Task<string> RemoveAsync(AddLikeModel model);
+        Task<bool> RemoveAsync(AddLikeModel model);
 
-        bool IsPostLikedByUser(string userId, int postId);
+        Task<bool> IsPostLikedByUserAsync(string userId, int postId);
 
         Task<IEnumerable<LikeViewModel>> GetLastThreeAsync(int postId);
 
