@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import RequestComponent from './RequetsComponent';
-import axios from 'axios';
 import authService from '../api-authorization/AuthorizeService';
+import profileService from './ProfileService';
 
 export class Requests extends Component {
     constructor(props) {
@@ -20,11 +20,11 @@ export class Requests extends Component {
         let user = await authService.getUser();
         let currentUsername = user.name;
 
-        this.setState({user: user});
+        this.setState({ user: user });
 
         let username = this.props.match.params.username;
 
-        if(currentUsername !== username) {
+        if (currentUsername !== username) {
             return this.props.history.push('/404');
         }
 
@@ -35,16 +35,16 @@ export class Requests extends Component {
     handleData = async () => {
         let id = this.state.user.sub;
 
-        let result = await axios.get(`api/Profiles/Requests?id=${id}`);
+        let result = await profileService.getRequests(id);
 
-        this.setState({data: result.data});
+        this.setState({ data: result.data });
     }
 
     handleApprove = async (username, ev) => {
         ev.persist();
         let element = ev.target.parentNode.parentNode;
 
-        await axios.post(`api/Profiles/Approve?username=${username}`)
+        await profileService.approveRequest(username)
             .then(() => {
                 element.remove();
             })
@@ -55,7 +55,7 @@ export class Requests extends Component {
         ev.persist();
         let element = ev.target.parentNode.parentNode;
 
-        await axios.post(`api/Profiles/Delete?username=${username}`)
+        await profileService.deleteRequest(username)
             .then(() => {
                 element.remove();
             })
@@ -63,10 +63,10 @@ export class Requests extends Component {
     }
 
     render() {
-        return(
-            <RequestComponent data={this.state.data} 
-            handleApprove={this.handleApprove}
-            handleDelete={this.handleDelete}/>
+        return (
+            <RequestComponent data={this.state.data}
+                handleApprove={this.handleApprove}
+                handleDelete={this.handleDelete} />
         );
     }
 }

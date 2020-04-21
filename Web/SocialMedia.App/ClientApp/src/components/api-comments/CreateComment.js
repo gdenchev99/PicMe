@@ -2,7 +2,6 @@ import React, { Component, createRef } from 'react';
 import ReactDOM from 'react-dom'
 import CreateCommentComponent from './CreateCommentComponent';
 import authService from '../api-authorization/AuthorizeService';
-import axios from "axios";
 import notificationsService from '../api-notifications/NotificationsService';
 import commentsService from './CommentsService';
 

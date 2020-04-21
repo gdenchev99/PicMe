@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import SearchComponent from './SearchComponent';
-import axios from 'axios';
+import profileService from './ProfileService';
 
 export class Search extends Component {
     constructor(props) {
@@ -28,7 +28,7 @@ export class Search extends Component {
 
     handleSearchResults = async (query) => {
         if (query.length > 0) {
-            await axios.post(`api/Profiles/Search?searchString=${query}`)
+            await profileService.searchUsers(query)
                 .then(r => {
                     this.setState({ results: r.data });
                     this.handleDisplayResults("block");

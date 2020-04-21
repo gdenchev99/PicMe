@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PostCommentsComponent from './PostCommentsComponent';
-import axios from 'axios';
 import authService from '../api-authorization/AuthorizeService';
 import commentsService from './CommentsService';
 

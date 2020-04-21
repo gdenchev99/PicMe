@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import FollowingsComponent from './FollowingsComponent';
-import axios from 'axios';
+import profileService from './ProfileService';
 
 export class Followings extends Component {
 
@@ -20,7 +20,7 @@ export class Followings extends Component {
     handleGetFollowings = async () => {
         let username = this.props.match.params.username;
 
-        const result = await axios.get(`/api/Profiles/Followings?username=${username}`);
+        const result = await profileService.getFollowings(username);
 
         this.setState({ data: result.data });
     }

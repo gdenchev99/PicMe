@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ProfileComponent from './ProfileComponent';
-import axios from 'axios';
 import authService from '../api-authorization/AuthorizeService';
 import profileService from './ProfileService';
 import notificationsService from '../api-notifications/NotificationsService';
@@ -63,12 +62,12 @@ export class Profile extends Component {
     handleData = async () => {
         let username = this.props.match.params.username;
 
-        let profileResponse = await axios.get(`/api/Profiles/Get?username=${username}`)
+        let profileResponse = await profileService.getProfile(username)
         .catch(error => {
             this.setState({error: error.response.data.message});
         });
 
-        let postsResponse = await axios.get(`/api/Posts/Profile?username=${username}`);
+        let postsResponse = await profileService.getProfilePosts(username);
 
         let followersCount = profileService.getFollowersCount(profileResponse.data.followers);
         let followingsCount = profileService.getFollowingsCount(profileResponse.data.followings);

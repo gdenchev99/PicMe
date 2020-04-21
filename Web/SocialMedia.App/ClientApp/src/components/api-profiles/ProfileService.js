@@ -84,6 +84,46 @@ class ProfileService {
 
         return result;
     }
+
+    async getFollowers(username) {
+        let result = await axios.get(`/api/Profiles/Followers?username=${username}`);
+        return result;
+    }
+
+    async getFollowings(username) {
+        let result = await axios.get(`/api/Profiles/Followings?username=${username}`);
+        return result;
+    }
+
+    async getProfile(username) {
+        let result = await axios.get(`/api/Profiles/Get?username=${username}`)
+        return result;
+    }
+
+    async getProfilePosts(username) {
+       let result = await axios.get(`/api/Posts/Profile?username=${username}`);
+       return result;
+    }
+
+    async getRequests(id) {
+        let result = await axios.get(`api/Profiles/Requests?id=${id}`);
+        return result;
+    }
+
+    async approveRequest(username) {
+        let result = await axios.post(`api/Profiles/Approve?username=${username}`);
+        return result;
+    }
+
+    async deleteRequest(username) {
+        let result = await axios.post(`api/Profiles/Delete?username=${username}`)
+        return result;
+    }
+
+    async searchUsers(query) {
+        let result = await axios.post(`api/Profiles/Search?searchString=${query}`);
+        return result;
+    }
 }
 
 const profileService = new ProfileService();
