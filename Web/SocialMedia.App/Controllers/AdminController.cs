@@ -49,6 +49,13 @@ namespace SocialMedia.App.Controllers
                 return BadRequest(new BadRequestViewModel { Message = "this user does not exist." });
             }
 
+            bool result = await this.adminService.IsAdminAsync(id);
+
+            if (!result)
+            {
+                return Forbid();
+            }
+
             string endDate = await this.adminService.BanUserAsync(id);
 
             return Ok(endDate);
@@ -62,6 +69,13 @@ namespace SocialMedia.App.Controllers
             if (!userExists)
             {
                 return BadRequest(new BadRequestViewModel { Message = "this user does not exist." });
+            }
+
+            bool result = await this.adminService.IsAdminAsync(id);
+
+            if (!result)
+            {
+                return Forbid();
             }
 
             await this.adminService.UnbanUserAsync(id);

@@ -3,6 +3,7 @@ import axios from 'axios';
 import authService from '../api-authorization/AuthorizeService';
 import { Redirect } from 'react-router-dom';
 import DashboardComponent from './DashboardComponent';
+import adminService from './AdminService';
 
 export class Dashboard extends Component {
     constructor(props) {
@@ -29,7 +30,7 @@ export class Dashboard extends Component {
     }
 
     handleData = async() => {
-        await axios.get(`/api/Admin/Get?id=${this.state.userId}`)
+        await adminService.fetchUsers(this.state.userId)
             .then(response => {
                 if (response == undefined) {
                     this.setState({status: "failed"})
@@ -43,7 +44,7 @@ export class Dashboard extends Component {
     }
 
     banUser = async(id) => {
-        let result = await axios.post(`/api/Admin/Ban?id=${id}`);
+        let result = await adminService.banUser(id);
         
         let array = this.state.data;
         array.find(x => x.id == id).lockoutEnd = result.data; // Update the value inside the array without re-fetching so the button can update.
@@ -52,7 +53,8 @@ export class Dashboard extends Component {
     }
 
     unbanUser = async(id) => {
-        await axios.post(`/api/Admin/Unban?id=${id}`);
+        await adminService.unbanUser(id);
+        
         let array = this.state.data;
         array.find(x => x.id == id).lockoutEnd = "0001-01-01T00:00:00+00:00"; // Update the value inside the array without re-fetching so the button can update.
 
