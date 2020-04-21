@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace SocialMedia.Features.Chat
+namespace SocialMedia.Features.Notifications
 {
     public interface INotificationsClient
     {

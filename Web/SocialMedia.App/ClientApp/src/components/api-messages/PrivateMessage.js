@@ -9,7 +9,9 @@ export class PrivateMessage extends Component {
         super(props);
         
         this.state = {
+            currentUser: null,
             myUsername: "",
+            currentId: "",
             receiverUsername: "",
             receiverPicture: "",
             isAuthenticated: false,
@@ -30,6 +32,11 @@ export class PrivateMessage extends Component {
     }
 
     componentDidMount = async () => {
+        let user = await authService.getUser();
+        let currentId = user.sub;
+
+        this.setState({currentUser: user, currentId: currentId});
+
         await this.getMessages();
 
         /* Scroll to the bottom of the chat */
@@ -75,13 +82,11 @@ export class PrivateMessage extends Component {
         })
     }
 
-    sendMessage = async () => {
-        let user = await authService.getUser();
-        let userId = user.sub;
+    sendMessage = () => {
         let userTwoUsername = this.props.match.params.username;
 
         let data = {
-            userOneId: userId,
+            userOneId: this.state.currentId,
             userTwoUsername: userTwoUsername,
             text: this.state.text
         };
@@ -91,10 +96,8 @@ export class PrivateMessage extends Component {
 
     getMessages = async () => {
         let receiverUsername = this.props.match.params.username;
-        let user = await authService.getUser();
-        let currentId = user.sub;
 
-        let result = await axios.get(`api/Messages/ChatRoom?currentId=${currentId}&receiverUsername=${receiverUsername}`);
+        let result = await axios.get(`api/Messages/ChatRoom?currentId=${this.state.currentId}&receiverUsername=${receiverUsername}`);
 
         let receiver = result.data.find(r => r.userUserName == receiverUsername);
 
@@ -103,7 +106,7 @@ export class PrivateMessage extends Component {
         this.setState({data: result.data, 
             receiverUsername: receiverUsername, 
             receiverPicture: receiverPicture,
-            myUsername: user.name});
+            myUsername: this.state.currentUser.name});
     }
 
     handleEmojiPicker = (event) => {

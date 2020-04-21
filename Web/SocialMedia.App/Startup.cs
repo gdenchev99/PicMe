@@ -32,6 +32,7 @@ using Microsoft.AspNet.SignalR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using System;
+using SocialMedia.Features.Notifications;
 
 namespace SocialMedia.App
 {

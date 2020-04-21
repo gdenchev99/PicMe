@@ -36,7 +36,7 @@ export class Post extends Component {
 
     handleData = async() => {
         
-        let response = await axios.get(`/api/Posts/Get?id=${this.postId}`)
+        let response = await axios.get(`/api/Posts/Get?id=${this.postId}`);
         
         this.setState({ data: response.data, description: response.data.description });
         

@@ -1,4 +1,4 @@
-﻿namespace SocialMedia.Features.Chat
+﻿namespace SocialMedia.Features.Notifications
 {
     using Microsoft.AspNetCore.SignalR;
     using Microsoft.Extensions.Logging;
@@ -10,12 +10,10 @@
     public class NotificationsHub : Hub<INotificationsClient>
     {
         private readonly INotificationsService service;
-        private readonly ILogger<NotificationsHub> logger;
 
-        public NotificationsHub(INotificationsService service, ILogger<NotificationsHub> logger)
+        public NotificationsHub(INotificationsService service)
         {
             this.service = service;
-            this.logger = logger;
         }
 
         public void MapConnectionAndUserIds(string userId)
