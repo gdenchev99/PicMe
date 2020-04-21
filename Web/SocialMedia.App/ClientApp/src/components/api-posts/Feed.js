@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import FeedComponent from './FeedComponent';
 import axios from 'axios';
 import authService from '../api-authorization/AuthorizeService';
+import postsService from './PostsService';
 
 export class Feed extends Component {
 
@@ -33,18 +34,13 @@ export class Feed extends Component {
     }
 
     handleData = async () => {
-
-        let response = await axios.get(`/api/Posts/Feed?id=${this.state.userId}
-        &skipCount=${this.state.skipCount}
-        &takeCount=${this.state.takeCount}`);
+        let response = await postsService.fetchFeedPosts(this.state.userId, this.state.skipCount, this.state.takeCount);
 
         this.setState({ data: response.data, skipCount: this.state.skipCount + this.state.takeCount });
     }
 
     loadMore = async () => {
-        let response = await axios.get(`/api/Posts/Feed?id=${this.state.userId}
-        &skipCount=${this.state.skipCount}
-        &takeCount=${this.state.takeCount}`);
+        let response = await postsService.fetchFeedPosts(this.state.userId, this.state.skipCount, this.state.takeCount);
 
         this.setState({ data: this.state.data.concat(response.data), skipCount: this.state.skipCount + this.state.takeCount });
     }

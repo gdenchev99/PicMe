@@ -6,7 +6,7 @@ class ProfileService {
         let count = 0;
 
         if(followers != null) {
-        count = followers.filter(f => f.isApproved === true).length;
+            count = followers.filter(f => f.isApproved === true).length;
         }
 
         return count;
@@ -68,6 +68,21 @@ class ProfileService {
         }
 
         return false;
+    }
+
+    async uploadProfilePicture(userId, picture) {
+        let data = new FormData();
+        data.append("picture", picture);
+        data.set("id", userId);
+
+        let result = await axios.post('/api/Profiles/ProfilePicture', data, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        return result;
     }
 }
 

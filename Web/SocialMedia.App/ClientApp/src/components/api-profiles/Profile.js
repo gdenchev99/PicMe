@@ -159,18 +159,8 @@ export class Profile extends Component {
         if (event.target.files && event.target.files[0]) {
             let file = event.target.files[0];
 
-            let data = new FormData();
-            data.append("picture", file);
-            data.set("id", this.state.currentUser.sub);
-
-            this.setState({ loading: true })
-            await axios.post('/api/Profiles/ProfilePicture', data, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(result => this.setState({ profilePicture: result.data }));
+            await profileService.uploadProfilePicture(this.state.currentUser.sub, file)
+                    .then(result => this.setState({ profilePicture: result.data }));
         }
     }
 
