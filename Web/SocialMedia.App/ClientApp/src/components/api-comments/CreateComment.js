@@ -4,6 +4,7 @@ import CreateCommentComponent from './CreateCommentComponent';
 import authService from '../api-authorization/AuthorizeService';
 import axios from "axios";
 import notificationsService from '../api-notifications/NotificationsService';
+import commentsService from './CommentsService';
 
 export class CreateComment extends Component {
 
@@ -48,18 +49,7 @@ export class CreateComment extends Component {
 
         let userId = this.state.user.sub;
 
-        let data = {
-            creatorId: userId,
-            postId: this.state.postId,
-            text: this.state.text
-        };
-
-        axios.post("api/Comments/Create", data, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
+        await commentsService.createComment(userId, this.state.postId, this.state.text)
             .then(result => {
                 this.setState({ text: "" });
                 // Post's creator's id.

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PostCommentsComponent from './PostCommentsComponent';
 import axios from 'axios';
 import authService from '../api-authorization/AuthorizeService';
+import commentsService from './CommentsService';
 
 export class PostComments extends Component {
 
@@ -26,42 +27,34 @@ export class PostComments extends Component {
         await this.handleCreatorDelete();
     }
 
-    handleData = async() => {
+    handleData = async () => {
         let postId = this.props.postId;
         let user = await authService.getUser();
-        let currentUser = user.name; 
+        let currentUser = user.name;
 
-        let response = await axios.get(`/api/Comments/All?postId=${postId}
-        &skipCount=${this.state.skipCount}
-        &takeCount=${this.state.takeCount}`)
+        let response = await commentsService.getComments(postId, this.state.skipCount, this.state.takeCount);
 
-        this.setState({data: response.data,
+        this.setState({
+            data: response.data,
             currentUser: currentUser,
-            skipCount: this.state.skipCount + this.state.takeCount});
-        
-        this.setState({isLoading: false})
+            skipCount: this.state.skipCount + this.state.takeCount
+        });
+
+        this.setState({ isLoading: false })
     }
 
-    loadMore = async() => {
+    loadMore = async () => {
         let postId = this.props.postId;
 
-        let response = await axios.get(`/api/Comments/All?postId=${postId}
-        &skipCount=${this.state.skipCount}
-        &takeCount=${this.state.takeCount}`)
+        let response = await commentsService.getComments(postId, this.state.skipCount, this.state.takeCount);
 
-        if(response.data.length > 0) {
+        if (response.data.length > 0) {
             this.setState({ data: this.state.data.concat(response.data), skipCount: this.state.skipCount + this.state.takeCount });
         }
     }
 
-    handleDelete = async(id) => {
-        
-        await axios.post(`/api/Comments/Delete?id=${id}`, null, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
+    handleDelete = async (id) => {
+        await commentsService.deleteComment(id)
             .then(res => {
                 console.log(res);
                 document.getElementById(id).style.display = "none"; // Remove the comment from the view.
@@ -72,23 +65,23 @@ export class PostComments extends Component {
     handleCreatorDelete = async () => {
         let postCreator = this.props.postCreator;
         let user = await authService.getUser();
-        let currentUser = user.name; 
+        let currentUser = user.name;
 
-        if(postCreator === currentUser) {
-            this.setState({isPostCreator: true})
+        if (postCreator === currentUser) {
+            this.setState({ isPostCreator: true })
         }
     }
 
     render() {
-        return(
+        return (
             <React.Fragment>
-                {this.state.isLoading ? <div>Loading....</div> : 
-                <PostCommentsComponent data={this.state.data}
-                currentUser={this.state.currentUser}
-                isPostCreator={this.state.isPostCreator}
-                handleDelete={this.handleDelete}
-                loadMore={this.loadMore}/>}
-                    
+                {this.state.isLoading ? <div>Loading....</div> :
+                    <PostCommentsComponent data={this.state.data}
+                        currentUser={this.state.currentUser}
+                        isPostCreator={this.state.isPostCreator}
+                        handleDelete={this.handleDelete}
+                        loadMore={this.loadMore} />}
+
             </React.Fragment>
         );
     }

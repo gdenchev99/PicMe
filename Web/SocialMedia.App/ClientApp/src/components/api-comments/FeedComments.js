@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import FeedCommentsComponent from './FeedCommentsComponent';
+import commentsService from './CommentsService';
 
 export class FeedComments extends Component {
 
@@ -20,7 +21,7 @@ export class FeedComments extends Component {
     handleData = async () => {
         let postId = this.props.postId;
 
-        let response = await axios.get(`/api/Comments/Feed?postId=${postId}`)
+        let response = await commentsService.getFeedComments(postId);
         
         this.setState({ data: response.data, count: this.props.commentsCount });
 
