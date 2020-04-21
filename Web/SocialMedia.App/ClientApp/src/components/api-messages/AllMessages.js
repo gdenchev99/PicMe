@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AllMessagesComponent from './AllMessagesComponent';
 import authService from '../api-authorization/AuthorizeService';
-import axios from 'axios';
+import messagesService from './MessagesService';
 
 export class AllMessages extends Component {
     constructor(props) {
@@ -20,7 +20,7 @@ export class AllMessages extends Component {
         let user = await authService.getUser();
         let userId = user.sub;
 
-        let result = await axios.get(`/api/Messages/ChatRooms?userId=${userId}`);
+        let result = await messagesService.getChatRooms(userId);
 
         this.setState({data: result.data});
     }

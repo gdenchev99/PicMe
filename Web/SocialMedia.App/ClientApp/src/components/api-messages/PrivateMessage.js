@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as signalR from '@aspnet/signalr';
 import authService from '../api-authorization/AuthorizeService';
 import PrivateMessageComponent from './PrivateMessageComponent';
-import axios from 'axios';
+import messagesService from './MessagesService';
 
 export class PrivateMessage extends Component {
     constructor(props) {
@@ -97,8 +97,7 @@ export class PrivateMessage extends Component {
     getMessages = async () => {
         let receiverUsername = this.props.match.params.username;
 
-        let result = await axios.get(`api/Messages/ChatRoom?currentId=${this.state.currentId}&receiverUsername=${receiverUsername}`);
-
+        let result = await messagesService.getMessages(this.state.currentId, receiverUsername);
         let receiver = result.data.find(r => r.userUserName == receiverUsername);
 
         let receiverPicture = receiver == null ? this.defaultPicture : receiver.userProfilePictureUrl;
