@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import FeedComponent from './FeedComponent';
-import axios from 'axios';
 import authService from '../api-authorization/AuthorizeService';
 import postsService from './PostsService';
 

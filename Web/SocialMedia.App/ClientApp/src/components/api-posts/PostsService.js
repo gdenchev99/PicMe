@@ -24,6 +24,16 @@ export class PostsService {
 
         return result;
     }
+
+    async getPost(postId) {
+        let result = await axios.get(`/api/Posts/Get?id=${postId}`);
+        return result;
+    }
+
+    async deletePost(postId) {
+        let result = await axios.post(`/api/Posts/Delete?id=${postId}`);
+        return result;
+    }
 }
 
 const postsService = new PostsService();

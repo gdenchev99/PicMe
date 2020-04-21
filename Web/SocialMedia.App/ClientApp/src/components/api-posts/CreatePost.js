@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import CreatePostComponent from "./CreatePostComponent";
 import authService from '../api-authorization/AuthorizeService';
-import axios from 'axios';
 import postsService from "./PostsService";
 
 export class CreatePost extends Component {
