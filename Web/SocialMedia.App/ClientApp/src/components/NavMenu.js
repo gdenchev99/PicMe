@@ -33,10 +33,7 @@ export class NavMenu extends Component {
         <Navbar className="navbar-expand ng-white border-bottom box-shadow mb-3" light>
           <Container>
             <NavbarBrand className="brand" tag={Link} to="/">SocialMedia</NavbarBrand>
-            <NavItem>
-              <Search>
-              </Search>
-            </NavItem>
+            
             <NavItem className="d-sm-inline-flex flex-sm-row-reverse">
               <ul className="navbar-nav flex-grow">
                 <LoginMenu>

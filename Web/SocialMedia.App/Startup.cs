@@ -53,7 +53,8 @@ namespace SocialMedia.App
                 options => options.UseLazyLoadingProxies()
                 .UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedEmail = true)
+                .AddRoles<ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.Configure<CookiePolicyOptions>(
@@ -102,6 +103,7 @@ namespace SocialMedia.App
 
             // Application services
             services.AddTransient<IEmailSender, SendGridEmailSender>();
+            services.AddTransient<IAdminService, AdminService>();
             services.AddTransient<INotificationsService, NotificationsService>();
             services.AddTransient<IPostsService, PostsService>();
             services.AddTransient<IProfilesService, ProfilesService>();
@@ -122,6 +124,14 @@ namespace SocialMedia.App
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly,
                     typeof(PostCreateModel).GetTypeInfo().Assembly
                 );
+
+            // Seed data on app launch
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                var dbContextSeeder = new ApplicationDbContextSeeder();
+                dbContextSeeder.SeedAsync(dbContext, scope.ServiceProvider).GetAwaiter().GetResult();
+            }
 
             if (env.IsDevelopment())
             {
@@ -146,6 +156,7 @@ namespace SocialMedia.App
             app.UseAuthentication();
             app.UseIdentityServer();
             app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

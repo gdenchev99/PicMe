@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.3" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.3" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
@@ -30,6 +31,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\SocialMedia.Data\SocialMedia.Data.csproj" />
     <ProjectReference Include="..\..\Services\SocialMedia.Services.Data\SocialMedia.Services.Data.csproj" />
+    <ProjectReference Include="..\..\Web\SocialMedia.App\SocialMedia.App.csproj" />
   </ItemGroup>
 
 </Project>

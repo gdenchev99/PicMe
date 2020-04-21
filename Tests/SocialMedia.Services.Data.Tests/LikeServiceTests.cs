@@ -1,11 +1,13 @@
 ﻿namespace SocialMedia.Services.Data.Tests
 {
     using System.Linq;
+    using System.Reflection;
     using System.Threading.Tasks;
     using SocialMedia.Data;
     using SocialMedia.Data.Models;
     using SocialMedia.Data.Repositories;
     using SocialMedia.Services.Data.Tests.Common;
+    using SocialMedia.Services.Mapping;
     using SocialMedia.Web.ViewModels.Likes;
     using Xunit;
 
@@ -15,7 +17,7 @@
         public async Task AddAsync_WithValidData_ShouldAddLikeToDatabase()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var likesRepository = new EfRepository<Like>(context);
             var usersRepository = new EfRepository<ApplicationUser>(context);
             var postsRepository = new EfRepository<Post>(context);
@@ -36,7 +38,7 @@
         public async Task AddAsync_WithValidData_ShouldReturnPostCreatorId()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var likesRepository = new EfRepository<Like>(context);
             var usersRepository = new EfRepository<ApplicationUser>(context);
             var postsRepository = new EfRepository<Post>(context);
@@ -56,7 +58,8 @@
         public async Task GetLastThreeAsync_WithValidData_ShouldReturnLast3Likes()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            this.InitilaizeMapper();
+            var context = InMemoryDbContext.Initiliaze();
             var likesRepository = new EfRepository<Like>(context);
             var usersRepository = new EfRepository<ApplicationUser>(context);
             var postsRepository = new EfRepository<Post>(context);
@@ -78,7 +81,7 @@
         public async Task IsPostLikedByUserAsync_WithValidData_ShouldReturnTrue()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var likesRepository = new EfRepository<Like>(context);
             var usersRepository = new EfRepository<ApplicationUser>(context);
             var postsRepository = new EfRepository<Post>(context);
@@ -97,7 +100,7 @@
         public async Task IsPostLikedByUserAsync_WithInvalidPostId_ShouldReturnFalse()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var likesRepository = new EfRepository<Like>(context);
             var usersRepository = new EfRepository<ApplicationUser>(context);
             var postsRepository = new EfRepository<Post>(context);
@@ -116,7 +119,7 @@
         public async Task IsPostLikedByUserAsync_WithInvalidUserId_ShouldReturnFalse()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var likesRepository = new EfRepository<Like>(context);
             var usersRepository = new EfRepository<ApplicationUser>(context);
             var postsRepository = new EfRepository<Post>(context);
@@ -135,7 +138,7 @@
         public async Task RemoveAsync_WithValidData_ShouldReturnTrue()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var likesRepository = new EfRepository<Like>(context);
             var usersRepository = new EfRepository<ApplicationUser>(context);
             var postsRepository = new EfRepository<Post>(context);
@@ -155,7 +158,7 @@
         public async Task ExistsAsync_WithValidLikeId_ShouldReturnTrue()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var likesRepository = new EfRepository<Like>(context);
             var usersRepository = new EfRepository<ApplicationUser>(context);
             var postsRepository = new EfRepository<Post>(context);
@@ -171,6 +174,10 @@
             Assert.True(likeExists);
             Assert.False(likeExistsTwo);
         }
+
+        private void InitilaizeMapper() => AutoMapperConfig.RegisterMappings(
+                typeof(LikeViewModel).GetTypeInfo().Assembly,
+                typeof(Like).GetTypeInfo().Assembly);
 
         private async Task SeedUserAndPost(ApplicationDbContext context)
         {

@@ -5,6 +5,7 @@ import authService from './AuthorizeService';
 import { ApplicationPaths } from './ApiAuthorizationConstants';
 import notificationsService from '../api-notifications/NotificationsService';
 import { toast } from 'react-toastify';
+import {Search} from '../api-profiles/Search'
 
 export class LoginMenu extends Component {
     constructor(props) {
@@ -88,6 +89,10 @@ export class LoginMenu extends Component {
 
     authenticatedView(userName, profilePath, logoutPath) {
         return (<Fragment>
+            <NavItem>
+              <Search>
+              </Search>
+            </NavItem>
             <NavItem>
                 <NavLink tag={Link} className="text-dark" to="/notifications">
                     {this.state.unreadNotifications > 0 ?

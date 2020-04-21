@@ -2,12 +2,6 @@ import authService from './api-authorization/AuthorizeService';
 import axios from 'axios';
 
 class Settings {
-    
-    initiliaze() {
-        this.getToken();
-        this.refreshToken();
-    }
-
     async getToken() {
         let token = await authService.getAccessToken();
 

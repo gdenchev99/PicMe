@@ -10,7 +10,8 @@ import settings from './components/Settings';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
-settings.initiliaze();
+settings.getToken();
+settings.refreshToken();
 toast.configure();
 
 ReactDOM.render(

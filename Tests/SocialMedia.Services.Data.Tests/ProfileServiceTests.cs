@@ -19,7 +19,7 @@
         public async Task AddFollowerAsync_WithValidData_ShouldReturnTrue()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
             var userFollowerRepository = new EfRepository<UserFollower>(context);
             var profileService = new ProfilesService(userRepository, userFollowerRepository);
@@ -42,7 +42,7 @@
         public async Task AddFollowerAsync_WithValidData_ShouldAddFollowerToDatabase()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
             var userFollowerRepository = new EfRepository<UserFollower>(context);
             var profileService = new ProfilesService(userRepository, userFollowerRepository);
@@ -68,7 +68,7 @@
         {
             // Arrange
             this.InitilaizeMapper();
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
             var userFollowerRepository = new EfRepository<UserFollower>(context);
             var profileService = new ProfilesService(userRepository, userFollowerRepository);
@@ -88,7 +88,7 @@
         {
             // Arrange
             this.InitilaizeMapper();
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
             var userFollowerRepository = new EfRepository<UserFollower>(context);
             var profileService = new ProfilesService(userRepository, userFollowerRepository);
@@ -116,7 +116,7 @@
         {
             // Arrange
             this.InitilaizeMapper();
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
             var userFollowerRepository = new EfRepository<UserFollower>(context);
             var profileService = new ProfilesService(userRepository, userFollowerRepository);
@@ -139,7 +139,7 @@
         {
             // Arrange
             this.InitilaizeMapper();
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
             var userFollowerRepository = new EfRepository<UserFollower>(context);
             var profileService = new ProfilesService(userRepository, userFollowerRepository);
@@ -161,7 +161,7 @@
         public async Task UploadProfilePictureAsync_WithValidPicture_ShouldUpdateEntity()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
             var userFollowerRepository = new EfRepository<UserFollower>(context);
             var profileService = new ProfilesService(userRepository, userFollowerRepository);
@@ -181,7 +181,7 @@
         {
             // Arrange
             this.InitilaizeMapper();
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
             var userFollowerRepository = new EfRepository<UserFollower>(context);
             var profileService = new ProfilesService(userRepository, userFollowerRepository);
@@ -201,7 +201,7 @@
         {
             // Arrange
             this.InitilaizeMapper();
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
             var userFollowerRepository = new EfRepository<UserFollower>(context);
             var profileService = new ProfilesService(userRepository, userFollowerRepository);
@@ -223,7 +223,7 @@
         public async Task ApproveRequestAsync_WithValidRequesterUsername_ShouldUpdateDatabase()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
             var userFollowerRepository = new EfRepository<UserFollower>(context);
             var profileService = new ProfilesService(userRepository, userFollowerRepository);
@@ -243,7 +243,7 @@
         public async Task DeleteRequestAsync_WithValidReqesterUsername_ShouldRemoveFromDatabase()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
             var userFollowerRepository = new EfRepository<UserFollower>(context);
             var profileService = new ProfilesService(userRepository, userFollowerRepository);
@@ -265,7 +265,7 @@
         public async Task FollowerExistsAsync_WithValidData_ShouldReturnTrue()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
             var userFollowerRepository = new EfRepository<UserFollower>(context);
             var profileService = new ProfilesService(userRepository, userFollowerRepository);
@@ -285,7 +285,7 @@
         public async Task UserExistsByIdAsync_WithValidUserId_ShouldReturnTrue()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
             var userFollowerRepository = new EfRepository<UserFollower>(context);
             var profileService = new ProfilesService(userRepository, userFollowerRepository);
@@ -302,7 +302,7 @@
         public async Task UserExistsByNameAsync_WithValidUserName_ShouldReturnTrue()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var userRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
             var userFollowerRepository = new EfRepository<UserFollower>(context);
             var profileService = new ProfilesService(userRepository, userFollowerRepository);

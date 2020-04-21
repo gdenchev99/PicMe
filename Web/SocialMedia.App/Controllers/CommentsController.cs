@@ -63,7 +63,7 @@ namespace SocialMedia.App.Controllers
 
             if (!postExists)
             {
-                return BadRequest(new BadRequestViewModel { Message = "Post does not exist." });
+                return NotFound();
             }
 
             var result = await this.service.GetPostCommentsAsync(postId, skipCount, takeCount);
@@ -78,7 +78,7 @@ namespace SocialMedia.App.Controllers
 
             if (!postExists)
             {
-                return BadRequest(new BadRequestViewModel { Message = "Post does not exist." });
+                return NotFound();
             }
 
             var result = await this.service.GetLastTwoAsync(postId);

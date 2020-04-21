@@ -17,7 +17,7 @@
         public async Task CreateAsync_WithValidData_ShouldAddCommentToDatabase()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var commentsRepository = new EfDeletableEntityRepository<Comment>(context);
             var postsRepository = new EfDeletableEntityRepository<Post>(context);
             var service = new CommentsService(commentsRepository, postsRepository);
@@ -42,7 +42,7 @@
         public async Task CreateAsync_WithValidData_ShouldReturnUserIdOfCreator()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var commentsRepository = new EfDeletableEntityRepository<Comment>(context);
             var postsRepository = new EfRepository<Post>(context);
             var service = new CommentsService(commentsRepository, postsRepository);
@@ -66,7 +66,7 @@
         public async Task DeleteAsync_WithValidCommentId_ShouldDeleteCommentFromDatabase()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var commentsRepository = new EfDeletableEntityRepository<Comment>(context);
             var postsRepository = new EfRepository<Post>(context);
             var service = new CommentsService(commentsRepository, postsRepository);
@@ -87,7 +87,7 @@
         {
             // Arrange
             this.InitilaizeMapper();
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var commentsRepository = new EfDeletableEntityRepository<Comment>(context);
             var postsRepository = new EfRepository<Post>(context);
             var service = new CommentsService(commentsRepository, postsRepository);
@@ -111,7 +111,7 @@
         {
             // Arrange
             this.InitilaizeMapper();
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var commentsRepository = new EfDeletableEntityRepository<Comment>(context);
             var postsRepository = new EfRepository<Post>(context);
             var service = new CommentsService(commentsRepository, postsRepository);
@@ -132,7 +132,7 @@
         public async Task ExistsAsync_WithValidId_ShouldReturnTrue()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var commentsRepository = new EfDeletableEntityRepository<Comment>(context);
             var postsRepository = new EfRepository<Post>(context);
             var service = new CommentsService(commentsRepository, postsRepository);

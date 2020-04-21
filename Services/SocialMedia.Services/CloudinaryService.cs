@@ -1,13 +1,14 @@
 ﻿namespace SocialMedia.Services
 {
+    using System;
+    using System.IO;
+    using System.Threading.Tasks;
+
     using CloudinaryDotNet;
     using CloudinaryDotNet.Actions;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Options;
     using SocialMedia.Helpers;
-    using System;
-    using System.IO;
-    using System.Threading.Tasks;
 
     public class CloudinaryService : ICloudinaryService
     {
@@ -47,18 +48,6 @@
             var uploadResult = await cloudinary.UploadAsync(uploadParams);
 
             return uploadResult;
-        }
-
-        /*
-         The method deletes a file from Cloudinary asynchronosly
-         */
-        public async Task DeleteFileAsync(string publicId)
-        {
-            var cloudinary = this.Cloudinary();
-
-            var deletionParams = new DeletionParams(publicId);
-
-            await cloudinary.DestroyAsync(deletionParams);
         }
 
         /*

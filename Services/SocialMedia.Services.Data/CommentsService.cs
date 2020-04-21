@@ -63,11 +63,6 @@
                 .To<FeedCommentViewModel>()
                 .ToListAsync();
 
-            if (comments.Count <= 0)
-            {
-                return null;
-            }
-
             return comments;
         }
 

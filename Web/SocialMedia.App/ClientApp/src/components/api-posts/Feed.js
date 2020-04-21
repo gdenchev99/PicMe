@@ -52,9 +52,7 @@ export class Feed extends Component {
     render() {
         return (
             <React.Fragment>
-                {this.state.isAuthenticated ?
-                    <FeedComponent data={this.state.data} loadMore={this.loadMore} /> :
-                    <div><center><h1>Hello! Please login in order to proceed!</h1></center></div>}
+                    <FeedComponent data={this.state.data} loadMore={this.loadMore} />
             </React.Fragment>
         );
     }

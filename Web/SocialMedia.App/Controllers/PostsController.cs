@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SocialMedia.Common;
 using SocialMedia.Data.Models;
 using SocialMedia.Services;
 using SocialMedia.Services.Data;
@@ -43,7 +44,7 @@ namespace SocialMedia.App.Controllers
 
             if (!postExists)
             {
-                return BadRequest(new BadRequestViewModel { Message = "This post does not exist." });
+                return NotFound();
             }
 
             var result = await this.service.GetAsync(id);
@@ -92,7 +93,7 @@ namespace SocialMedia.App.Controllers
 
             if (!postExists)
             {
-                return BadRequest(new BadRequestViewModel { Message = "This post does not exist." });
+                return NotFound();
             }
 
             await this.service.DeleteAsync(id);
@@ -107,7 +108,7 @@ namespace SocialMedia.App.Controllers
 
             if (!userExists)
             {
-                return BadRequest(new BadRequestViewModel { Message = "This user does not exist." });
+                return NotFound();
             }
 
             var result = await this.service.GetProfilePostsAsync(username);

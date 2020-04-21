@@ -35,7 +35,7 @@ namespace SocialMedia.App.Controllers
 
             if (!userExists)
             {
-                return BadRequest(new BadRequestViewModel { Message = "This user does not exist." });
+                return NotFound();
             }
 
             var userProfile = await this.service.GetUserProfileAsync(username);
@@ -81,7 +81,7 @@ namespace SocialMedia.App.Controllers
 
             if (!userExists)
             {
-                return BadRequest(new BadRequestViewModel { Message = "This user does not exist" });
+                return NotFound();
             }
 
             var result = await this.service.GetUserFollowersAsync(username);
@@ -96,7 +96,7 @@ namespace SocialMedia.App.Controllers
 
             if (!userExists)
             {
-                return BadRequest(new BadRequestViewModel { Message = "This user does not exist" });
+                return NotFound();
             }
 
             var result = await this.service.GetUserFollowingsAsync(username);
@@ -111,7 +111,7 @@ namespace SocialMedia.App.Controllers
 
             if (!userExists)
             {
-                return BadRequest(new BadRequestViewModel { Message = "This user does not exist" });
+                return NotFound();
             }
 
             var result = await this.service.GetFollowerRequestsAsync(id);
@@ -126,7 +126,7 @@ namespace SocialMedia.App.Controllers
 
             if (!userExists)
             {
-                return BadRequest(new BadRequestViewModel { Message = "This user does not exist" });
+                return NotFound();
             }
 
             var result = await this.service.ApproveRequestAsync(username);
@@ -141,7 +141,7 @@ namespace SocialMedia.App.Controllers
 
             if (!userExists)
             {
-                return BadRequest(new BadRequestViewModel { Message = "This user does not exist" });
+                return NotFound();
             }
 
             var result = await this.service.DeleteRequestAsync(username);

@@ -18,7 +18,7 @@
         public async Task CreateNotificationAsync_WithValidData_ShouldAddNotificationToDatabase()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var notificationsRepository = new EfRepository<Notification>(context);
             var service = new NotificationsService(notificationsRepository);
             await this.SeedUsersAndPost(context);
@@ -38,7 +38,7 @@
         {
             // Arrange
             this.InitilaizeMapper();
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var notificationsRepository = new EfRepository<Notification>(context);
             var service = new NotificationsService(notificationsRepository);
             await this.SeedUsersAndPost(context);
@@ -61,7 +61,7 @@
         public async Task GetUnreadNotificationsAsync_WithValidUserId_ShouldReturnUnreadNotificationsCount()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var notificationsRepository = new EfRepository<Notification>(context);
             var service = new NotificationsService(notificationsRepository);
             await this.SeedUsersAndPost(context);
@@ -79,7 +79,7 @@
         public async Task UpdateReadStatusAsync_WithValidUserId_ShouldUpdateDatabase()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var notificationsRepository = new EfRepository<Notification>(context);
             var service = new NotificationsService(notificationsRepository);
             await this.SeedUsersAndPost(context);
@@ -94,6 +94,23 @@
 
             // Assert
             Assert.Equal(expectedUnreadCount, actualUnreadCount);
+        }
+
+        [Fact]
+        public async Task UpdateReadStatusAsync_WithNoNewNotifications_ShouldReturnMessage()
+        {
+            // Arrange
+            var context = InMemoryDbContext.Initiliaze();
+            var notificationsRepository = new EfRepository<Notification>(context);
+            var service = new NotificationsService(notificationsRepository);
+            await this.SeedUsersAndPost(context);
+
+            // Act
+            string expectedResult = "There are no new notifications";
+            string actualResult = await service.UpdateReadStatusAsync("userId");
+
+            // Assert
+            Assert.Equal(expectedResult, actualResult);
         }
 
         private void InitilaizeMapper() => AutoMapperConfig.RegisterMappings(

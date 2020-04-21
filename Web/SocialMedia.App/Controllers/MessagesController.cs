@@ -29,7 +29,7 @@ namespace SocialMedia.App.Controllers
 
             if (!userExists)
             {
-                return BadRequest(new BadRequestViewModel { Message = "This user does not exist." });
+                return NotFound();
             }
 
             var result = await this.service.GetAllChatRoomsAsync(userId);
@@ -44,7 +44,7 @@ namespace SocialMedia.App.Controllers
 
             if (!userExists)
             {
-                return BadRequest(new BadRequestViewModel { Message = "This user does not exist" });
+                return NotFound();
             }
 
             var result = await this.service.GetChatRoomMessagesAsync(currentId, receiverUsername);

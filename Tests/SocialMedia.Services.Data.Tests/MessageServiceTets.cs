@@ -19,7 +19,7 @@
         {
             // Arrange
             this.InitilaizeMapper();
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var messagesRepository = new EfRepository<Message>(context);
             var chatRoomsRepository = new EfRepository<ChatRoom>(context);
             var usersRepository = new EfRepository<ApplicationUser>(context);
@@ -41,7 +41,7 @@
         {
             // Arrange
             this.InitilaizeMapper();
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var messagesRepository = new EfRepository<Message>(context);
             var chatRoomsRepository = new EfRepository<ChatRoom>(context);
             var usersRepository = new EfRepository<ApplicationUser>(context);
@@ -64,7 +64,7 @@
         {
             // Arrange
             this.InitilaizeMapper();
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var messagesRepository = new EfRepository<Message>(context);
             var chatRoomsRepository = new EfRepository<ChatRoom>(context);
             var usersRepository = new EfRepository<ApplicationUser>(context);
@@ -88,7 +88,7 @@
         {
             // Arrange
             this.InitilaizeMapper();
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var messagesRepository = new EfRepository<Message>(context);
             var chatRoomsRepository = new EfRepository<ChatRoom>(context);
             var usersRepository = new EfRepository<ApplicationUser>(context);

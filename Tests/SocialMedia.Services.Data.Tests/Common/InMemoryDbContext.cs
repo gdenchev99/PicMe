@@ -8,7 +8,7 @@
 
     public class InMemoryDbContext
     {
-        public static ApplicationDbContext Context()
+        public static ApplicationDbContext Initiliaze()
         {
             var dbName = Guid.NewGuid().ToString();
 

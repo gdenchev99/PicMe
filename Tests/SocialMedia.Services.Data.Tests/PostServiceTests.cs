@@ -24,7 +24,7 @@
         public async Task CreateAsync_WithValidData_ShouldReturnTrue()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var postRepository = new EfDeletableEntityRepository<Post>(context);
             var postService = new PostsService(postRepository);
 
@@ -44,7 +44,7 @@
         public async Task CreateAsync_WithValidData_ShouldAddToDatabase()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var postRepository = new EfDeletableEntityRepository<Post>(context);
             var postService = new PostsService(postRepository);
 
@@ -72,7 +72,7 @@
         public async Task DeleteAsync_WithValidData_ShouldReturnTrue()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var postRepository = new EfDeletableEntityRepository<Post>(context);
             var postService = new PostsService(postRepository);
 
@@ -90,7 +90,7 @@
         public async Task DeleteAsync_WithValidData_ShouldRemovePostFromDatabase()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var postRepository = new EfDeletableEntityRepository<Post>(context);
             var postService = new PostsService(postRepository);
 
@@ -112,7 +112,7 @@
         {
             // Arrange
             this.InitilaizeMapper();
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var postRepository = new EfDeletableEntityRepository<Post>(context);
             var postService = new PostsService(postRepository);
             await this.SeedUserFollower(context);
@@ -132,7 +132,7 @@
         public async Task GetAsync_WithValidData_ShouldReturnPost()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var postRepository = new EfDeletableEntityRepository<Post>(context);
             var postService = new PostsService(postRepository);
             await postRepository.AddAsync(new Post { Id = 52, Description = "Post Description" });
@@ -152,7 +152,7 @@
         {
             // Arrange
             this.InitilaizeMapper();
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var postRepository = new EfDeletableEntityRepository<Post>(context);
             var postService = new PostsService(postRepository);
             await this.SeedUserFollower(context);
@@ -172,7 +172,7 @@
         public async Task ExistsAsync_WithValidId_ShouldReturnTrue()
         {
             // Arrange
-            var context = InMemoryDbContext.Context();
+            var context = InMemoryDbContext.Initiliaze();
             var postRepository = new EfDeletableEntityRepository<Post>(context);
             var postService = new PostsService(postRepository);
             await postRepository.AddAsync(new Post { Id = 52 });

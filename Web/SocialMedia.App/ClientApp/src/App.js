@@ -16,6 +16,7 @@ import { Requests } from './components/api-profiles/Requests';
 import { Notifications } from './components/api-notifications/Notifications';
 import { NotFound } from './components/NotFound';
 import { ToastContainer } from 'react-toastify';
+import { Dashboard } from './components/api-admin/Dashboard';
 
 import 'bootstrap';
 import './custom.css'
@@ -30,6 +31,8 @@ export default class App extends Component {
       <ToastContainer autoClose={8000} position='bottom-right' />
         <Route exact path='/' component={Home} />
         <Route exact path='/404' component={NotFound} />
+        <AuthorizeRoute exact path='/adminpanel' component={Dashboard} />
+        <AuthorizeRoute exact path='/adminpanel/manageusers' component={Profile} />
         <AuthorizeRoute exact path='/createpost' component={ CreatePost } />
         <AuthorizeRoute exact path='/user/:username' component={Profile} />
         <AuthorizeRoute exact path='/user/:username/followers' component={Followers} />

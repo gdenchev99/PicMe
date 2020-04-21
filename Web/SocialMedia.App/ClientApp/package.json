@@ -9,6 +9,7 @@
     "cloudinary-core": "^2.8.2",
     "cloudinary-react": "^1.4.0",
     "emoji-mart": "^3.0.0",
+    "history": "^4.10.1",
     "jquery": "^3.4.1",
     "merge": "^1.2.1",
     "oidc-client": "^1.10.1",

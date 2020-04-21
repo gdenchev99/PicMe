@@ -8,7 +8,5 @@
     public interface ICloudinaryService
     {
         Task<RawUploadResult> UploadFileAsync(IFormFile file, string userId);
-
-        Task DeleteFileAsync(string publicId);
     }
 }

@@ -777,6 +777,36 @@ textarea::placeholder {
   margin-top: 20px!important;
 }
 
+.searchBar {
+  position: relative;
+  right: 17rem;
+  top: 10px;
+}
+
+@media (max-width: 1200px) { 
+  .searchBar {
+    right: 12rem;
+  }
+}
+
+@media (max-width: 992px) { 
+  .searchBar {
+    right: 5rem;
+  }
+}
+
+@media (max-width: 768px) { 
+  .searchBar {
+    right: 2rem;
+  }
+}
+
+@media (max-width: 768px) { 
+  .searchBar {
+    right: 0;
+  }
+}
+
 .searchBar input{
   border-radius: 2px;
   border: 1px solid #000;
@@ -847,4 +877,13 @@ a {
     bottom: 2.2rem;
     z-index: 2;
     right: 6rem;
+}
+
+/* Admin dashboard */
+
+.user-dashboard .user-icon {
+    border-radius: 50%;
+    width: 45px;
+    height: 35px;
+    padding-right: 10px;
 }
