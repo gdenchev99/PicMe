@@ -359,3 +359,4 @@ appsettings.json
 *.min.css
 *.min.js
 Web/SocialMedia.App/appsettings.Development.json
+Data/SocialMedia.Data/appsettings.json
