@@ -360,3 +360,4 @@ appsettings.json
 *.min.js
 Web/SocialMedia.App/appsettings.Development.json
 Data/SocialMedia.Data/appsettings.json
+Data/SocialMedia.Data/appsettings.json

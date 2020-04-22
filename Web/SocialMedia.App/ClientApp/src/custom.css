@@ -887,3 +887,9 @@ a {
     height: 35px;
     padding-right: 10px;
 }
+
+.spn {
+  position: relative;
+  left: 2rem;
+  top: 1rem;
+}

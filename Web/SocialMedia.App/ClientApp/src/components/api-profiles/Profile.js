@@ -10,6 +10,7 @@ export class Profile extends Component {
         super(props);
         this.state = {
             error: null,
+            loading: false,
             data: {},
             posts: [],
             postsCount: 0,
@@ -62,6 +63,8 @@ export class Profile extends Component {
     handleData = async () => {
         let username = this.props.match.params.username;
 
+        this.setState({loading: true});
+
         let profileResponse = await profileService.getProfile(username)
         .catch(error => {
             this.setState({error: error.response.data.message});
@@ -78,7 +81,8 @@ export class Profile extends Component {
             posts: postsResponse.data,
             postsCount: postsResponse.data.length,
             followersCount: followersCount,
-            followingsCount: followingsCount
+            followingsCount: followingsCount,
+            loading: false
         });
     }
 
@@ -167,6 +171,14 @@ export class Profile extends Component {
         
         if(this.state.error) {
             this.props.history.push("/404");
+        }
+
+        if(this.state.loading) {
+            return (
+            <div className="row">
+                <div className="col-2 offset-5 text-primary"><h1>Loading...</h1></div>
+                <div className="spinner-grow spn text-primary"></div>
+            </div>);
         }
 
         return (

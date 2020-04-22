@@ -50,9 +50,19 @@ namespace SocialMedia.App
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(
+            // If the app is running in production, use the production database.
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+            {
+                services.AddDbContext<ApplicationDbContext>(
                 options => options.UseLazyLoadingProxies()
-                .UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
+                .UseSqlServer(this.configuration.GetConnectionString("MyDbConnection")));
+            }
+            else
+            {
+                services.AddDbContext<ApplicationDbContext>(
+                options => options.UseLazyLoadingProxies()
+                .UseSqlServer(this.configuration.GetConnectionString("LocalDb")));
+            }
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedEmail = true)
                 .AddRoles<ApplicationRole>()
@@ -82,7 +92,8 @@ namespace SocialMedia.App
             services.AddSignalR(config => config.EnableDetailedErrors = true);
 
             services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>()
+                .AddSigningCredentials();
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
@@ -127,12 +138,12 @@ namespace SocialMedia.App
                 );
 
             // Seed data on app launch
-            using (var scope = app.ApplicationServices.CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                var dbContextSeeder = new ApplicationDbContextSeeder();
-                dbContextSeeder.SeedAsync(dbContext, scope.ServiceProvider).GetAwaiter().GetResult();
-            }
+            //using (var scope = app.ApplicationServices.CreateScope())
+            //{
+            //    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            //    var dbContextSeeder = new ApplicationDbContextSeeder();
+            //    dbContextSeeder.SeedAsync(dbContext, scope.ServiceProvider).GetAwaiter().GetResult();
+            //}
 
             if (env.IsDevelopment())
             {
