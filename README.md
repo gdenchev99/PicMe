@@ -27,3 +27,5 @@
 # External services:
 - The application uses cloudinary for video and image storage.
 - The application uses SendGrid for email confirmations.
+# Design:
+- UI is based on the standard asp.net core template and is mostly self-made, with some components coming from the web :) . Please excuse my poor css skills :( .
