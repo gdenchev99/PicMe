@@ -24,6 +24,8 @@ export class LoginMenu extends Component {
         this.messagesImgSrc = "https://res.cloudinary.com/dibntzvzk/image/upload/v1586119212/DefaultPhotos/send_gn4jza.png";
         this.createImgSrc = "https://res.cloudinary.com/dibntzvzk/image/upload/v1586121807/DefaultPhotos/addpost_wswvya.jpg";
         this.notificationsImgSrc = "https://res.cloudinary.com/dibntzvzk/image/upload/v1586440528/DefaultPhotos/heart_kldvsb.png";
+        this.adminImgSrc = "https://res.cloudinary.com/dibntzvzk/image/upload/v1587573943/DefaultPhotos/icons8-key-64_e2kng3.png";
+        this.homeImgSrc = "https://res.cloudinary.com/dibntzvzk/image/upload/v1587574453/DefaultPhotos/home_dzjvv0.png";
 
     }
 
@@ -93,6 +95,11 @@ export class LoginMenu extends Component {
               <Search>
               </Search>
             </NavItem>
+            <NavItem className="home-icon">
+                <NavLink tag={Link} className="text-dark" to="/">
+                    <img height="25px" src={this.homeImgSrc} />
+                </NavLink>
+            </NavItem>
             <NavItem>
                 <NavLink tag={Link} className="text-dark" to="/notifications">
                     {this.state.unreadNotifications > 0 ?
@@ -114,6 +121,13 @@ export class LoginMenu extends Component {
                     <img height="20px" src={this.messagesImgSrc} />
                 </NavLink>
             </NavItem>
+            {userName === "admin" ? 
+            <NavItem>
+                <NavLink tag={Link} className="text-dark" to={`/adminpanel`}>
+                    <img height="20px" src={this.adminImgSrc} />
+                </NavLink>
+            </NavItem> 
+            : null}
             <NavItem>
                 <NavLink tag={Link} className="text-dark" to={logoutPath}>Logout</NavLink>
             </NavItem>

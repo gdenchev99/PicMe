@@ -33,6 +33,10 @@ html {
   z-index: 1;
 }
 
+.home-icon {
+  display: none;
+}
+
 @media(max-width: 547px) {
   .notification-icon {
     position: relative;
@@ -44,6 +48,9 @@ html {
 @media (max-width: 548px) { 
   .brand {
       display: none;
+  }
+  .home-icon {
+    display: block;
   }
   .notification-icon {
     position: inherit;
