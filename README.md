@@ -24,3 +24,6 @@
 # Stack:
 - Back-end Framework - .NET CORE WEB API.
 - Front-end Framework - REACT.
+# External services:
+- The application uses cloudinary for video and image storage.
+- The application uses SendGrid for email confirmations.
