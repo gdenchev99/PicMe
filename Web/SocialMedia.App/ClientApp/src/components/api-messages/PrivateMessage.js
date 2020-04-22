@@ -45,10 +45,10 @@ export class PrivateMessage extends Component {
         // Close emoji picker on click
         document.addEventListener("mousedown", this.handleCloseOnClick);
 
-        this.connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        this.connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").configureLogging(signalR.LogLevel.None).build();
         
         await this.connection.start()
-            .then(() => console.log("Connection established!"))
+            .then()
             .catch(() => console.log("Connection failed."));
 
         await this.handleJoinChatRoom();

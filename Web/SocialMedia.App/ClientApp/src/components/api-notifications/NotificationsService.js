@@ -2,7 +2,7 @@ import * as signalR from '@aspnet/signalr';
 import axios from 'axios';
 
 class NotificationsService {
-    _connection = new signalR.HubConnectionBuilder().withUrl("/notificationsHub").build();
+    _connection = new signalR.HubConnectionBuilder().withUrl("/notificationsHub").configureLogging(signalR.LogLevel.None).build();
 
     async getNotifications(userId, skipCount, takeCount) {
         let result = await axios.get(`api/Notifications/Get?userId=${userId}
@@ -33,7 +33,6 @@ class NotificationsService {
         if (this._connection.state === 0) {
             await this._connection.start()
                 .then(() => {
-                    console.log("Connection established");
                     this.mapConnectionIdWithUserId(userId);
                 })
                 .catch(() => console.log("Connection failed."));
