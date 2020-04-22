@@ -7,7 +7,7 @@ export class Footer extends Component {
         return (
             <footer className="footer-extra font-small bg-white">
                 <div className="footer-copyright text-center text-dark py-1">© 2020 Copyright:
-                    <Link to="/" className="text-dark"> Social Media</Link>
+                    <Link to="/" className="text-dark"> PicMe</Link>
                 </div>
             </footer>
         );
