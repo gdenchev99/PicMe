@@ -29,3 +29,5 @@
 - The application uses SendGrid for email confirmations.
 # Design:
 - UI is based on the standard asp.net core template and is mostly self-made, with some components coming from the web :) . Please excuse my poor css skills :( .
+# Preview it yourself:
+- The app is currently being seeded with sample data, you can follow users p_holley, l_carter, r_nelson, r_matta, j_acosta by searching them, once you've registered. They'll have a couple of sample posts by the end of the day! You can also upload posts yourself, or make multiple accounts and test things such as notifications and private messaging!
