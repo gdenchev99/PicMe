@@ -18,9 +18,7 @@ export class AuthorizeService {
 
     async refreshUser() {
         await this.ensureUserManagerInitialized();
-        if(this._user) {
-            await this.userManager.signinSilent();
-        }
+        await this.userManager.signinSilent();
     }
 
     async getUser() {

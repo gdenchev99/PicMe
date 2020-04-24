@@ -2,12 +2,6 @@ import authService from './api-authorization/AuthorizeService';
 import axios from 'axios';
 
 class Settings {
-    async getToken() {
-        let token = await authService.getAccessToken();
-
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    }
-
     refreshToken() {
         axios.interceptors.response.use((response) => {
             return response;
