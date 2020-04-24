@@ -64,7 +64,7 @@ namespace SocialMedia.App
                 .UseSqlServer(this.configuration.GetConnectionString("LocalDb")));
             }
 
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedEmail = true)
+            services.AddDefaultIdentity<ApplicationUser>()
                 .AddRoles<ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -84,6 +84,8 @@ namespace SocialMedia.App
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireLowercase = true;
                     options.Password.RequiredUniqueChars = 0;
+                    options.SignIn.RequireConfirmedAccount = true;
+                    options.SignIn.RequireConfirmedEmail = true;
                 });
 
             services.Configure<CloudinaryConfig>(this.configuration.GetSection("Cloudinary"));
