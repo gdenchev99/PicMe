@@ -361,3 +361,4 @@ appsettings.json
 Web/SocialMedia.App/appsettings.Development.json
 Data/SocialMedia.Data/appsettings.json
 Data/SocialMedia.Data/appsettings.json
+Web/SocialMedia.App/ClientApp/package-lock.json

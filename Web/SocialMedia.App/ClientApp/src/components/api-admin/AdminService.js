@@ -6,13 +6,33 @@ export class AdminService {
         return result;
     }
 
-    async banUser(id) {
-        let result = await axios.post(`/api/Admin/Ban?id=${id}`);
+    async banUser(id, adminId) {
+        let data = {
+            userId: id,
+            adminId, adminId
+        }
+
+        let result = await axios.post(`/api/Admin/Ban`, data, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
         return result;
     }
 
-    async unbanUser(id) {
-        let result = await axios.post(`/api/Admin/Unban?id=${id}`);
+    async unbanUser(id, adminId) {
+        let data = {
+            userId: id,
+            adminId, adminId
+        }
+
+        let result = await axios.post(`/api/Admin/Unban`, data, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
         return result;
     }
 }

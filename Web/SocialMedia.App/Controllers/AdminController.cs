@@ -5,6 +5,7 @@ using SocialMedia.Common;
 using SocialMedia.Data.Models;
 using SocialMedia.Services.Data;
 using SocialMedia.Web.ViewModels;
+using SocialMedia.Web.ViewModels.Administration;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -40,45 +41,45 @@ namespace SocialMedia.App.Controllers
         }
 
         [HttpPost("Ban")]
-        public async Task<IActionResult> Ban(string id)
+        public async Task<IActionResult> Ban([FromBody]ActionInputModel model)
         {
-            bool userExists = await this.profilesService.UserExistsByIdAsync(id);
+            bool userExists = await this.profilesService.UserExistsByIdAsync(model.UserId);
 
             if (!userExists)
             {
                 return BadRequest(new BadRequestViewModel { Message = "this user does not exist." });
             }
 
-            bool result = await this.adminService.IsAdminAsync(id);
+            bool result = await this.adminService.IsAdminAsync(model.AdminId);
 
             if (!result)
             {
                 return Forbid();
             }
 
-            string endDate = await this.adminService.BanUserAsync(id);
+            string endDate = await this.adminService.BanUserAsync(model.UserId);
 
             return Ok(endDate);
         }
 
         [HttpPost("Unban")]
-        public async Task<IActionResult> Unban(string id)
+        public async Task<IActionResult> Unban([FromBody]ActionInputModel model)
         {
-            bool userExists = await this.profilesService.UserExistsByIdAsync(id);
+            bool userExists = await this.profilesService.UserExistsByIdAsync(model.UserId);
 
             if (!userExists)
             {
                 return BadRequest(new BadRequestViewModel { Message = "this user does not exist." });
             }
 
-            bool result = await this.adminService.IsAdminAsync(id);
+            bool result = await this.adminService.IsAdminAsync(model.AdminId);
 
             if (!result)
             {
                 return Forbid();
             }
 
-            await this.adminService.UnbanUserAsync(id);
+            await this.adminService.UnbanUserAsync(model.UserId);
 
             return Ok();
         }

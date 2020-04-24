@@ -44,7 +44,7 @@ export class Dashboard extends Component {
     }
 
     banUser = async(id) => {
-        let result = await adminService.banUser(id);
+        let result = await adminService.banUser(id, this.state.userId);
         
         let array = this.state.data;
         array.find(x => x.id == id).lockoutEnd = result.data; // Update the value inside the array without re-fetching so the button can update.
@@ -53,7 +53,7 @@ export class Dashboard extends Component {
     }
 
     unbanUser = async(id) => {
-        await adminService.unbanUser(id);
+        await adminService.unbanUser(id, this.state.userId);
         
         let array = this.state.data;
         array.find(x => x.id == id).lockoutEnd = "0001-01-01T00:00:00+00:00"; // Update the value inside the array without re-fetching so the button can update.
