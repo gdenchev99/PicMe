@@ -14,6 +14,26 @@
     public class LikeServiceTests
     {
         [Fact]
+        public async Task GetPostLikesAsync_WithValidPostId_ShouldReturnTotalCountOfLikes()
+        {
+            // Arrange
+            var context = InMemoryDbContext.Initiliaze();
+            var likesRepository = new EfRepository<Like>(context);
+            var usersRepository = new EfRepository<ApplicationUser>(context);
+            var postsRepository = new EfRepository<Post>(context);
+            var service = new LikesService(likesRepository, usersRepository, postsRepository);
+            await this.SeedUserAndPost(context);
+            await likesRepository.AddAsync(new Like { Id = 1, PostId = 52, UserId = "userId" });
+
+            // Act
+            int expectedCount = context.Likes.Count();
+            int actualCount = await service.GetPostLikesAsync(52);
+
+            // Assert
+            Assert.Equal(expectedCount, actualCount);
+        }
+
+        [Fact]
         public async Task AddAsync_WithValidData_ShouldAddLikeToDatabase()
         {
             // Arrange

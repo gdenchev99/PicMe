@@ -27,6 +27,15 @@
             this.postRepository = postRepository;
         }
 
+        public async Task<int> GetPostLikesAsync(int postId)
+        {
+            var likes = await this.likeRepository.All()
+                .Where(l => l.PostId == postId)
+                .CountAsync();
+
+            return likes;
+        }
+
         public async Task<string> AddAsync(AddLikeModel model)
         {
             var user = await this.userRepository.All()

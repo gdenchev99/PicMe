@@ -1,6 +1,11 @@
 import axios from 'axios';
 
 export class LikesService {
+    async postLikes(postId) {
+        let result = await axios.get(`/api/Likes/Get?postId=${postId}`);
+        return result.data;
+    }
+
     async addLike(userId, postId) {
         let data = {userId: userId, postId: postId};
 

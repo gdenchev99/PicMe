@@ -20,6 +20,14 @@ namespace SocialMedia.App.Controllers
             this.service = service;
         }
 
+        [HttpGet("Get")]
+        public async Task<IActionResult> Get(int postId)
+        {
+            var result = await this.service.GetPostLikesAsync(postId);
+
+            return Ok(result);
+        }
+
         [HttpPost("Add")]
         public async Task<IActionResult> Add([FromBody] AddLikeModel model)
         {

@@ -31,9 +31,9 @@ export class Like extends Component {
         let userId = user.sub;
         this.setState({ user: user, userId: userId });
 
+        await this.handlePostLikes();
         await this.handleIsLiked();
-
-        this.handleLatestLikes();
+        await this.handleLatestLikes();
 
         if (this.state.isLiked) {
             this.setState({
@@ -46,6 +46,11 @@ export class Like extends Component {
                 svgFill: ""
             });
         }
+    }
+
+    handlePostLikes = async() => {
+        let likes = await likesService.postLikes(this.state.postId);
+        this.setState({likesCount: likes});
     }
 
     handleClick = () => {
@@ -99,7 +104,7 @@ export class Like extends Component {
     handleLatestLikes = async () => {
 
         var pictures = await likesService.latestLikes(this.state.postId);
-        this.setState({ pictures: pictures, likesCount: pictures.length })
+        this.setState({ pictures: pictures})
     }
 
     render() {
