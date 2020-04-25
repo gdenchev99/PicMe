@@ -22,8 +22,8 @@
 - You can upload both image and video posts.
 - You can preview your post before uploading it, to make sure you don't upload something else.
 # Important!:
-This is how your appsettings should look - https://pastebin.com/HLYTdLLq
-The application is configured to not store anything! You need to set ON DELETE CASCADE using SSMS on foreign keys. For example a Post has Comments, Likes and Notifications. You need to edit the foreign keys on those 3 entities and set them to cascade. The top answer on this SO post explains it pretty good https://stackoverflow.com/questions/6260688/how-do-i-use-cascade-delete-with-sql-server .
+This is how your appsettings should look - https://pastebin.com/HLYTdLLq .
+The application is configured to not store anything when a record in the database is deleted! You need to set ON DELETE CASCADE using SSMS on foreign keys. For example a Post has Comments, Likes and Notifications. You need to edit the foreign keys on those 3 entities and set them to cascade. The top answer on this SO post explains how to do it pretty well https://stackoverflow.com/questions/6260688/how-do-i-use-cascade-delete-with-sql-server .
 # Stack:
 - Back-end Framework - .NET CORE WEB API.
 - Front-end Framework - REACT.
