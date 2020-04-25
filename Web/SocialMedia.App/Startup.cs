@@ -140,12 +140,12 @@ namespace SocialMedia.App
                 );
 
             // Seed data on app launch
-            //using (var scope = app.ApplicationServices.CreateScope())
-            //{
-            //    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            //    var dbContextSeeder = new ApplicationDbContextSeeder();
-            //    dbContextSeeder.SeedAsync(dbContext, scope.ServiceProvider).GetAwaiter().GetResult();
-            //}
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                var dbContextSeeder = new ApplicationDbContextSeeder();
+                dbContextSeeder.SeedAsync(dbContext, scope.ServiceProvider).GetAwaiter().GetResult();
+            }
 
             if (env.IsDevelopment())
             {
