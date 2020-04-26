@@ -84,8 +84,8 @@ namespace SocialMedia.App
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireLowercase = true;
                     options.Password.RequiredUniqueChars = 0;
-                    options.SignIn.RequireConfirmedAccount = true;
-                    options.SignIn.RequireConfirmedEmail = true;
+                    // options.SignIn.RequireConfirmedAccount = true;
+                    // options.SignIn.RequireConfirmedEmail = true;
                 });
 
             services.Configure<CloudinaryConfig>(this.configuration.GetSection("Cloudinary"));
