@@ -1,5 +1,3 @@
-# PicMe
-- https://picme.azurewebsites.net/
 # Description:
 - An Instagram-like web application with very basic functionalities.
 # Feautures:
